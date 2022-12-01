@@ -10,7 +10,7 @@ const fs::path& DataDir(std::string_view exe)
 	if (exe.length() > 0)
 	{
 		fs::path exeFile(exe);
-		fs::path exePath(exeFile.parent_path());
+		fs::path exePath( fs::canonical(exeFile).parent_path());
 		dataDir = exePath.parent_path() / "data";
 
 		if (!fs::exists(dataDir))

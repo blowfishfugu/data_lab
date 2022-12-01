@@ -4,6 +4,7 @@
 void aoc2022_01()
 {
 	fs::path input(DataDir() / "2022_01.txt");
+	
 	std::ifstream inFile(input);
 	__int64 maxSum[3]{ 0,0,0 };
 	__int64 curSum = 0;
