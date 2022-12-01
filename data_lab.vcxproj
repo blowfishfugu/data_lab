@@ -76,6 +76,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\aoc2022_01.cpp" />
     <ClCompile Include="src\DataDir.cpp" />
+    <ClCompile Include="src\aoc2022_02.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\DataDir.h" />
@@ -84,6 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="bin\data\2022_01.txt" />
+    <Text Include="bin\data\2022_02.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

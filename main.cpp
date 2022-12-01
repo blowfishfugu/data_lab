@@ -12,5 +12,7 @@ int main(int argc, char** argv)
 	StopWatch clk;
 	aoc2022_01();
 	clk.printDelta("Day01 nosort");
+	aoc2022_02();
+	clk.printDelta("Day02");
 	return 0;
 }
