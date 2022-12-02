@@ -16,11 +16,11 @@
     <Filter Include="Tooling">
       <UniqueIdentifier>{0cee6bf0-4696-4165-bc7c-6039a5296b58}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Days">
-      <UniqueIdentifier>{8ed36640-6cf9-4aed-afb2-43bc277d7003}</UniqueIdentifier>
-    </Filter>
     <Filter Include="data">
       <UniqueIdentifier>{ecaeac55-6cf5-41e8-b84c-12213e9e41f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Days2022">
+      <UniqueIdentifier>{8ed36640-6cf9-4aed-afb2-43bc277d7003}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -31,10 +31,10 @@
       <Filter>Tooling</Filter>
     </ClCompile>
     <ClCompile Include="src\aoc2022_01.cpp">
-      <Filter>Days</Filter>
+      <Filter>Days2022</Filter>
     </ClCompile>
     <ClCompile Include="src\aoc2022_02.cpp">
-      <Filter>Days</Filter>
+      <Filter>Days2022</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -45,7 +45,7 @@
       <Filter>Tooling</Filter>
     </ClInclude>
     <ClInclude Include="src\Days2022.h">
-      <Filter>Days</Filter>
+      <Filter>Days2022</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
