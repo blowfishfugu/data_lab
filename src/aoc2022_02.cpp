@@ -25,16 +25,39 @@ void aoc2022_02()
 	};
 
 	std::array<Sign, 3> abc;
-	auto getSource = [&abc](char symbol){
-		return &abc[(size_t)symbol - 'A']; 
+	auto getSource = [&abc](char symbol)->Sign*{
+		if (symbol >= 'A' && symbol <= 'C')
+		{
+			return &abc[(size_t)symbol - 'A'];
+		}
+		return nullptr;
 	};
-	auto getDst = [&abc](char symbol){ 
-		return &abc[(size_t)symbol - 'X']; 
+	auto getDst = [&abc](char symbol)->Sign*{ 
+		if (symbol >= 'X' && symbol <= 'Z')
+		{
+			return &abc[(size_t)symbol - 'X'];
+		}
+		return nullptr;
 	};
-	auto getDst2 = [](char lose_draw_win, Sign* source) {
-		return source->xyz[(size_t)lose_draw_win - 'X']; 
+	auto getDst2 = [](char lose_draw_win, Sign* source)->Sign* {
+		if (lose_draw_win >= 'X' && lose_draw_win <= 'Z')
+		{
+			return source->xyz[(size_t)lose_draw_win - 'X'];
+		}
+		return nullptr;
 	};
-	
+	auto calcScore = [](Sign* other, Sign* mine)->__int64 {
+		if (other == mine)
+		{
+			return (mine->value + 3LL);
+		}
+		else if (other->whats_better == mine)
+		{
+			return (mine->value + 6LL);
+		}
+		return mine->value + 0LL;
+	};
+
 	Sign* Rock = getSource('A'); Rock->draw = Rock;
 	Sign* Paper = getSource('B'); Paper->draw = Paper;
 	Sign* Scissor = getSource('C'); Scissor->draw = Scissor;
@@ -66,33 +89,10 @@ void aoc2022_02()
 		Sign* source = getSource(from);
 		Sign* dst = getDst(to);
 		Sign* dst2 = getDst2(to,source);
-		if (!dst || !dst2) { continue; }
+		if (!source || !dst || !dst2) { continue; }
 
-		if (source == dst)
-		{
-			score += (dst->value + 3LL);
-		}
-		else if (source->whats_better == dst)
-		{
-			score += (dst->value + 6LL);
-		}
-		else if (source->whats_worse == dst)
-		{
-			score += (dst->value + 0LL);
-		}
-
-		if (source == dst2)
-		{
-			bait += (dst2->value + 3LL);
-		}
-		else if (source->whats_better == dst2)
-		{
-			bait += (dst2->value + 6LL);
-		}
-		else if (source->whats_worse == dst2)
-		{
-			bait += (dst2->value + 0LL);
-		}
+		score += calcScore(source, dst);
+		bait += calcScore(source, dst2);
 	}
 	std::cout << score << "\n";
 	std::cout << bait << "\n";
