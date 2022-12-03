@@ -15,6 +15,7 @@ void aoc2022_03()
 		__int64 right = 0;
 		__int64 exists = 0;
 	};
+	// [65-90], [97-122]
 	using Hist = std::array<Item, 128>;
 	std::vector<Hist> bags;
 
@@ -22,11 +23,12 @@ void aoc2022_03()
 	__int64 score = 0;
 
 	auto getScore=[](char c)->__int64 {
-		if (c >= 'a')
+		if (c >= 'a') //[1-26]
 		{
 			__int64 prio = ((__int64)c - 'a') + 1;
 			return prio;
 		}
+		//[27-52]
 		__int64 prio = ((__int64)c - 'A') + 27;
 		return prio;
 	};
@@ -41,26 +43,28 @@ void aoc2022_03()
 		for (size_t current = 0; current < half; ++current)
 		{
 			char c = line[current];
-			hist[c].input = c;
-			hist[c].left++;
-			hist[c].exists=1;
+			Item& item = hist[c];
+			item.input = c;
+			item.left++;
+			item.exists=1;
 		}
 		for (size_t current = half; current < len; ++current)
 		{
 			char c = line[current];
-			hist[c].input = c;
-			hist[c].right++;
-			hist[c].exists = 1;
-			//early break?
-		}
-
-		for (Item& item : hist)
-		{
-			if (item.left > 0 && item.right > 0)
+			Item& item = hist[c];
+			item.input = c;
+			item.right++;
+			item.exists = 1;
+			if (item.left > 0 
+				&& item.right == 1 //nur erste dublette zählen
+				)
 			{
 				score += getScore(item.input);
+			//early break?
 			}
 		}
+
+		
 	}
 	__int64 badgeScore = 0;
 	__int64 groupCount = 0;
@@ -70,7 +74,7 @@ void aoc2022_03()
 		Hist& b2 = bags[i + 1];
 		Hist& b3 = bags[i + 2];
 		groupCount++;
-		for (size_t pos = 0; pos < b1.size(); ++pos)
+		for (size_t pos = 'A'; pos <='z'; ++pos)
 		{
 			__int64 isThere = b1[pos].exists + b2[pos].exists + b3[pos].exists;
 			if (isThere == 3)
