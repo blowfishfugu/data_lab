@@ -10,9 +10,13 @@ int main(int argc, char** argv)
 	DataDir(argv[0]);//Set
 
 	StopWatch clk;
+#if FOO
 	aoc2022_01();
 	clk.printDelta("Day01 nosort");
 	aoc2022_02();
 	clk.printDelta("Day02");
+#endif
+	aoc2022_03();
+	clk.printDelta("Day03");
 	return 0;
 }
