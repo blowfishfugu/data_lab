@@ -1,8 +1,7 @@
-#include <filesystem>
+#include "DataDir.h"
 #include <string>
 #include <string_view>
-#include "DataDir.h"
-
+#include <iostream>
 
 const fs::path& DataDir(std::string_view exe)
 {
@@ -17,7 +16,8 @@ const fs::path& DataDir(std::string_view exe)
 		{
 			fs::create_directory(dataDir);
 		}
-	}
+		std::cout << "DataDir: \"" << dataDir.string() << "\"\n";
+	} 
 
 	return dataDir;
 }
