@@ -28,5 +28,8 @@ int main(int argc, char** argv)
 	clk.printDelta("Day04 overlaps, bb-hittests");
 	std::cout << "\n\n";
 	
+	aoc2022_05();
+	clk.printDelta("Day05");
+	std::cout << "\n\n";
 	return 0;
 }
