@@ -17,10 +17,8 @@ bool allSet(std::initializer_list<std::string> lst)
 struct range {
 	int l;
 	int r;
-	int len;
 	range(int _l, int _r)
-		:l(_l), r(_r),
-		len(_r - _l + 1)
+		:l(_l), r(_r)
 	{
 
 	}
@@ -40,7 +38,7 @@ void aoc2022_04()
 {
 	fs::path input(DataDir() / "2022_04.txt");
 	std::ifstream inFile(input);
-	std::vector<std::tuple<range, range, range>> lines;
+	std::vector<std::tuple<range, range>> lines;
 	__int64 fullyContained = 0;
 	while (!inFile.eof())
 	{
@@ -57,7 +55,7 @@ void aoc2022_04()
 		{
 			break;
 		}
-		lines.emplace_back(range{ s1,s2 }, range{ s3,s4 }, range{ 0,0 });
+		lines.emplace_back(range{ s1,s2 }, range{ s3,s4 });
 	}
 
 	__int64 hit = 0;
@@ -65,8 +63,7 @@ void aoc2022_04()
 	{
 		range& l = std::get<0>(x);
 		range& r = std::get<1>(x);
-		range& diff = std::get<2>(x);
-		diff = intersect(l, r);
+		range diff = intersect(l, r);
 		if (diff.l >= 0 && diff.r <= 0)
 		{
 			fullyContained++;
