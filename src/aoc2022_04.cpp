@@ -14,33 +14,33 @@ bool allSet(std::initializer_list<std::string> lst)
 	return true;
 }
 
-	struct range {
-		int l;
-		int r;
-		int len;
-		range(int _l,int _r)
-			:l(_l),r(_r),
-			len(_r - _l + 1)
-		{
-		
-		}
-
-		range(std::string& sl, std::string& sr)
-			:range{ std::stoi(sl), std::stoi(sr) }
-		{
-		}
-	};
-
-	range intersect(const range& lhs, const range& rhs)
+struct range {
+	int l;
+	int r;
+	int len;
+	range(int _l, int _r)
+		:l(_l), r(_r),
+		len(_r - _l + 1)
 	{
-		return range{ rhs.l - lhs.l, rhs.r - lhs.r };
+
 	}
+
+	range(std::string& sl, std::string& sr)
+		:range{ std::stoi(sl), std::stoi(sr) }
+	{
+	}
+};
+
+range intersect(const range& lhs, const range& rhs)
+{
+	return range{ rhs.l - lhs.l, rhs.r - lhs.r };
+}
 
 void aoc2022_04()
 {
 	fs::path input(DataDir() / "2022_04.txt");
 	std::ifstream inFile(input);
-	std::vector<std::tuple<range, range,range>> lines;
+	std::vector<std::tuple<range, range, range>> lines;
 	__int64 fullyContained = 0;
 	while (!inFile.eof())
 	{
@@ -66,9 +66,9 @@ void aoc2022_04()
 		range& l = std::get<0>(x);
 		range& r = std::get<1>(x);
 		range& diff = std::get<2>(x);
-		diff = intersect(l,r);
-		if( diff.l>=0 && diff.r<=0 )
-		{ 
+		diff = intersect(l, r);
+		if (diff.l >= 0 && diff.r <= 0)
+		{
 			fullyContained++;
 		}
 		else
@@ -77,7 +77,6 @@ void aoc2022_04()
 			if (diff.l >= 0 && diff.r <= 0)
 			{
 				fullyContained++;
-				std::swap(l, r);
 			}
 		}
 
@@ -101,6 +100,7 @@ void aoc2022_04()
 				hit++;
 			}
 		}
+
 
 	}
 
