@@ -25,7 +25,7 @@ int main(int argc, char** argv)
 	std::cout << "\n\n";
 	
 	aoc2022_04();
-	clk.printDelta("Day04\n");
+	clk.printDelta("Day04 overlaps, bb-hittests\n");
 	std::cout << "\n\n";
 	
 	return 0;
