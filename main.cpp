@@ -31,5 +31,9 @@ int main(int argc, char** argv)
 	aoc2022_05();
 	clk.printDelta("Day05 The Binford CrateMaster9001");
 	std::cout << "\n\n";
+
+	aoc2022_06();
+	clk.printDelta("Day06");
+	std::cout << "\n\n";
 	return 0;
 }
