@@ -11,37 +11,37 @@ void aoc2022_02()
 	struct Sign {
 		char Type = 0;
 		Sign* whats_better = nullptr;
-		Sign* draw = nullptr;
+		Sign* draw = this;
 		Sign* whats_worse = nullptr;
 		int value = 0;
-		Sign* xyz[3] = { 0,0,0 };
+		Sign* xyz[3] = { 0,this,0 };
 		void mapResults() {
 			xyz[0] = whats_worse; //X
-			xyz[1] = draw; //Y
+			//xyz[1] = draw; //Y
 			xyz[2] = whats_better; //Z
 		}
 	};
 
 	std::array<Sign, 3> abc;
-	auto getSource = [&abc](char symbol)->Sign* {
+	auto getSource = [&abc](const char symbol)->Sign *const {
 		if (symbol >= 'A' && symbol <= 'C') {
 			return &abc[(size_t)symbol - 'A'];
 		}
 		return nullptr;
 	};
-	auto getDst = [&abc](char symbol)->Sign* {
+	auto getDst = [&abc](const char symbol)->Sign *const {
 		if (symbol >= 'X' && symbol <= 'Z') {
 			return &abc[(size_t)symbol - 'X'];
 		}
 		return nullptr;
 	};
-	auto getDst2 = [](char lose_draw_win, Sign* source)->Sign* {
+	auto getDst2 = [](const char lose_draw_win, const Sign *const source)->Sign *const {
 		if (lose_draw_win >= 'X' && lose_draw_win <= 'Z') {
 			return source->xyz[(size_t)lose_draw_win - 'X'];
 		}
 		return nullptr;
 	};
-	auto calcScore = [](Sign* other, Sign* mine)->__int64 {
+	auto calcScore = [](const Sign *const other, const Sign *const mine)->__int64 {
 		if (other == mine) {
 			return (mine->value + 3LL);
 		}
@@ -51,9 +51,9 @@ void aoc2022_02()
 		return mine->value + 0LL;
 	};
 
-	Sign* Rock = getSource('A'); Rock->draw = Rock;
-	Sign* Paper = getSource('B'); Paper->draw = Paper;
-	Sign* Scissor = getSource('C'); Scissor->draw = Scissor;
+	Sign *const Rock = getSource('A'); //Rock->draw = Rock;
+	Sign *const Paper = getSource('B'); //Paper->draw = Paper;
+	Sign *const Scissor = getSource('C'); //Scissor->draw = Scissor;
 
 	Rock->Type = 'R';
 	Rock->whats_better = Paper;
@@ -76,11 +76,11 @@ void aoc2022_02()
 	__int64 bait = 0;
 	for (std::string line; std::getline(inFile, line); ) {
 		if (line.length() < 3) { continue; }
-		char from = line[0];
-		char to = line[2];
-		Sign* source = getSource(from);
-		Sign* dst = getDst(to);
-		Sign* dst2 = getDst2(to, source);
+		const char from = line[0];
+		const char to = line[2];
+		const Sign *const source = getSource(from);
+		const Sign *const dst = getDst(to);
+		const Sign *const dst2 = getDst2(to, source);
 		if (!source || !dst || !dst2) { continue; }
 
 		score += calcScore(source, dst);
