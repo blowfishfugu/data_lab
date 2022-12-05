@@ -73,7 +73,7 @@ void aoc2022_03()
 		Hist& b1 = bags[i];
 		Hist& b2 = bags[i + 1];
 		Hist& b3 = bags[i + 2];
-		groupCount++;
+		++groupCount;
 		for (size_t pos = 'A'; pos <='z'; ++pos)
 		{
 			__int64 isThere = b1[pos].exists + b2[pos].exists + b3[pos].exists;

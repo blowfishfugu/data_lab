@@ -66,35 +66,35 @@ void aoc2022_04()
 		range diff = intersect(l, r);
 		if (diff.l >= 0 && diff.r <= 0)
 		{
-			fullyContained++;
+			++fullyContained;
 		}
 		else
 		{
 			diff = intersect(r, l);
 			if (diff.l >= 0 && diff.r <= 0)
 			{
-				fullyContained++;
+				++fullyContained;
 			}
 		}
 
 		if (l.l >= r.l && l.l <= r.r)
 		{
-			hit++;
+			++hit;
 		}
 		else if (l.r >= r.l && l.r <= r.r)
 		{
-			hit++;
+			++hit;
 		}
 		else
 		{
 			std::swap(l, r);
 			if (l.l >= r.l && l.l <= r.r)
 			{
-				hit++;
+				++hit;
 			}
 			else if (l.r >= r.l && l.r <= r.r)
 			{
-				hit++;
+				++hit;
 			}
 		}
 

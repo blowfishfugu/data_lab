@@ -61,7 +61,7 @@ struct Stack
 		}
 		Crate* movedTop = top;
 		Crate* movedBottom = movedTop;
-		for (int i = 1; i < count; i++)
+		for (int i = 1; i < count; ++i)
 		{
 			movedBottom = movedBottom->below;
 		}
@@ -82,9 +82,9 @@ std::vector<Stack> buildStacks(std::vector<std::string>& desc, Cargo& pool)
 		char id = line[nameIndex];
 		stacks.emplace_back(id,pool);
 	}
-	it++;
+	++it;
 
-	for (it; it != desc.rend(); it++)
+	for (it; it != desc.rend(); ++it)
 	{
 		const std::string& crateLine = (*it);
 		for(int stack=0;stack<stacks.size();++stack)
