@@ -9,7 +9,9 @@ struct Crate
 {
 	char symbol = '\0';
 	Crate* below = nullptr;
-	Crate(char name):symbol(name){}
+	Crate(char name)
+		: symbol(name)
+	{}
 };
 struct Cargo
 {
@@ -111,7 +113,7 @@ std::tuple<int, int, int> buildMove(std::string& line)
 	int to = 0;
 	std::stringstream in(line);
 	std::string item;
-	std::getline(in, item, ' '); //move
+	std::getline(in, item, ' '); //'move'
 	std::getline(in, item, ' '); //count
 	count = std::stoi(item);
 	std::getline(in, item, ' '); //'from'

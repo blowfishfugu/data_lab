@@ -29,7 +29,7 @@ int main(int argc, char** argv)
 	std::cout << "\n\n";
 	
 	aoc2022_05();
-	clk.printDelta("Day05");
+	clk.printDelta("Day05 The Binford CrateMaster9001");
 	std::cout << "\n\n";
 	return 0;
 }
