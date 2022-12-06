@@ -35,5 +35,14 @@ int main(int argc, char** argv)
 	aoc2022_06();
 	clk.printDelta("Day06 tuning trouble (unique packets)");
 	std::cout << "\n\n";
+
+	aoc2022_06_withInts();
+	clk.printDelta("Day06 popcnt tuning trouble (unique packets)");
+	std::cout << "\n\n";
+
+
+	aoc2022_07();
+	clk.printDelta("Day07");
+	std::cout << "\n\n";
 	return 0;
 }
