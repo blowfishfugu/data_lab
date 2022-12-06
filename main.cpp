@@ -33,7 +33,7 @@ int main(int argc, char** argv)
 	std::cout << "\n\n";
 
 	aoc2022_06();
-	clk.printDelta("Day06");
+	clk.printDelta("Day06 tuning trouble (unique packets)");
 	std::cout << "\n\n";
 	return 0;
 }
