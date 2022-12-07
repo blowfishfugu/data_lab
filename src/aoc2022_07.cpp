@@ -102,7 +102,7 @@ void aoc2022_07()
 		else if (line.find(lsSignature) == 0)
 		{
 			line.erase(0, lsSignature.length());
-			current->lsCount++;
+			current->lsCount++; //<- immer nur 1 ls pro ordner?
 			in_ls = true;
 		}
 		else if (in_ls)
@@ -113,7 +113,6 @@ void aoc2022_07()
 			if (info.find(dirSignature) == 0)
 			{ 
 				FileNode* dir = pool.addDir(name, current);
-				
 				current->childs.push_back(dir);
 			}
 			else
@@ -148,7 +147,7 @@ void aoc2022_07()
 	FileNode* suitableDir=nullptr;
 	for (auto& node : pool.pool)
 	{
-		if (node->sizeComplete <= 100000)
+		if (node->sizeComplete <= 100'000)
 		{
 			score += node->sizeComplete;
 		}
@@ -159,6 +158,8 @@ void aoc2022_07()
 	}
 
 	std::cout << "Sum of 'at most' 100000: " << score << "\n";
-	std::cout << "Smallest deletable: '" << suitableDir->name << "' " << suitableDir->sizeComplete << "\n";
-	
+	if (suitableDir)
+	{
+		std::cout << "Smallest deletable: '" << suitableDir->name << "' " << suitableDir->sizeComplete << "\n";
+	}
 }

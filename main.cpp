@@ -40,9 +40,13 @@ int main(int argc, char** argv)
 	clk.printDelta("Day06 popcnt tuning trouble (unique packets)");
 	std::cout << "\n\n";
 
-
 	aoc2022_07();
 	clk.printDelta("Day07 not enough diskspace");
 	std::cout << "\n\n";
+
+	aoc2022_08();
+	clk.printDelta("Day08 ");
+	std::cout << "\n\n";
+
 	return 0;
 }
