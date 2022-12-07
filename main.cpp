@@ -42,7 +42,7 @@ int main(int argc, char** argv)
 
 
 	aoc2022_07();
-	clk.printDelta("Day07");
+	clk.printDelta("Day07 not enough diskspace");
 	std::cout << "\n\n";
 	return 0;
 }
