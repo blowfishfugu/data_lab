@@ -48,5 +48,15 @@ int main(int argc, char** argv)
 	clk.printDelta("Day08 counting trees");
 	std::cout << "\n\n";
 
+	aoc2022_08_cleanup();
+	clk.printDelta("Day08 counting trees");
+	std::cout << "\n\n";
+
+
+	aoc2022_09();
+	clk.printDelta("Day09");
+	std::cout << "\n\n";
+
+
 	return 0;
 }

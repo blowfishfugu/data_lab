@@ -9,3 +9,5 @@ void aoc2022_06();
 void aoc2022_06_withInts();
 void aoc2022_07();
 void aoc2022_08();
+void aoc2022_08_cleanup();
+void aoc2022_09();
