@@ -45,7 +45,7 @@ int main(int argc, char** argv)
 	std::cout << "\n\n";
 
 	aoc2022_08();
-	clk.printDelta("Day08 ");
+	clk.printDelta("Day08 counting trees");
 	std::cout << "\n\n";
 
 	return 0;

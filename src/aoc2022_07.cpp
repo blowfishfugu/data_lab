@@ -135,7 +135,7 @@ void aoc2022_07()
 			}
 		}
 	}
-	std::sort(pool.pool.begin(), pool.pool.end(), [](NodePtr& l, NodePtr& r) {
+	std::sort(pool.pool.begin(), pool.pool.end(), [](const NodePtr& l, const NodePtr& r) {
 		return l->sizeComplete > r->sizeComplete;
 		});
 
