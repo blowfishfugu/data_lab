@@ -102,36 +102,42 @@ void aoc2022_07()
 		else if (line.find(lsSignature) == 0)
 		{
 			line.erase(0, lsSignature.length());
-			current->lsCount++; //<- immer nur 1 ls pro ordner?
+			if (current)
+			{
+				current->lsCount++; //<- immer nur 1 ls pro ordner?
+			}
 			in_ls = true;
 		}
 		else if (in_ls)
 		{
-			std::tuple<std::string, std::string> fi = getFileInfo(line);
-			std::string& info = std::get<0>(fi);
-			std::string& name = std::get<1>(fi);
-			if (info.find(dirSignature) == 0)
-			{ 
-				FileNode* dir = pool.addDir(name, current);
-				current->childs.push_back(dir);
-			}
-			else
+			if (current)
 			{
-				__int64 fileSize = std::stoll(info);
-				current->localFileSizes += fileSize;
-
-				//update parents
-				FileNode* parent = current; //<-current self-complete
-				while (parent != nullptr)
+				std::tuple<std::string, std::string> fi = getFileInfo(line);
+				std::string& info = std::get<0>(fi);
+				std::string& name = std::get<1>(fi);
+				if (info.find(dirSignature) == 0)
 				{
-					parent->sizeComplete += fileSize;
-					parent = parent->parent;
+					FileNode* dir = pool.addDir(name, current);
+					current->childs.push_back(dir);
 				}
-				/*
-				FileNode* file = pool.addDir(name, current);
-				file->localFileSizes = fileSize;
-				current->childs.push_back(file);
-				*/
+				else
+				{
+					__int64 fileSize = std::stoll(info);
+					current->localFileSizes += fileSize;
+
+					//update parents
+					FileNode* parent = current; //<-current self-complete
+					while (parent != nullptr)
+					{
+						parent->sizeComplete += fileSize;
+						parent = parent->parent;
+					}
+					/*
+					FileNode* file = pool.addDir(name, current);
+					file->localFileSizes = fileSize;
+					current->childs.push_back(file);
+					*/
+				}
 			}
 		}
 	}

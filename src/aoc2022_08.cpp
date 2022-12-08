@@ -170,8 +170,8 @@ void aoc2022_08_cleanup()
 	}
 	__int64 wh = grid[0].length();
 
-	struct Dir { __int64 dy = 0LL; __int64 dx = 0LL; };
-	constexpr Dir directions[4] =
+	struct Direction { __int64 dy = 0LL; __int64 dx = 0LL; };
+	constexpr Direction directions[4] =
 	{
 		{0LL,1LL},
 		{0LL,-1LL},
@@ -180,15 +180,14 @@ void aoc2022_08_cleanup()
 	};
 	auto checkVisibleTo = [](Grid& grid, char current,
 		__int64 y, __int64 x,
-		const Dir d,
+		const Direction d,
 		const __int64 wh)->std::tuple<bool,__int64>
 	{
 		y += d.dy;
 		x += d.dx;
 		__int64 viewDistance = 0;
 		bool isVisible = true;
-		while (y < wh && x < wh	&& y >= 0 && x >= 0
-			)
+		while (y < wh && y >= 0 && x >= 0 && x < wh)
 		{
 			viewDistance++; //größer oder nicht, baum ist sichtbar
 			if (grid[y][x] >= current)
@@ -217,7 +216,7 @@ void aoc2022_08_cleanup()
 			char c = grid[y][x];
 			bool foundVisible = false;
 			__int64 sceneScore = 1;
-			for (const Dir& dir : directions)
+			for (const Direction& dir : directions)
 			{
 				auto result = (checkVisibleTo(grid, c, y, x, dir, wh));
 				foundVisible |= std::get<0>(result);
