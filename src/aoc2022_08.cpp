@@ -187,6 +187,8 @@ void aoc2022_08_cleanup()
 		x += d.dx;
 		__int64 viewDistance = 0;
 		bool isVisible = true;
+		//loop x,y bis zum Rand in vorgegebener Direction
+		//sind wir bereits am Rand bleiben viewDistance=0 und visible=true
 		while (y < wh && y >= 0 && x >= 0 && x < wh)
 		{
 			viewDistance++; //größer oder nicht, baum ist sichtbar
