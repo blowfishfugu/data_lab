@@ -19,12 +19,14 @@ struct Vec
 		if (y != 0) { y /= std::abs(y); }
 		return *this;
 	}
-
+#ifndef NDEBUG
+	//check, Position von Head-Tail
 	friend std::ostream& operator<<(std::ostream& os, const Vec& v)
 	{
 		os << " ( " << v.x << " , " << v.y << " ) ";
 		return os;
 	}
+#endif
 };
 
 Vec operator-(const Vec& l, const Vec& r)
@@ -114,7 +116,8 @@ void aoc2022_09()
 			largerope.update(move.dir);
 		}
 	}
-	
+	//6266
+	//2369
 	std::cout << "T< 2> visited " << rope.visited.size() << "\n";
 	std::cout << "T<10> visited " << largerope.visited.size() << "\n";
 	
