@@ -92,15 +92,15 @@
     <ClInclude Include="src\StopWatch.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="bin\data\2022_01.txt" />
-    <Text Include="bin\data\2022_02.txt" />
-    <Text Include="bin\data\2022_03.txt" />
-    <Text Include="bin\data\2022_04.txt" />
-    <Text Include="bin\data\2022_05.txt" />
-    <Text Include="bin\data\2022_06.txt" />
-    <Text Include="bin\data\2022_07.txt" />
-    <Text Include="bin\data\2022_08.txt" />
-    <Text Include="bin\data\2022_09.txt" />
+    <Text Include="bin\2022\2022_01.txt" />
+    <Text Include="bin\2022\2022_02.txt" />
+    <Text Include="bin\2022\2022_03.txt" />
+    <Text Include="bin\2022\2022_04.txt" />
+    <Text Include="bin\2022\2022_05.txt" />
+    <Text Include="bin\2022\2022_06.txt" />
+    <Text Include="bin\2022\2022_07.txt" />
+    <Text Include="bin\2022\2022_08.txt" />
+    <Text Include="bin\2022\2022_09.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
