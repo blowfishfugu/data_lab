@@ -39,20 +39,20 @@ struct Rope
 {
 	static_assert(Count >= 2);
 	std::array<Vec, Count> Segments;
-	Vec& H() { return Segments[0]; }
-	Vec& T() { return Segments[Count - 1]; }
-	
+	Vec& Head() { return Segments[0]; }
+	Vec& Tail() { return Segments[Count - 1]; }
+	//<=>operator auf Vec??
 	std::map<std::tuple<__int64, __int64>, __int64> visited;
 	
 	void storeT()
 	{
-		Vec& t = T();
+		Vec& t = Tail();
 		visited[std::tie(t.x, t.y)]++;
 	}
 	
 	void update(const Vec& dir)
 	{
-		H() += dir;
+		Head() += dir;
 		for (size_t i = 1; i < Count; i++)
 		{
 			Vec& head = Segments[i - 1];
@@ -84,7 +84,7 @@ void aoc2022_09()
 		{'U', { 0LL, 1LL } },
 		{'D', { 0LL,-1LL} },
 	};
-
+	//TODO?: std::istream& operator>>(istream& ins, Move& data)
 	auto buildMove = [&directions](std::string& line)
 	{
 		std::istringstream input(line);
@@ -92,7 +92,7 @@ void aoc2022_09()
 		char key = dir[0];
 		std::getline(input, dir);
 		__int64 steps = std::stoll(dir);
-		Move m{ directions[key], steps };
+		Move m{ directions[key], steps }; //<-unbekannte direction? returns 0,0
 		return std::move(m);
 	};
 
