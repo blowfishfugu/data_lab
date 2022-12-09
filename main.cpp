@@ -8,7 +8,7 @@ int main(int argc, char** argv)
 {
 	std::cout << "argv0 = \"" << argv[0] << "\"\n";
 	DataDir(argv[0]);//Set
-
+	StopWatch overall;
 	StopWatch clk;
 #if FOO
 #endif
@@ -52,11 +52,14 @@ int main(int argc, char** argv)
 	clk.printDelta("Day08 counting trees");
 	std::cout << "\n\n";
 
-
 	aoc2022_09();
 	clk.printDelta("Day09 segmented ropes");
 	std::cout << "\n\n";
 
+	aoc2022_10();
+	clk.printDelta("Day10");
+	std::cout << "\n\n";
 
+	overall.printDelta("\noverall");
 	return 0;
 }

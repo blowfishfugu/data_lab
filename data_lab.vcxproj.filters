@@ -57,6 +57,9 @@
     <ClCompile Include="src\aoc2022_09.cpp">
       <Filter>Days2022</Filter>
     </ClCompile>
+    <ClCompile Include="src\aoc2022_10.cpp">
+      <Filter>Days2022</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\StopWatch.h">
@@ -95,6 +98,9 @@
       <Filter>2022</Filter>
     </Text>
     <Text Include="bin\2022\2022_09.txt">
+      <Filter>2022</Filter>
+    </Text>
+    <Text Include="bin\2022\2022_10.txt">
       <Filter>2022</Filter>
     </Text>
   </ItemGroup>

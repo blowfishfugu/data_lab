@@ -37,6 +37,7 @@ Vec operator-(const Vec& l, const Vec& r)
 template<size_t Count>
 struct Rope
 {
+	static_assert(Count >= 2);
 	std::array<Vec, Count> Segments;
 	Vec& H() { return Segments[0]; }
 	Vec& T() { return Segments[Count - 1]; }
