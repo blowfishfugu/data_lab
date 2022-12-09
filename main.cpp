@@ -54,7 +54,7 @@ int main(int argc, char** argv)
 
 
 	aoc2022_09();
-	clk.printDelta("Day09");
+	clk.printDelta("Day09 segmented ropes");
 	std::cout << "\n\n";
 
 
