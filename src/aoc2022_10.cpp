@@ -83,10 +83,12 @@ void aoc2022_10()
 		const __int64 sprite0 = c.X - 1;
 		const __int64 sprite1 = c.X;
 		const __int64 sprite2 = c.X + 1;
-		if (pixelPos == sprite0){ std::cout << "#";	}
-		else if (pixelPos == sprite1){ std::cout << "#";	}
-		else if (pixelPos == sprite2){ std::cout << "#";	}
-		else { std::cout << "."; }
+		constexpr unsigned char filled = 219;
+		constexpr unsigned char empty = '.';
+		if (pixelPos == sprite0){ std::cout << filled; }
+		else if (pixelPos == sprite1){ std::cout << filled; }
+		else if (pixelPos == sprite2){ std::cout << filled; }
+		else { std::cout << empty; }
 		pixelPos++;
 		if (c.cycle % 40 == 0) { std::cout << " < " << c.cycle << "\n"; pixelPos = 0; }
 		return false;
