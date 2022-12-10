@@ -50,9 +50,9 @@ struct Rope
 		visited[std::tie(t.x, t.y)]++;
 	}
 	
-	void update(const Vec& dir)
+	void update(const Vec& direction)
 	{
-		Head() += dir;
+		Head() += direction;
 		for (size_t i = 1; i < Count; i++)
 		{
 			Vec& head = Segments[i - 1];
