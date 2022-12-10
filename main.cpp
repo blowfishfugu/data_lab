@@ -57,8 +57,13 @@ int main(int argc, char** argv)
 	std::cout << "\n\n";
 
 	aoc2022_10();
-	clk.printDelta("Day10");
+	clk.printDelta("Day10 cathode ray");
 	std::cout << "\n\n";
+
+	aoc2022_11();
+	clk.printDelta("Day11");
+	std::cout << "\n\n";
+
 
 	overall.printDelta("\noverall");
 	return 0;
