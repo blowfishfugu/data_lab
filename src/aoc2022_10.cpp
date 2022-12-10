@@ -43,6 +43,17 @@ void aoc2022_10()
 			//"After two cycles, the X register is increased"
 			X += n;
 		}
+		void run(const std::vector<std::string>& commands)
+		{
+			for (const std::string& cmd : commands)
+			{
+				if (cmd == "noop") { noop(); }
+				if (cmd.find("addx ") == 0) {
+					__int64 inc = std::stoll(cmd.substr(5));
+					addx(inc);
+				}
+			}
+		}
 	};
 
 	CPU cpu;
@@ -61,24 +72,17 @@ void aoc2022_10()
 		}
 		return false;
 	};
-	for ( const std::string& cmd : commands)
-	{
-		if (cmd == "noop") { cpu.noop(); }
-		if (cmd.find("addx ") == 0) {
-			__int64 inc = std::stoll(cmd.substr(5));
-			cpu.addx(inc);
-		}
-	}
+	cpu.run(commands);
+
 	std::cout << sum << "\n\n";
 
 	//Part2, DrawPixelPos
 	cpu.reset();
 	__int64 pixelPos = 0;
-	cpu.onTick = [&pixelPos](CPU& c)
-	{
-		const int sprite0 = c.X - 1;
-		const int sprite1 = c.X;
-		const int sprite2 = c.X + 1;
+	cpu.onTick = [&pixelPos](CPU& c){
+		const __int64 sprite0 = c.X - 1;
+		const __int64 sprite1 = c.X;
+		const __int64 sprite2 = c.X + 1;
 		if (pixelPos == sprite0){ std::cout << "#";	}
 		else if (pixelPos == sprite1){ std::cout << "#";	}
 		else if (pixelPos == sprite2){ std::cout << "#";	}
@@ -88,14 +92,7 @@ void aoc2022_10()
 		return false;
 	};
 
-	for ( const std::string& cmd : commands)
-	{
-		if (cmd == "noop") { cpu.noop(); }
-		if (cmd.find("addx ") == 0) {
-			__int64 inc = std::stoll(cmd.substr(5));
-			cpu.addx(inc);
-		}
-	}
+	cpu.run(commands);
 
 
 	
