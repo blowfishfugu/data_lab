@@ -64,6 +64,10 @@ int main(int argc, char** argv)
 	clk.printDelta("Day11 monkey business, refresher modulo");
 	std::cout << "\n\n";
 
+	aoc2022_12();
+	clk.printDelta("Day12");
+	std::cout << "\n\n";
+
 
 	overall.printDelta("\noverall");
 	return 0;
