@@ -61,7 +61,7 @@ int main(int argc, char** argv)
 	std::cout << "\n\n";
 
 	aoc2022_11();
-	clk.printDelta("Day11");
+	clk.printDelta("Day11 monkey business, refresher modulo");
 	std::cout << "\n\n";
 
 
