@@ -65,10 +65,13 @@ int main(int argc, char** argv)
 	std::cout << "\n\n";
 
 	aoc2022_12();
-	clk.printDelta("Day12");
+	clk.printDelta("Day12 Hill Climbing Djkstra");
 	std::cout << "\n\n";
 
-
+	aoc2022_13();
+	clk.printDelta("Day13");
+	std::cout << "\n\n";
+	
 	overall.printDelta("\noverall");
 	return 0;
 }

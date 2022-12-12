@@ -14,3 +14,4 @@ void aoc2022_09();
 void aoc2022_10();
 void aoc2022_11();
 void aoc2022_12();
+void aoc2022_13();
