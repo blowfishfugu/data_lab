@@ -5,11 +5,9 @@
 #include <functional>
 #include <algorithm>
 
-void aoc2022_10()
-{
+void aoc2022_10(){
 	fs::path input(DataDir() / "2022_10.txt");
 	std::ifstream inFile(input);
-
 	std::vector<std::string> commands;
 	for (std::string line; std::getline(inFile, line); ) {
 		if (line.length() == 0) { break; }
@@ -19,34 +17,33 @@ void aoc2022_10()
 	struct CPU {
 		__int64 cycle = 0;
 		__int64 X = 1;
-		void reset()
-		{
+		void reset(){
 			cycle = 0;
 			X = 1;
 		}
+
+		//return true for debug-output of cycle and X-Register
 		std::function<bool(CPU&)> onTick = [](CPU& cpu)->bool {return true; };
 		void incCycle() {
 			cycle++;
-			if (onTick(*this))
-			{
+			if (onTick(*this)){
 				std::cout << cycle << "\t" << X <<"\n";
 			}
 		}
 
-		void noop() {
+		void noop(){
 			incCycle();
 		}
-		void addx(__int64 n)
-		{
+
+		void addx(__int64 n){
 			incCycle();
 			incCycle();
 			//"After two cycles, the X register is increased"
 			X += n;
 		}
-		void run(const std::vector<std::string>& commands)
-		{
-			for (const std::string& cmd : commands)
-			{
+
+		void run(const std::vector<std::string>& commands){
+			for (const std::string& cmd : commands){
 				if (cmd == "noop") { noop(); }
 				if (cmd.find("addx ") == 0) {
 					__int64 inc = std::stoll(cmd.substr(5));
@@ -62,8 +59,7 @@ void aoc2022_10()
 	__int64 checkInterval = 20;
 	__int64 sum = 0;
 	cpu.onTick = [&checkInterval,&sum](CPU& c) {
-		if (c.cycle == checkInterval)
-		{
+		if (c.cycle == checkInterval){
 			__int64 signalStrength = c.cycle*c.X;
 			std::cout << signalStrength << "\t<<\t";
 			sum += signalStrength;
@@ -79,7 +75,7 @@ void aoc2022_10()
 	//Part2, DrawPixelPos
 	cpu.reset();
 	__int64 pixelPos = 0;
-	cpu.onTick = [&pixelPos](CPU& c){
+	cpu.onTick = [&pixelPos](CPU& c) {
 		constexpr unsigned char filled = 219;
 		constexpr unsigned char empty = '.';
 		const __int64 sprite0 = c.X - 1;
@@ -87,19 +83,15 @@ void aoc2022_10()
 		if (pixelPos >= sprite0 && pixelPos<=sprite2){
 			std::cout << filled; 
 		}
-		else {
+		else{
 			std::cout << empty; 
 		}
 		pixelPos++;
-		if (c.cycle % 40 == 0) {
+		if (c.cycle % 40 == 0){
 			std::cout << " < " << c.cycle << "\n";
 			pixelPos = 0; 
 		}
 		return false;
 	};
-
 	cpu.run(commands);
-
-
-	
 }
