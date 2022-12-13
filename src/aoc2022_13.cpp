@@ -11,7 +11,7 @@ struct item
 	int type = 0;//list
 };
 
-int comp (const item* left, const item* right) //1,0, 2=continue
+int comp (const item* left, const item* right) //1 ASC, 0 DESC, 2=EQUAL continue //TODO: operator< überladen?
 {
 	if (left->type == 1 && right->type == 1)
 	{
@@ -106,6 +106,10 @@ void aoc2022_13()
 				if (roots.size() > 0)
 				{
 					current = roots.top();
+				}
+				else
+				{
+					std::cerr << "unequal [] pairs!!\n";
 				}
 				++i;
 			}
