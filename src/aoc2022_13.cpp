@@ -107,10 +107,6 @@ void aoc2022_13()
 				{
 					current = roots.top();
 				}
-				else
-				{
-					std::cerr << "unequal [] pairs!!\n";
-				}
 				++i;
 			}
 			else
@@ -157,20 +153,20 @@ void aoc2022_13()
 		item* right = readPackets(lines[i]);
 		roots.push_back(left);
 		roots.push_back(right);
-		std::cout << left->list.size() <<" " << right->list.size() << "\n";
+		//std::cout << left->list.size() <<" " << right->list.size() << "\n";
 		int res = (comp(left, right));
 		if(res==1)
 		{
-			std::cout << index << " right order\n";
+			//std::cout << index << " right order\n";
 			score += index;
 		}
 		else if (res == 0)
 		{
-			std::cout << index << " wrong order\n";
+			//std::cout << index << " wrong order\n";
 		}
 		else
 		{
-			std::cerr << index << " !continue???\n";
+			//std::cerr << index << " !continue???\n";
 		}
 		index++;
 	}
