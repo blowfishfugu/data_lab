@@ -69,7 +69,7 @@ int main(int argc, char** argv)
 	std::cout << "\n\n";
 
 	aoc2022_13();
-	clk.printDelta("Day13");
+	clk.printDelta("Day13 distress signal, sorting packets");
 	std::cout << "\n\n";
 	
 	overall.printDelta("\noverall");
