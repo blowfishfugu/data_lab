@@ -7,7 +7,7 @@
 
 	struct cell
 	{
-		std::tuple<int, int> coords{ -1,-1 };
+		std::tuple<size_t, size_t> coords{ 0,0 };
 		int height{ std::numeric_limits<int>::max() };
 		int minimumCost{ std::numeric_limits<int>::max() };
 		cell* lowest{ nullptr }; //0 left, 1 right, 2 bottom, 3 top
@@ -16,18 +16,18 @@
 
 	struct Cave
 	{
-		int w{ 0 };
-		int h{ 0 };
-		Cave(int w, int h)
+		size_t w{ 0 };
+		size_t h{ 0 };
+		Cave(size_t w, size_t h)
 			: cells(w*h), w(w), h(h)
 		{
 
 		}
 		std::vector<cell> cells;
 
-		void init(int x, int y, int height)
+		void init(size_t x, size_t y, int height)
 		{
-			int pos = y * w + x;
+			size_t pos = y * w + x;
 			cell& c = cells[pos];
 			c.height = height;
 			c.coords = { y,x };
@@ -85,7 +85,7 @@
 #define SLOWMODE 1
 		__int64 printPath(cell* target)
 		{
-			std::set<std::tuple<int, int>> cellsinpath;
+			std::set<std::tuple<size_t, size_t>> cellsinpath;
 
 			cell* current = target;//&cells[cells.size() - 1]; //unten-rechts nach 0,0
 			std::vector<cell*> path;
@@ -148,8 +148,8 @@ void aoc2022_12()
 		data.emplace_back(line);
 	}
 	if (data.size() == 0) { return; }
-	const int w = data.front().length();
-	const int h = data.size();
+	const size_t w = data.front().length();
+	const size_t h = data.size();
 	Cave* cave = new Cave(w, h);
 	size_t starty = 0;
 	size_t startx = 0;

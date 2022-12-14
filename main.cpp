@@ -72,6 +72,11 @@ int main(int argc, char** argv)
 	clk.printDelta("Day13 distress signal, sorting packets");
 	std::cout << "\n\n";
 	
+	aoc2022_14();
+	clk.printDelta( "Day14 regolith reservoir" );
+	std::cout << "\n\n";
+
+
 	overall.printDelta("\noverall");
 	return 0;
 }
