@@ -11,7 +11,6 @@ int main(int argc, char** argv)
 	StopWatch overall;
 	StopWatch clk;
 #if FOO
-#endif
 	aoc2022_01();
 	clk.printDelta("Day01 nosort (sums per group)");
 	std::cout << "\n\n";
@@ -71,11 +70,14 @@ int main(int argc, char** argv)
 	aoc2022_13();
 	clk.printDelta("Day13 distress signal, sorting packets");
 	std::cout << "\n\n";
-	
+#endif
+
+#ifdef NDEBUG
+	//dieses stück braucht (137*137)/2 if's pro sandkorn
 	aoc2022_14();
 	clk.printDelta( "Day14 regolith reservoir" );
 	std::cout << "\n\n";
-
+#endif
 
 	overall.printDelta("\noverall");
 	return 0;

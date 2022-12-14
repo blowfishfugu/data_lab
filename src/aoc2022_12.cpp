@@ -82,7 +82,7 @@
 			}
 			return -1;
 		}
-#define SLOWMODE 1
+
 		__int64 printPath(cell* target)
 		{
 			std::set<std::tuple<size_t, size_t>> cellsinpath;
@@ -107,7 +107,7 @@
 				std::cout << " entry: " << c->height << " mini: " << c->minimumCost << "\n";
 #endif
 			}*/
-#if SLOWMODE
+#ifndef NDEBUG
 			for (size_t y = 0; y < h; ++y) {
 				std::string line;
 				for (size_t x = 0; x < w; ++x) {
