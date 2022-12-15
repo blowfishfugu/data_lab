@@ -70,7 +70,6 @@ int main(int argc, char** argv)
 	aoc2022_13();
 	clk.printDelta("Day13 distress signal, sorting packets");
 	std::cout << "\n\n";
-#endif
 
 #ifdef NDEBUG
 	//dieses stück braucht (137*137)/2 if's pro sandkorn
@@ -78,6 +77,11 @@ int main(int argc, char** argv)
 	clk.printDelta( "Day14 regolith reservoir" );
 	std::cout << "\n\n";
 #endif
+#endif
+
+	aoc2022_15();
+	clk.printDelta("Day15 beacon exclusion zone");
+	std::cout << "\n\n";
 
 	overall.printDelta("\noverall");
 	return 0;

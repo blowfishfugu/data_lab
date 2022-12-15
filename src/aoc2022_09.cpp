@@ -3,69 +3,74 @@
 #include <array>
 #include <map>
 #include <sstream>
-struct Vec 
-{
-	__int64 x = 0;
-	__int64 y = 0;
-	Vec& operator+=(const Vec& rhs)
-	{
-		x += rhs.x;
-		y += rhs.y;
-		return *this;
-	}
-	Vec& normalizeOffset()
-	{
-		if (x != 0) { x /= std::abs(x); }
-		if (y != 0) { y /= std::abs(y); }
-		return *this;
-	}
-#ifndef NDEBUG
-	//check, Position von Head-Tail
-	friend std::ostream& operator<<(std::ostream& os, const Vec& v)
-	{
-		os << " ( " << v.x << " , " << v.y << " ) ";
-		return os;
-	}
-#endif
-};
 
-Vec operator-(const Vec& l, const Vec& r)
+namespace
 {
-	return { l.x - r.x,l.y-r.y };
-}
 
-template<size_t Count>
-struct Rope
-{
-	static_assert(Count >= 2);
-	std::array<Vec, Count> Segments;
-	Vec& Head() { return Segments[0]; }
-	Vec& Tail() { return Segments[Count - 1]; }
-	//<=>operator auf Vec??
-	std::map<std::tuple<__int64, __int64>, __int64> visited;
-	
-	void storeT()
+	struct Vec
 	{
-		Vec& t = Tail();
-		visited[std::tie(t.x, t.y)]++;
-	}
-	
-	void update(const Vec& direction)
-	{
-		Head() += direction;
-		for (size_t i = 1; i < Count; i++)
+		__int64 x = 0;
+		__int64 y = 0;
+		Vec& operator+=(const Vec& rhs)
 		{
-			Vec& head = Segments[i - 1];
-			Vec& trail = Segments[i];
-			Vec dist = head - trail;
-			if (std::abs(dist.x) > 1 || std::abs(dist.y) > 1)
-			{
-				trail += dist.normalizeOffset();
-			}
+			x += rhs.x;
+			y += rhs.y;
+			return *this;
 		}
-		storeT();
+		Vec& normalizeOffset()
+		{
+			if (x != 0) { x /= std::abs(x); }
+			if (y != 0) { y /= std::abs(y); }
+			return *this;
+		}
+#ifndef NDEBUG
+		//check, Position von Head-Tail
+		friend std::ostream& operator<<(std::ostream& os, const Vec& v)
+		{
+			os << " ( " << v.x << " , " << v.y << " ) ";
+			return os;
+		}
+#endif
+	};
+
+	Vec operator-(const Vec& l, const Vec& r)
+	{
+		return { l.x - r.x,l.y - r.y };
 	}
-};
+
+	template<size_t Count>
+	struct Rope
+	{
+		static_assert(Count >= 2);
+		std::array<Vec, Count> Segments;
+		Vec& Head() { return Segments[0]; }
+		Vec& Tail() { return Segments[Count - 1]; }
+		//<=>operator auf Vec??
+		std::map<std::tuple<__int64, __int64>, __int64> visited;
+
+		void storeT()
+		{
+			Vec& t = Tail();
+			visited[std::tie(t.x, t.y)]++;
+		}
+
+		void update(const Vec& direction)
+		{
+			Head() += direction;
+			for (size_t i = 1; i < Count; i++)
+			{
+				Vec& head = Segments[i - 1];
+				Vec& trail = Segments[i];
+				Vec dist = head - trail;
+				if (std::abs(dist.x) > 1 || std::abs(dist.y) > 1)
+				{
+					trail += dist.normalizeOffset();
+				}
+			}
+			storeT();
+		}
+	};
+}
 
 void aoc2022_09()
 {
