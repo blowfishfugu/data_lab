@@ -209,13 +209,17 @@ void aoc2022_15()
 		beacons.insert(sensor.closest);
 	}
 
-	//__int64 y = 2000000;
+	//const __int64 testY = 10;
+	//const __int64 capMax = 20;
+	
+	const __int64 testY = 2'000'000;
 	const __int64 capMax = 4'000'000;
 	
 	Concurrency::cancellation_token_source cts;
 	Concurrency::run_with_cancellation_token(
-		[&sensors,&beacons,capMax,&cts](){
-			Concurrency::parallel_for(0LL, capMax, [&sensors,&beacons,capMax,&cts](__int64 y)
+		[&sensors,&beacons,&cts,capMax,testY](){
+			Concurrency::parallel_for(0LL, capMax, 
+				[&sensors,&beacons,&cts,capMax,testY](__int64 y)
 				//std::for_each(std::execution::par, 0LL, capMax, [&](__int64 y)
 				//for (__int64 y = 0; y <= capMax; ++y)
 				{
@@ -244,8 +248,12 @@ void aoc2022_15()
 						[y](const Vec& b) { return b.y == y; }
 					);
 					__int64 rowCover = fullCover - beaconCount;
-					//std::cout << y << " rowCover: " << rowCover << "\n";
-
+					/*
+					if (y == testY)
+					{
+						std::cout << y << " rowCover: " << rowCover << "\n";
+					}
+					*/
 				}
 			);
 		}, cts.get_token());
