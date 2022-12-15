@@ -12,7 +12,7 @@
 #include <execution>
 #include <ppl.h>
 
-using Int = int;
+using Int = __int64;
 
 namespace
 {

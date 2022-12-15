@@ -71,16 +71,21 @@ int main(int argc, char** argv)
 	clk.printDelta("Day13 distress signal, sorting packets");
 	std::cout << "\n\n";
 
+	//ab hier gehts auf performance, nur in release-build aktivieren
 #ifdef NDEBUG
 	//dieses stück braucht (137*137)/2 if's pro sandkorn
 	aoc2022_14();
 	clk.printDelta( "Day14 regolith reservoir" );
 	std::cout << "\n\n";
-#endif
-#endif
 
 	aoc2022_15();
 	clk.printDelta("Day15 beacon exclusion zone");
+	std::cout << "\n\n";
+#endif
+#endif
+
+	aoc2022_16();
+	clk.printDelta("Day16");
 	std::cout << "\n\n";
 
 	overall.printDelta("\noverall");
