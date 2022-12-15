@@ -214,8 +214,8 @@ void aoc2022_15()
 	
 	Concurrency::cancellation_token_source cts;
 	Concurrency::run_with_cancellation_token(
-		[&](){
-			Concurrency::parallel_for(0LL, capMax, [&](__int64 y)
+		[&sensors,&beacons,capMax,&cts](){
+			Concurrency::parallel_for(0LL, capMax, [&sensors,&beacons,capMax,&cts](__int64 y)
 				//std::for_each(std::execution::par, 0LL, capMax, [&](__int64 y)
 				//for (__int64 y = 0; y <= capMax; ++y)
 				{
@@ -234,6 +234,7 @@ void aoc2022_15()
 					__int64 fullCover = countCoverages(coverages, gap);
 					if (gap != -1LL)
 					{
+						//11379394658764
 						std::cout << gap << " " << y << "=> " << gap * 4'000'000 + y << "\n";
 						cts.cancel();
 						return;
