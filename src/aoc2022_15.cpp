@@ -12,13 +12,15 @@
 #include <execution>
 #include <ppl.h>
 
+using Int = int;
+
 namespace
 {
 
 	struct Vec
 	{
-		__int64 x = 0LL;
-		__int64 y = 0LL;
+		Int x{};
+		Int y{};
 		friend bool operator <(const Vec& lhs, const Vec& rhs) noexcept {
 			return std::tie(lhs.x, lhs.y) < std::tie(rhs.x, rhs.y);
 		}
@@ -32,7 +34,7 @@ namespace
 			return std::tie(lhs.x, lhs.y) != std::tie(rhs.x, rhs.y);
 		}
 
-		__int64 manhattan()
+		Int manhattan()
 		{
 			return std::abs(x) + std::abs(y);
 		}
@@ -45,16 +47,16 @@ namespace
 }
 	struct Bounds
 	{
-		__int64 l = std::numeric_limits<__int64>::max();
-		__int64 r = std::numeric_limits<__int64>::min();
-		__int64 t = std::numeric_limits<__int64>::max();
-		__int64 b = std::numeric_limits<__int64>::min();
-		void updateX(const __int64 x)
+		Int l = std::numeric_limits<Int>::max();
+		Int r = std::numeric_limits<Int>::min();
+		Int t = std::numeric_limits<Int>::max();
+		Int b = std::numeric_limits<Int>::min();
+		void updateX(const Int x)
 		{
 			l = std::min(l, x);
 			r = std::max(r, x);
 		}
-		void updateY(const __int64 y)
+		void updateY(const Int y)
 		{
 			t = std::min(t, y);
 			b = std::max(b, y);
@@ -75,15 +77,15 @@ namespace
 
 	struct Coverage
 	{
-		__int64 left = 1;
-		__int64 right = -1;
+		Int left = 1;
+		Int right = -1;
 	};
 
 	struct Sensor
 	{
 		Vec pos;
 		Vec closest;
-		__int64 maxDistance = 0LL;
+		Int maxDistance{};
 		Sensor(const Vec& pos, const Vec& closest)
 			:pos(pos), closest(closest)
 		{
@@ -94,10 +96,10 @@ namespace
 			bounds.updateY(pos.y + maxDistance);
 		}
 		Bounds bounds;
-		Coverage getCoverageY(__int64 y, const __int64 capMin, const __int64 capMax) const
+		Coverage getCoverageY(Int y, const Int capMin, const Int capMax) const
 		{
-			__int64 dist = std::abs(y - pos.y);
-			__int64 remain = maxDistance - dist;
+			Int dist = std::abs(y - pos.y);
+			Int remain = maxDistance - dist;
 			if (remain >= 0)
 			{
 				Coverage c{
@@ -124,7 +126,7 @@ void addSensor(Sensors& sensors, std::string& line)
 	if (std::regex_match(line, matches, sensor_regex)) {
 			for (size_t i = 1; i < matches.size(); ++i) {
 				std::ssub_match sub_match = matches[i];
-				__int64 val=std::stoll( sub_match.str() );
+				Int val=std::stoi( sub_match.str() );
 				switch (i)
 				{
 				case(1): pos.x = val; break;
@@ -208,18 +210,26 @@ void aoc2022_15()
 		globalbounds.update(sensor.bounds);
 		beacons.insert(sensor.closest);
 	}
-
+	std::cout
+		<< globalbounds.l << "," << globalbounds.t << " to "
+		<< globalbounds.r << "," << globalbounds.b << "\n";
+	std::cout 
+		<< " w = " << globalbounds.r - globalbounds.l 
+		<< " h = " << globalbounds.b - globalbounds.t << "\n";
+	__int64 dots = ((__int64)globalbounds.r - globalbounds.l)*((__int64)globalbounds.b - globalbounds.t);
+	std::cout
+		<< "dots= " << dots << " =" << (dots/(1024.0*1024.0*1024.0))*sizeof(Int) <<"GBytes\n";
 	//const __int64 testY = 10;
 	//const __int64 capMax = 20;
 	
-	const __int64 testY = 2'000'000;
-	const __int64 capMax = 4'000'000;
+	const Int testY = 2'000'000;
+	const Int capMax = 4'000'000;
 	
 	Concurrency::cancellation_token_source cts;
 	Concurrency::run_with_cancellation_token(
 		[&sensors,&beacons,&cts,capMax,testY](){
-			Concurrency::parallel_for(0LL, capMax, 
-				[&sensors,&beacons,&cts,capMax,testY](__int64 y)
+			Concurrency::parallel_for(Int{}, capMax,
+				[&sensors,&beacons,&cts,capMax,testY](Int y)
 				//std::for_each(std::execution::par, 0LL, capMax, [&](__int64 y)
 				//for (__int64 y = 0; y <= capMax; ++y)
 				{
