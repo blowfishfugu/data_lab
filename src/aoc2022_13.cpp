@@ -3,6 +3,7 @@
 #include <array>
 #include <stack>
 #include <vector>
+#include <variant>
 
 struct item
 {
@@ -10,6 +11,8 @@ struct item
 	std::vector<const item*> list;
 	int type = 0;//list
 };
+
+
 
 int comp (const item* left, const item* right) //1 ASC, 0 DESC, 2=EQUAL continue //TODO: operator< überladen?
 {
@@ -78,13 +81,15 @@ void aoc2022_13()
 	auto readPackets=[&pool](std::string& line)
 	{
 		std::stack<item*> roots;
-		item* current = nullptr;
+		item* current = nullptr; //roots.top()
 		item* head = nullptr;
 		for (int i=0;i<line.size();)
 		{
 			char c = line[i];
 			if(c=='[')
 			{
+				//roots.top()->list.push_back(new item);
+				//roots.push(roots.top()->list[at size-1])...
 				item* lastCurrent = current;
 				current = new item;
 				pool.push_back(current);
@@ -202,4 +207,57 @@ void aoc2022_13()
 	std::cout << i2 * i6 << "\n";
 
 	for (item*& d : pool) { delete d; d = nullptr; }
+}
+
+
+
+//--adeccs template-Knoten.. variant, der Liste aus gleichem Type enthält
+template<typename ty>
+using VarTy = std::variant<size_t, std::vector<ty>>;
+
+//Knoten
+template <template <typename> class K>
+struct Fixed : K<Fixed<K>> {
+	using K<Fixed>::K;
+};
+
+using param_type = Fixed<VarTy>; // : K = VarTy<Fixed<VarTy>>
+using param_list = std::vector<param_type>;
+
+int compare(const param_type& lhs, const param_type& rhs)
+{
+	if (std::holds_alternative<size_t>(lhs) && std::holds_alternative<size_t>(rhs))
+	{
+		size_t l = std::get<size_t>(lhs);
+		size_t r = std::get<size_t>(rhs);
+		if (l == r) { return 2; } //equal
+		if (l < r) { return 1; } //asc
+		return 0; //desc
+	}
+	else if (std::holds_alternative<size_t>(rhs))
+	{
+		param_list list{ std::get<size_t>(rhs) };
+		param_type tmp = list;
+		return compare(lhs, tmp);
+	}
+	else if (std::holds_alternative<size_t>(lhs))
+	{
+		param_list list{ std::get<size_t>(lhs) };
+		param_type tmp = list;
+		return compare(tmp, rhs);
+	}
+	else
+	{
+		param_list const& lstLeft = std::get<param_list>(lhs);
+		param_list const& lstRight = std::get<param_list>(rhs);
+		for (auto[l, r] = std::make_pair(lstLeft.begin(), lstRight.begin());
+			l != lstLeft.end() && r != lstRight.end();
+			++l, ++r)
+		{
+			if (auto val = compare(*l, *r); val != 0) return val;
+		}
+		auto max_size = std::pair(lstLeft.size(), lstRight.size());
+		return compare(max_size.first, max_size.second);
+	}
+	return 2;
 }

@@ -78,11 +78,11 @@ int main(int argc, char** argv)
 	clk.printDelta( "Day14 regolith reservoir" );
 	std::cout << "\n\n";
 
+#endif
+#endif
 	aoc2022_15();
 	clk.printDelta("Day15 beacon exclusion zone");
 	std::cout << "\n\n";
-#endif
-#endif
 
 	aoc2022_16();
 	clk.printDelta("Day16");
