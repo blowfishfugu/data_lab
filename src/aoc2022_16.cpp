@@ -9,7 +9,10 @@ void aoc2022_16()
 	{
 		if (line.length() == 0) { break; }
 	}
-
+//build net
+//capture distances [..,..]
+//walk paths (skip opened), lookup costs, calc income
+	//??
 	__int64 score = 0;
 	std::cout << score << "\n";
 }
