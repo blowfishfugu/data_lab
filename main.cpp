@@ -78,15 +78,20 @@ int main(int argc, char** argv)
 	clk.printDelta( "Day14 regolith reservoir" );
 	std::cout << "\n\n";
 
-#endif
-#endif
 	aoc2022_15();
 	clk.printDelta("Day15 beacon exclusion zone");
 	std::cout << "\n\n";
 
+#endif
+#endif
 	aoc2022_16();
 	clk.printDelta("Day16");
 	std::cout << "\n\n";
+
+	aoc2022_17();
+	clk.printDelta("Day17 Pyroclastic Flow");
+	std::cout << "\n\n";
+
 
 	overall.printDelta("\noverall");
 	return 0;
