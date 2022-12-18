@@ -26,7 +26,7 @@ struct Rock
 constexpr rowType floorRow = 0b11111111;
 constexpr rowType insertRow = 0b00000001;
 constexpr rowType emptyRow = ~insertRow;
-using Chamber = std::vector<rowType>;
+using Chamber = std::deque<rowType>;
 
 void initRocks(std::array<Rock, 5>& data)
 {
@@ -121,6 +121,15 @@ void printRow(const rowType& row, char onset = '.', char onempty = '#')
 	std::cout << "\n";
 }
 
+void printChamber(const Chamber& chamber)
+{
+	for (int i = chamber.size() - 1; i >= 0; i--)
+	{
+		printRow(chamber[i]);
+	}
+	std::cout << "\n\n";
+}
+
 /* place row
 0001000 1 //...@...|
 1101100 0 //..#..##|
@@ -153,18 +162,22 @@ bool mergeRow(Chamber& c, rowType row, __int64 index)
 __int64 recalcChamber(Chamber& chamber, __int64 cycle, __int64 rockIndex, __int64 sequenceIndex, __int64 currentHeight)
 {
 	static std::map<std::tuple<std::string,__int64,__int64,__int64>, __int64> chamberPattern;
-	__int64 index = chamber.size() - 1;
+	if (chamber.size() < 5) { return 0; }
+	__int64 index = 1;
 	rowType target = chamber[index];
 	target = ~target | insertRow;
-	while( target!=0b11111111 && index>=0 )
+	while( target!=0b11111111 && index<chamber.size()-8 )
 	{ 
 		target |= ~chamber[index];
-		index--;
+		index++;
 	}
-	if (index > 0)
+	if (target==0b11111111 && index>1)
 	{
-		chamber.erase(chamber.begin(), chamber.begin() + index);
+		__int64 oldsize = chamber.size();
+		chamber.erase(chamber.begin()+1, chamber.begin() + (index-1));
+		return oldsize - chamber.size();
 	}
+	return 0;
 
 	std::string pattern;
 	for (const char& k : chamber)
@@ -191,7 +204,6 @@ __int64 recalcChamber(Chamber& chamber, __int64 cycle, __int64 rockIndex, __int6
 		}
 		chamberPattern[key] = height;
 	}
-	return index;
 }
 
 bool placeRockAt(const Rock& rock, __int64 rockPos, Chamber& chamber)
@@ -339,6 +351,11 @@ void aoc2022_17()
 		if (!canMoveDown(rock, rockPos, chamber))
 		{
 			bool fillsAllGaps=placeRockAt(rock, rockPos, chamber);
+			if (fillsAllGaps)
+			{
+				deleted += recalcChamber(chamber, cycle, rock.rockIndex, sequenceIndex, top(chamber) + deleted);
+				//printChamber(chamber);
+			}
 			
 			placedRocks++;
 			constexpr __int64 targetCountr = 1'000'000'000'000;
@@ -348,22 +365,14 @@ void aoc2022_17()
 			}
 			if (placedRocks == 1'000'000'000'000)
 			{
-				//3068
+				//test: 3068
+				//result1: 3209
 				__int64 height = top(chamber)+deleted; //+1?
 				std::cout << "height = " << height << "\n";//3068
 				return;
 			}
 			rock = nextRock(rocks);
 
-			if (fillsAllGaps)
-			{
-				deleted += recalcChamber(chamber, cycle, rock.rockIndex, sequenceIndex, top(chamber) + deleted);
-				///*for (int i = chamber.size() - 1; i >= 0; i--)
-				//{
-				//	printRow(chamber[i]);
-				//}
-				//std::cout << "\n\n";*/
-			}
 
 			rockPos = top(chamber) + 4LL;
 			adjustChamberHeight(chamber, rockPos + 4LL);
