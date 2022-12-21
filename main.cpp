@@ -83,15 +83,17 @@ int main(int argc, char** argv)
 	std::cout << "\n\n";
 
 #endif
-#endif
 	aoc2022_16();
-	clk.printDelta("Day16");
+	clk.printDelta("Day16 valves weighted path-finding?");
 	std::cout << "\n\n";
 
 	aoc2022_17();
 	clk.printDelta("Day17 Pyroclastic Flow");
 	std::cout << "\n\n";
-
+#endif
+	aoc2022_18();
+	clk.printDelta("Day18 Boiling Boulders xyz");
+	std::cout << "\n\n";
 
 	overall.printDelta("\noverall");
 	return 0;
