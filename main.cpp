@@ -90,10 +90,23 @@ int main(int argc, char** argv)
 	aoc2022_17();
 	clk.printDelta("Day17 Pyroclastic Flow");
 	std::cout << "\n\n";
-#endif
 	aoc2022_18();
 	clk.printDelta("Day18 Boiling Boulders xyz");
 	std::cout << "\n\n";
+#endif
+
+	aoc2022_19();
+	clk.printDelta("Day19");
+	std::cout << "\n\n";
+
+	aoc2022_20();
+	clk.printDelta("Day20");
+	std::cout << "\n\n";
+
+	aoc2022_21();
+	clk.printDelta("Day21 again some monkeys");
+	std::cout << "\n\n";
+
 
 	overall.printDelta("\noverall");
 	return 0;

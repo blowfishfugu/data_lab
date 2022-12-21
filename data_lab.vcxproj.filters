@@ -81,6 +81,18 @@
     <ClCompile Include="src\aoc2022_17.cpp">
       <Filter>Days2022</Filter>
     </ClCompile>
+    <ClCompile Include="src\aoc2022_18.cpp">
+      <Filter>Days2022</Filter>
+    </ClCompile>
+    <ClCompile Include="src\aoc2022_19.cpp">
+      <Filter>Days2022</Filter>
+    </ClCompile>
+    <ClCompile Include="src\aoc2022_20.cpp">
+      <Filter>Days2022</Filter>
+    </ClCompile>
+    <ClCompile Include="src\aoc2022_21.cpp">
+      <Filter>Days2022</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\StopWatch.h">
@@ -143,6 +155,18 @@
       <Filter>2022</Filter>
     </Text>
     <Text Include="bin\2022\2022_17.txt">
+      <Filter>2022</Filter>
+    </Text>
+    <Text Include="bin\2022\2022_18.txt">
+      <Filter>2022</Filter>
+    </Text>
+    <Text Include="bin\2022\2022_19.txt">
+      <Filter>2022</Filter>
+    </Text>
+    <Text Include="bin\2022\2022_20.txt">
+      <Filter>2022</Filter>
+    </Text>
+    <Text Include="bin\2022\2022_21.txt">
       <Filter>2022</Filter>
     </Text>
   </ItemGroup>
