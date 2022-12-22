@@ -107,6 +107,7 @@ namespace
 					break;
 				}
 
+				//über welche verbindung kommen wir rein
 				__int64 comeFrom = 0;
 				for(;comeFrom<next->nexts.size();comeFrom++)
 				{ 
@@ -117,7 +118,7 @@ namespace
 					}
 				}
 
-				switch (comeFrom)
+				switch (comeFrom) //bei schritt über kante ist richtung verbindungsabhängig
 				{
 				case(U):
 					direction = D; break;
@@ -143,7 +144,8 @@ namespace
 		}
 	};
 
-
+	//verbindet tops mit bottoms und lefts mit rights
+	//dadurch planare "endlosmap"
 	cell* readData(Map& board, std::vector<Command>& moves)
 	{
 		fs::path input(DataDir() / "2022_22.txt");
@@ -234,7 +236,9 @@ namespace
 		return startCell;
 	}
 
-	 //steps, c1, connectL, walkUp, c2, connectU, walkL
+	//reissverschluss. 
+	//startEckpunkte von Kanten verknüpfen, Links zu Up + jeweilige Richtung
+	//steps, c1, connectL, walkUp, c2, connectU, walkL
 	void connect(__int64 steps,
 		cell* cFrom, __int64 nFrom, __int64 stepDirFrom, 
 			cell* cTo, __int64 nTo, __int64 stepDirTo)
@@ -269,6 +273,10 @@ namespace
 		return { tileDim*tx +tileDim, tileDim*ty + tileDim };
 	}
 
+	// Handverknüpft
+	// alternative: jede Oberfläche einzeln indizieren
+	// den direkten Nachbarn inkl daran hängender nachbarn um 90 Grad Biegen
+	// zu jeder Verbindung (aus nexts), die null ist, den schwesternpunkt finden, dessen Abstand am nächsten liegt
 	void connectEdges(Map& board, __int64 tileDim)
 	{
 		//.##

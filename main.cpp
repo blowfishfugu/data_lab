@@ -107,7 +107,7 @@ int main(int argc, char** argv)
 	std::cout << "\n\n";
 #endif
 	aoc2022_22();
-	clk.printDelta("Day22 monkey map");
+	clk.printDelta("Day22 monkey map and elvens cube");
 	std::cout << "\n\n";
 
 	overall.printDelta("\noverall");
