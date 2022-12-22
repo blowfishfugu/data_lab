@@ -22,4 +22,5 @@ void aoc2022_17(); //*- !
 void aoc2022_18(); //**
 void aoc2022_19(); //-- !
 void aoc2022_20(); //-- !
-void aoc2022_21();
+void aoc2022_21(); //**
+void aoc2022_22(); //

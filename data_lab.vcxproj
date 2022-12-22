@@ -95,6 +95,7 @@
     <ClCompile Include="src\aoc2022_19.cpp" />
     <ClCompile Include="src\aoc2022_20.cpp" />
     <ClCompile Include="src\aoc2022_21.cpp" />
+    <ClCompile Include="src\aoc2022_22.cpp" />
     <ClCompile Include="src\DataDir.cpp" />
     <ClCompile Include="src\aoc2022_02.cpp" />
   </ItemGroup>
@@ -125,6 +126,7 @@
     <Text Include="bin\2022\2022_19.txt" />
     <Text Include="bin\2022\2022_20.txt" />
     <Text Include="bin\2022\2022_21.txt" />
+    <Text Include="bin\2022\2022_22.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
