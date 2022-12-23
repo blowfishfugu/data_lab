@@ -95,6 +95,11 @@
 		std::string lhs; //<- ungelenk, Op* spart die map, aber man muss 2stufig einlesen
 		std::string rhs;
 		__int64 Calc(Op* parent, Map & m) {
+			if (this->parent != nullptr)
+			{
+				std::cout << this->Name << " has multiple parents!\n";
+				//->ist Name in den expected? dann wirds komplizierter
+			}
 			this->parent = parent;
 			if (!Func) { return result; }
 			auto pLhs= m.find(lhs);
@@ -199,6 +204,8 @@ void aoc2022_21()
 
 	Op& root = ops["root"];
 	__int64 res = root.Calc(nullptr, ops);
+
+	root.opChoose = "=";
 
 	Op& human = ops["humn"];
 	std::set<Op*> expectors;
