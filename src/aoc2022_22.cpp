@@ -279,10 +279,11 @@ namespace
 	// zu jeder Verbindung (aus nexts), die null ist, den schwesternpunkt finden, dessen Abstand am nächsten liegt
 	void connectEdges(Map& board, __int64 tileDim)
 	{
-		//.##
-		//.#.
-		//##.
-		//#..
+		//  012
+		//0 .##
+		//1 .#.
+		//2 ##.
+		//3 #..
 		{
 			cell* c1 = board[TR(1, 1, tileDim)];
 			cell* c2 = board[BL(2, 0, tileDim)];

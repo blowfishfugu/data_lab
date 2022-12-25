@@ -99,15 +99,28 @@ int main(int argc, char** argv)
 	std::cout << "\n\n";
 
 	aoc2022_20();
-	clk.printDelta("Day20");
+	clk.printDelta("Day20"); //<-hat einen endlosloop, hängt nicht sauber um!!
 	std::cout << "\n\n";
-
+	
 	aoc2022_21();
 	clk.printDelta("Day21 again some monkeys (choose and expect)");
 	std::cout << "\n\n";
-#endif
+	
 	aoc2022_22();
 	clk.printDelta("Day22 monkey map and elvens cube");
+	std::cout << "\n\n";
+
+	aoc2022_23();
+	clk.printDelta("Day23");
+	std::cout << "\n\n";
+
+	aoc2022_24();
+	clk.printDelta("Day24");
+	std::cout << "\n\n";
+#endif
+
+	aoc2022_25();
+	clk.printDelta("Day25 snafu, Full of Hot Air");
 	std::cout << "\n\n";
 
 	overall.printDelta("\noverall");
