@@ -189,7 +189,7 @@ void aoc2022_25()
 	{
 		if (line.length() == 0) { break; }
 		SNumber number(line);
-		number.print();
+		//number.print();
 		numbers.emplace_back(number);
 	}
 
