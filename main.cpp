@@ -11,6 +11,7 @@ int main(int argc, char** argv)
 	StopWatch overall;
 	StopWatch clk;
 #if FOO
+#endif
 	aoc2022_01();
 	clk.printDelta("Day01 nosort (sums per group)");
 	std::cout << "\n\n";
@@ -81,8 +82,8 @@ int main(int argc, char** argv)
 	aoc2022_15();
 	clk.printDelta("Day15 beacon exclusion zone");
 	std::cout << "\n\n";
-
 #endif
+
 	aoc2022_16();
 	clk.printDelta("Day16 valves weighted path-finding?");
 	std::cout << "\n\n";
@@ -117,7 +118,6 @@ int main(int argc, char** argv)
 	aoc2022_24();
 	clk.printDelta("Day24");
 	std::cout << "\n\n";
-#endif
 
 	aoc2022_25();
 	clk.printDelta("Day25 snafu, Full of Hot Air");

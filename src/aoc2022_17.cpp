@@ -358,12 +358,12 @@ void aoc2022_17()
 			}
 			
 			placedRocks++;
-			constexpr __int64 targetCountr = 1'000'000'000'000;
+			constexpr __int64 targetCountr = 2022; // 1'000'000'000'000;
 			if (placedRocks % 100'000'000 == 0)
 			{
 				std::cout << placedRocks << " of " << targetCountr << " to go " << targetCountr - placedRocks << "\n";
 			}
-			if (placedRocks == 1'000'000'000'000)
+			if (placedRocks == targetCountr) //1'000'000'000'000)
 			{
 				//test: 3068
 				//result1: 3209

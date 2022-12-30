@@ -81,7 +81,7 @@ struct SNumber
 	void print() const
 	{
 		std::string val;
-		__int64 cap = 20;
+		constexpr __int64 cap = 20; //max numberlen aus eingabedaten
 		while ( val.size()+digits.size() < cap)
 		{
 			val.push_back(' ');
