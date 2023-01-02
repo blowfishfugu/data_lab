@@ -84,6 +84,7 @@ int main(int argc, char** argv)
 	std::cout << "\n\n";
 #endif
 
+#ifdef SKIPPED
 	aoc2022_16();
 	clk.printDelta("Day16 valves weighted path-finding?");
 	std::cout << "\n\n";
@@ -91,10 +92,13 @@ int main(int argc, char** argv)
 	aoc2022_17();
 	clk.printDelta("Day17 Pyroclastic Flow");
 	std::cout << "\n\n";
+#endif
+
 	aoc2022_18();
 	clk.printDelta("Day18 Boiling Boulders xyz");
 	std::cout << "\n\n";
 
+#ifdef SKIPPED
 	aoc2022_19();
 	clk.printDelta("Day19");
 	std::cout << "\n\n";
@@ -102,7 +106,8 @@ int main(int argc, char** argv)
 	aoc2022_20();
 	clk.printDelta("Day20"); //<-hat einen endlosloop, hängt nicht sauber um!!
 	std::cout << "\n\n";
-	
+#endif
+
 	aoc2022_21();
 	clk.printDelta("Day21 again some monkeys (choose and expect)");
 	std::cout << "\n\n";
