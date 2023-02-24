@@ -1,5 +1,3 @@
-#include <Windows.h>
-
 #include "src/StopWatch.h"
 #include "src/DataDir.h"
 #include "src/Days2022.h"
