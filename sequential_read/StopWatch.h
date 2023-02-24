@@ -19,7 +19,7 @@ struct StopWatch {
 	}
 
 	float checkpoint(std::string_view txt) noexcept{
-		auto local_now = clock::now();
+		const auto local_now = clock::now();
 		std::chrono::duration<float, std::milli> fp_total = local_now - from_start;
 		std::chrono::duration<float, std::milli> fp_ms = local_now - now;
 		std::cout << txt.data() << fp_ms.count() << "ms\ttotal:" << fp_total.count() << "ms\n";
