@@ -36,6 +36,9 @@
     <ClCompile Include="src\aoc2015_02.cpp">
       <Filter>Days2015</Filter>
     </ClCompile>
+    <ClCompile Include="src\aoc2015_03.cpp">
+      <Filter>Days2015</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\StopWatch.h">
@@ -53,6 +56,75 @@
       <Filter>2015</Filter>
     </Text>
     <Text Include="bin\2015\2015_02.txt">
+      <Filter>2015</Filter>
+    </Text>
+    <Text Include="bin\2015\2015_03.txt">
+      <Filter>2015</Filter>
+    </Text>
+    <Text Include="bin\2015\2015_04.txt">
+      <Filter>2015</Filter>
+    </Text>
+    <Text Include="bin\2015\2015_05.txt">
+      <Filter>2015</Filter>
+    </Text>
+    <Text Include="bin\2015\2015_06.txt">
+      <Filter>2015</Filter>
+    </Text>
+    <Text Include="bin\2015\2015_07.txt">
+      <Filter>2015</Filter>
+    </Text>
+    <Text Include="bin\2015\2015_08.txt">
+      <Filter>2015</Filter>
+    </Text>
+    <Text Include="bin\2015\2015_09.txt">
+      <Filter>2015</Filter>
+    </Text>
+    <Text Include="bin\2015\2015_10.txt">
+      <Filter>2015</Filter>
+    </Text>
+    <Text Include="bin\2015\2015_11.txt">
+      <Filter>2015</Filter>
+    </Text>
+    <Text Include="bin\2015\2015_12.txt">
+      <Filter>2015</Filter>
+    </Text>
+    <Text Include="bin\2015\2015_13.txt">
+      <Filter>2015</Filter>
+    </Text>
+    <Text Include="bin\2015\2015_14.txt">
+      <Filter>2015</Filter>
+    </Text>
+    <Text Include="bin\2015\2015_15.txt">
+      <Filter>2015</Filter>
+    </Text>
+    <Text Include="bin\2015\2015_16.txt">
+      <Filter>2015</Filter>
+    </Text>
+    <Text Include="bin\2015\2015_17.txt">
+      <Filter>2015</Filter>
+    </Text>
+    <Text Include="bin\2015\2015_18.txt">
+      <Filter>2015</Filter>
+    </Text>
+    <Text Include="bin\2015\2015_19.txt">
+      <Filter>2015</Filter>
+    </Text>
+    <Text Include="bin\2015\2015_20.txt">
+      <Filter>2015</Filter>
+    </Text>
+    <Text Include="bin\2015\2015_21.txt">
+      <Filter>2015</Filter>
+    </Text>
+    <Text Include="bin\2015\2015_22.txt">
+      <Filter>2015</Filter>
+    </Text>
+    <Text Include="bin\2015\2015_23.txt">
+      <Filter>2015</Filter>
+    </Text>
+    <Text Include="bin\2015\2015_24.txt">
+      <Filter>2015</Filter>
+    </Text>
+    <Text Include="bin\2015\2015_25.txt">
       <Filter>2015</Filter>
     </Text>
   </ItemGroup>
