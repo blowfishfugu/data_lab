@@ -15,5 +15,8 @@ int main(int argc, char** argv)
 	clk.printDelta("Day01");
 	std::cout << "\n\n";
 	
+	aoc2015_02();
+	clk.printDelta("Day02");
+	std::cout << "\n\n";
 	return 0;
 }
