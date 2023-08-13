@@ -16,11 +16,11 @@
     <Filter Include="Tooling">
       <UniqueIdentifier>{0cee6bf0-4696-4165-bc7c-6039a5296b58}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Days2022">
+    <Filter Include="Days2015">
       <UniqueIdentifier>{8ed36640-6cf9-4aed-afb2-43bc277d7003}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2022">
-      <UniqueIdentifier>{16766764-c8d3-44d1-9377-eb676070b0bb}</UniqueIdentifier>
+    <Filter Include="2015">
+      <UniqueIdentifier>{55e20b9a-71b5-40b8-b17e-649a61b76273}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -30,32 +30,8 @@
     <ClCompile Include="src\DataDir.cpp">
       <Filter>Tooling</Filter>
     </ClCompile>
-    <ClCompile Include="src\aoc2022_01.cpp">
-      <Filter>Days2022</Filter>
-    </ClCompile>
-    <ClCompile Include="src\aoc2022_02.cpp">
-      <Filter>Days2022</Filter>
-    </ClCompile>
-    <ClCompile Include="src\aoc2022_03.cpp">
-      <Filter>Days2022</Filter>
-    </ClCompile>
-    <ClCompile Include="src\aoc2022_04.cpp">
-      <Filter>Days2022</Filter>
-    </ClCompile>
-    <ClCompile Include="src\aoc2022_05.cpp">
-      <Filter>Days2022</Filter>
-    </ClCompile>
-    <ClCompile Include="src\aoc2022_06.cpp">
-      <Filter>Days2022</Filter>
-    </ClCompile>
-    <ClCompile Include="src\aoc2022_07.cpp">
-      <Filter>Days2022</Filter>
-    </ClCompile>
-    <ClCompile Include="src\aoc2022_08.cpp">
-      <Filter>Days2022</Filter>
-    </ClCompile>
-    <ClCompile Include="src\aoc2022_09.cpp">
-      <Filter>Days2022</Filter>
+    <ClCompile Include="src\aoc2015_01.cpp">
+      <Filter>Days2015</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -65,37 +41,13 @@
     <ClInclude Include="src\DataDir.h">
       <Filter>Tooling</Filter>
     </ClInclude>
-    <ClInclude Include="src\Days2022.h">
-      <Filter>Days2022</Filter>
+    <ClInclude Include="src\Days2015.h">
+      <Filter>Days2015</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="bin\2022\2022_01.txt">
-      <Filter>2022</Filter>
-    </Text>
-    <Text Include="bin\2022\2022_02.txt">
-      <Filter>2022</Filter>
-    </Text>
-    <Text Include="bin\2022\2022_03.txt">
-      <Filter>2022</Filter>
-    </Text>
-    <Text Include="bin\2022\2022_04.txt">
-      <Filter>2022</Filter>
-    </Text>
-    <Text Include="bin\2022\2022_05.txt">
-      <Filter>2022</Filter>
-    </Text>
-    <Text Include="bin\2022\2022_06.txt">
-      <Filter>2022</Filter>
-    </Text>
-    <Text Include="bin\2022\2022_07.txt">
-      <Filter>2022</Filter>
-    </Text>
-    <Text Include="bin\2022\2022_08.txt">
-      <Filter>2022</Filter>
-    </Text>
-    <Text Include="bin\2022\2022_09.txt">
-      <Filter>2022</Filter>
+    <Text Include="bin\2015\2015_01.txt">
+      <Filter>2015</Filter>
     </Text>
   </ItemGroup>
 </Project>

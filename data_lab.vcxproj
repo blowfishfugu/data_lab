@@ -14,19 +14,19 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{A39B14D4-B636-43B2-B0F2-7DE770128F5B}</ProjectGuid>
     <RootNamespace>datalab</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -75,32 +75,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="src\aoc2022_01.cpp" />
-    <ClCompile Include="src\aoc2022_03.cpp" />
-    <ClCompile Include="src\aoc2022_04.cpp" />
-    <ClCompile Include="src\aoc2022_05.cpp" />
-    <ClCompile Include="src\aoc2022_06.cpp" />
-    <ClCompile Include="src\aoc2022_07.cpp" />
-    <ClCompile Include="src\aoc2022_08.cpp" />
-    <ClCompile Include="src\aoc2022_09.cpp" />
+    <ClCompile Include="src\aoc2015_01.cpp" />
     <ClCompile Include="src\DataDir.cpp" />
-    <ClCompile Include="src\aoc2022_02.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\DataDir.h" />
-    <ClInclude Include="src\Days2022.h" />
+    <ClInclude Include="src\Days2015.h" />
     <ClInclude Include="src\StopWatch.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="bin\2022\2022_01.txt" />
-    <Text Include="bin\2022\2022_02.txt" />
-    <Text Include="bin\2022\2022_03.txt" />
-    <Text Include="bin\2022\2022_04.txt" />
-    <Text Include="bin\2022\2022_05.txt" />
-    <Text Include="bin\2022\2022_06.txt" />
-    <Text Include="bin\2022\2022_07.txt" />
-    <Text Include="bin\2022\2022_08.txt" />
-    <Text Include="bin\2022\2022_09.txt" />
+    <Text Include="bin\2015\2015_01.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
