@@ -78,11 +78,14 @@
     <ClCompile Include="src\aoc2015_01.cpp" />
     <ClCompile Include="src\aoc2015_02.cpp" />
     <ClCompile Include="src\aoc2015_03.cpp" />
+    <ClCompile Include="src\aoc2015_04.cpp" />
     <ClCompile Include="src\DataDir.cpp" />
+    <ClCompile Include="src\md5.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\DataDir.h" />
     <ClInclude Include="src\Days2015.h" />
+    <ClInclude Include="src\MD5.h" />
     <ClInclude Include="src\StopWatch.h" />
   </ItemGroup>
   <ItemGroup>
