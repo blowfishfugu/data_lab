@@ -45,6 +45,9 @@
     <ClCompile Include="src\md5.cpp">
       <Filter>Tooling</Filter>
     </ClCompile>
+    <ClCompile Include="src\aoc2015_05.cpp">
+      <Filter>Days2015</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\StopWatch.h">

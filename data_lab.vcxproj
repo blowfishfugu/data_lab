@@ -79,6 +79,7 @@
     <ClCompile Include="src\aoc2015_02.cpp" />
     <ClCompile Include="src\aoc2015_03.cpp" />
     <ClCompile Include="src\aoc2015_04.cpp" />
+    <ClCompile Include="src\aoc2015_05.cpp" />
     <ClCompile Include="src\DataDir.cpp" />
     <ClCompile Include="src\md5.cpp" />
   </ItemGroup>

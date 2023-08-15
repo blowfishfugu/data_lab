@@ -57,9 +57,11 @@ void aoc2015_04()
 	}
 
 	const std::string prefix{ startPrefix };
-	
+#ifdef NDEBUG
 	constexpr size_t threadCount = 63LL;
-	
+#else
+	constexpr size_t threadCount = 1LL;
+#endif
 	std::vector<__int64> results;
 	results.resize(threadCount);
 	__int64 start{}; //<- optimierungsmöglichkeit, startIndex von Vorlauf, der nur 00000 gesucht hat
@@ -72,9 +74,9 @@ void aoc2015_04()
 		__int64 startIndex = start + threadIndex;
 		__int64& result = results[threadIndex];
 		threads.emplace_back(
-			std::thread( [prefix, startIndex, offset, &result , &stop](){
+			[prefix, startIndex, offset, &result , &stop](){
 				md5Func(prefix, startIndex, offset, result, stop);
-				} )
+				}
 			);
 	}
 

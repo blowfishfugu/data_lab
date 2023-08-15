@@ -24,6 +24,15 @@ without express or implied warranty of any kind.
 These notices must be retained in any copies of any part of this
 documentation and/or software.
  */
+
+//Remarks of blowfishfugu: slightly changed/derived implementation of 
+//https://sources.debian.org/src/mpack/1.6-6/md5.h/
+//https://sources.debian.org/src/mpack/1.6-6/md5c.c/
+//replaced defines by constexpr, 
+//and put everything into a class to remove global buffers
+//here in adventofcode-world the calls need to be threadable
+
+
 #include "md5.h"
 #include <format>
 		/* Constants for MD5Transform routine.
