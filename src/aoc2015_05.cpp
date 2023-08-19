@@ -48,7 +48,7 @@ bool isNice(const std::string_view& line)
 bool isNice2(const std::string_view& line)
 {
 	//at least one non-overlapping pair (xxxx) but not (xxxy)
-	std::map<std::string_view, std::vector<int> > pairIndices;
+	std::map<std::string_view, std::vector<size_t> > pairIndices;
 	for (size_t i = 1; i < line.length(); ++i)
 	{
 		size_t start_pos = i - 1;

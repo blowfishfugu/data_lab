@@ -51,6 +51,9 @@
     <ClCompile Include="src\IteratorCheck.cpp">
       <Filter>Tooling</Filter>
     </ClCompile>
+    <ClCompile Include="src\aoc2015_06.cpp">
+      <Filter>Days2015</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\StopWatch.h">
