@@ -48,6 +48,9 @@
     <ClCompile Include="src\aoc2015_05.cpp">
       <Filter>Days2015</Filter>
     </ClCompile>
+    <ClCompile Include="src\IteratorCheck.cpp">
+      <Filter>Tooling</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\StopWatch.h">
@@ -60,6 +63,9 @@
       <Filter>Days2015</Filter>
     </ClInclude>
     <ClInclude Include="src\MD5.h">
+      <Filter>Tooling</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LineIterator.h">
       <Filter>Tooling</Filter>
     </ClInclude>
   </ItemGroup>

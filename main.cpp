@@ -6,6 +6,11 @@
 
 int main(int argc, char** argv)
 {
+#ifdef UNIT_TEST
+	extern void IteratorCheck();
+	IteratorCheck();
+#endif
+
 	std::cout << "argv0 = \"" << argv[0] << "\"\n";
 	DataDir(argv[0], "2015");//Set
 

@@ -14,7 +14,7 @@
 #include "MD5.h"
 
 namespace {
-	auto md5Func = [](const std::string& prefix, __int64 startIndex, const __int64 poolSize, __int64& result, std::atomic_bool& stop)
+	auto md5Func = [](std::string const& prefix, __int64 startIndex, const __int64 poolSize, __int64& result, std::atomic_bool& stop)
 	{
 		while (!stop)
 		{
