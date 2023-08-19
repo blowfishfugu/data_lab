@@ -68,6 +68,9 @@
     <ClInclude Include="src\LineIterator.h">
       <Filter>Tooling</Filter>
     </ClInclude>
+    <ClInclude Include="src\TxtFile.h">
+      <Filter>Tooling</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="bin\2015\2015_01.txt">

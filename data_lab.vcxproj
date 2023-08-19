@@ -90,6 +90,7 @@
     <ClInclude Include="src\LineIterator.h" />
     <ClInclude Include="src\MD5.h" />
     <ClInclude Include="src\StopWatch.h" />
+    <ClInclude Include="src\TxtFile.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="bin\2015\2015_01.txt" />
