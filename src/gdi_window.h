@@ -18,6 +18,7 @@ struct RectData
 struct Pixel
 {
 	COLORREF color{};
+	COLORREF oldcolor{};
 };
 
 struct window_class

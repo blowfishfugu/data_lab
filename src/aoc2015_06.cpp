@@ -17,15 +17,12 @@ void aoc2015_06()
 	AsyncQueue<RectData> inputs;
 	gdi_window EyeCandy(inputs,1000,1000);
 	EyeCandy.start_window();
-
+	int i = 0;
 	for (const auto& line : txt)
-	{
-	}
-
-	while (!EyeCandy.stop)
 	{
 		EyeCandy.trigger_update();
 		Sleep(1);
+		++i;
 	}
 
 	EyeCandy.wait_for_close();
