@@ -22,6 +22,9 @@
     <Filter Include="2015">
       <UniqueIdentifier>{55e20b9a-71b5-40b8-b17e-649a61b76273}</UniqueIdentifier>
     </Filter>
+    <Filter Include="gdi_window">
+      <UniqueIdentifier>{d96813aa-fb14-41cd-b9e6-5b6bbf84ca2c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -54,6 +57,9 @@
     <ClCompile Include="src\aoc2015_06.cpp">
       <Filter>Days2015</Filter>
     </ClCompile>
+    <ClCompile Include="src\gdi_window.cpp">
+      <Filter>gdi_window</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\StopWatch.h">
@@ -73,6 +79,12 @@
     </ClInclude>
     <ClInclude Include="src\TxtFile.h">
       <Filter>Tooling</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AsyncQueue.h">
+      <Filter>Tooling</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gdi_window.h">
+      <Filter>gdi_window</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

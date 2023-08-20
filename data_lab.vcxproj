@@ -82,12 +82,15 @@
     <ClCompile Include="src\aoc2015_05.cpp" />
     <ClCompile Include="src\aoc2015_06.cpp" />
     <ClCompile Include="src\DataDir.cpp" />
+    <ClCompile Include="src\gdi_window.cpp" />
     <ClCompile Include="src\IteratorCheck.cpp" />
     <ClCompile Include="src\md5.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\AsyncQueue.h" />
     <ClInclude Include="src\DataDir.h" />
     <ClInclude Include="src\Days2015.h" />
+    <ClInclude Include="src\gdi_window.h" />
     <ClInclude Include="src\LineIterator.h" />
     <ClInclude Include="src\MD5.h" />
     <ClInclude Include="src\StopWatch.h" />
