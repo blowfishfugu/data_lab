@@ -13,21 +13,20 @@
 
 void aoc2015_06()
 {
+	constexpr bool run1 = false;
+	using svmatch = std::match_results<std::string_view::const_iterator>;
 	std::regex perLine(R"regex((turn on |turn off |toggle )(\d*),(\d*) through (\d*),(\d*))regex", std::regex_constants::optimize);
 	TxtFile txt{ DataDir() / "2015_06.txt" };
-	AsyncQueue<RectData> inputs;
 	int width = 1000;
 	int height = 1000;
-	gdi_window EyeCandy(inputs,width,height);
+	gdi_window EyeCandy(width,height);
 	EyeCandy.start_window();
-
-
 
 	for (const auto& line : txt)
 	{
 		std::string strLine(line);
-		std::smatch items;
-		if (std::regex_match(strLine, items, perLine))
+		svmatch items;
+		if (std::regex_match(line.begin(),line.end(), items, perLine))
 		{
 			if (items.size() > 5)
 			{
@@ -45,20 +44,29 @@ void aoc2015_06()
 				std::from_chars(e2.data(), e2.data() + e2.length(), std::get<1>(end));
 
 				RectData data{ nullptr,start,end };
-				if (cmd == "turn off ") { 
-					//data.command = [](Pixel& p) { p.color = 0; }; 
-					data.command = [](Pixel& p) { p.brightness -= 1; if (p.brightness < 0) { p.brightness = 0; } p.color = p.brightness; };
+				if (cmd == "turn off "){ 
+					if constexpr (run1){
+						data.command = [](Pixel& p) { p.color = 0; }; 
+					}
+					else{
+						data.command = [](Pixel& p) { p.brightness -= 1; if (p.brightness < 0) { p.brightness = 0; } p.color = p.brightness; };
+					}
 				}
 				else if (cmd == "turn on ") { 
-					//data.command = [](Pixel& p) { p.color = RGB(255,255,255); };
-					data.command = [](Pixel& p) { p.brightness += 1; p.color = p.brightness; };
+					if constexpr (run1){
+						data.command = [](Pixel& p) { p.color = RGB(255, 255, 255); };
+					}
+					else{
+						data.command = [](Pixel& p) { p.brightness += 1; p.color = p.brightness; };
+					}
 				}
 				else if (cmd == "toggle ") {
-					//data.command = [](Pixel& p) {
-					//	if (p.color > 0) { p.color = RGB(0, 0, 0); }
-					//	else { p.color = RGB(255, 255, 255); }
-					//};
-					data.command = [](Pixel& p) { p.brightness += 2; p.color = p.brightness; };
+					if constexpr(run1){
+						data.command = [](Pixel& p) { p.color=(p.color>0)?RGB(0,0,0):RGB(255, 255, 255); };
+					}
+					else{
+						data.command = [](Pixel& p) { p.brightness += 2; p.color = p.brightness; };
+					}
 				}
 
 				auto& [sx, sy] = data.topLeft;
@@ -70,14 +78,13 @@ void aoc2015_06()
 							data.command( EyeCandy.pixels[pos] );
 						}
 					}
-				inputs.push(data);
 				//EyeCandy.trigger_update();
 			}
 		}
 	}
 
 	EyeCandy.trigger_update();
-	EyeCandy.wait_for_close();
+	EyeCandy.close_window();
 
 	int hits = 0;
 	__int64 brightness = 0;

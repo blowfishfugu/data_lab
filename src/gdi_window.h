@@ -47,7 +47,6 @@ struct window_class
 
 struct gdi_window
 {
-	AsyncQueue<RectData>& input;
 	std::thread windowThread;
 	std::atomic_bool stop{ true };
 	HWND wnd{};
@@ -59,8 +58,8 @@ struct gdi_window
 	void main_loop();//eigentliche erstellung, danach dispatching
 	void paint(HDC dc);
 
-	gdi_window( AsyncQueue<RectData>& in, int w, int h ):
-		input(in),width(w),height(h)
+	gdi_window( int w, int h ):
+		width(w),height(h)
 	{
 		pixels.resize(width * height);
 	}

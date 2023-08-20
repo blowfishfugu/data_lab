@@ -14,13 +14,9 @@ LRESULT gdi_window::gdi_wnd_proc(HWND wnd, UINT message, WPARAM wParam, LPARAM l
 		case WM_PAINT:
 		{
 			gdi_window* self = (gdi_window*)GetProp(wnd, "gdi_window");
-			if (!self->input.empty())
-			{
-				HDC dc = GetDC(wnd);
-				self->paint(dc);
-				ReleaseDC(wnd, dc);
-			}
-			return DefWindowProc(wnd, message, wParam, lParam);
+			HDC dc = GetDC(wnd);
+			self->paint(dc);
+			ReleaseDC(wnd, dc);
 		}break;
 		case WM_DESTROY:
 		{
