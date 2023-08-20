@@ -4,21 +4,23 @@
 #include <vector>
 #include <thread>
 #include <atomic>
+#include <functional>
 #include <Windows.h>
 
-using coord = std::tuple<int, int>;
-
-struct RectData
-{
-	int command{}; //on/off/toggle
-	coord topLeft{};
-	coord bottomRight{};
-};
 
 struct Pixel
 {
 	COLORREF color{};
-	COLORREF oldcolor{};
+	__int64 brightness{};
+};
+
+using coord = std::tuple<int, int>;
+using PixelFunc = std::function<void(Pixel&)>;
+struct RectData
+{
+	PixelFunc command{}; //on/off/toggle
+	coord topLeft{};
+	coord bottomRight{};
 };
 
 struct window_class

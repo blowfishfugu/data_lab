@@ -74,70 +74,16 @@ void gdi_window::main_loop()
 
 void gdi_window::paint(HDC dc)
 {
-	auto pData = this->input.pop();
-	while (pData)
-	{
-		RectData& data = *pData;
-		auto& [sx, sy] = data.topLeft;
-		auto& [ex, ey] = data.bottomRight;
-		if (data.command == 0)
-		{
-			for (int y = sy; y <= ey; ++y)
-			{
-				for (int x = sx; x <= ex; ++x) {
-					size_t pos = y * width + x;
-					pixels[pos].oldcolor = pixels[pos].color;
-					pixels[pos].color = 0;
-				}
-			}
-		}
-		else if (data.command == 1)
-		{
-			for (int y = sy; y <= ey; ++y)
-			{
-				for (int x = sx; x <= ex; ++x) {
-					size_t pos = y * width + x;
-					pixels[pos].oldcolor = pixels[pos].color;
-					pixels[pos].color = RGB(255, 255, 255);
-				}
-			}
-		}
-		else if (data.command == 2)
-		{
-			for (int y = sy; y <= ey; ++y)
-			{
-				for (int x = sx; x <= ex; ++x) {
-					size_t pos = y * width + x;
-					pixels[pos].oldcolor = pixels[pos].color;
-					if (pixels[pos].oldcolor > 0 )
-					{
-						pixels[pos].color = RGB(0, 0, 0);
-					}
-					else
-					{
-						pixels[pos].color = RGB(255, 255, 255);
-					}
-				}
-			}
-		}
-	
-
-	//SetPixel nicht gut, BitBlt?
-	int x = 0;
-	int y = 0;
-	for (const Pixel& p : pixels)
-	{
-		if (p.color != p.oldcolor)
+		//SetPixel nicht gut, BitBlt?
+		int x = 0;
+		int y = 0;
+		for (const Pixel& p : pixels)
 		{
 			::SetPixel(dc, x, y, p.color);
+			++x;
+			if (x >= width) { x = 0; ++y; }
+			if (y >= height) { y = 0; }
 		}
-		++x;
-		if (x >= width) { x = 0; ++y; }
-		if (y >= height) { y = 0; }
-	}
-
-	pData = this->input.pop();
-	}
 }
 
 void gdi_window::trigger_update()
