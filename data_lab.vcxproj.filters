@@ -60,6 +60,9 @@
     <ClCompile Include="src\gdi_window.cpp">
       <Filter>gdi_window</Filter>
     </ClCompile>
+    <ClCompile Include="src\aoc2015_07.cpp">
+      <Filter>Days2015</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\StopWatch.h">
@@ -85,6 +88,12 @@
     </ClInclude>
     <ClInclude Include="src\gdi_window.h">
       <Filter>gdi_window</Filter>
+    </ClInclude>
+    <ClInclude Include="todo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SplitIterator.h">
+      <Filter>Tooling</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

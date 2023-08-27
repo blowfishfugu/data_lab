@@ -82,6 +82,7 @@
     <ClCompile Include="src\aoc2015_04.cpp" />
     <ClCompile Include="src\aoc2015_05.cpp" />
     <ClCompile Include="src\aoc2015_06.cpp" />
+    <ClCompile Include="src\aoc2015_07.cpp" />
     <ClCompile Include="src\DataDir.cpp" />
     <ClCompile Include="src\gdi_window.cpp" />
     <ClCompile Include="src\IteratorCheck.cpp" />
@@ -94,8 +95,10 @@
     <ClInclude Include="src\gdi_window.h" />
     <ClInclude Include="src\LineIterator.h" />
     <ClInclude Include="src\MD5.h" />
+    <ClInclude Include="src\SplitIterator.h" />
     <ClInclude Include="src\StopWatch.h" />
     <ClInclude Include="src\TxtFile.h" />
+    <ClInclude Include="todo.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="bin\2015\2015_01.txt" />
