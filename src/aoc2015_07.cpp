@@ -40,13 +40,16 @@ static Wire* getCreateOutput(std::string name, Wire::WireMap& wires)
 
 	Wire* w= &wires[name];
 	if (w->name.length() == 0) { w->name = name; }
-	if (atol(name.c_str()) != 0 || name=="0")
+	if (atol(name.c_str()) != 0 
+		|| name=="0"
+		)
 	{
 		w->output = static_cast<Signal>(std::stoi(name));
 	}
 	return w;
 }
 
+//assignment zu input op input -> output
 void addConnection(const std::string_view& assignment, Wire::WireMap& wires)
 {
 	if (assignment.length() == 0) { return; }
@@ -143,7 +146,7 @@ void aoc2015_07()
 {
 	constexpr Signal maxNum=std::numeric_limits<Signal>::max();
 	constexpr Signal minNum=std::numeric_limits<Signal>::min();
-	std::cout << std::format("Signals in [{}..{}]\n", minNum, maxNum);
+	std::cout << std::format("Signals in range [{}..{}]\n", minNum, maxNum);
 
 	TxtFile txt{ DataDir() / "2015_07.txt" };
 
@@ -159,13 +162,10 @@ void aoc2015_07()
 		addConnection(line, wires);
 	}
 
-	for (auto& [name, wire] : wires)
-	{
-		std::cout << std::format("{:<5}:{:>6}\n", wire.name, wire.Output(wires));
-	}
-
 	Wire* a = getCreateOutput("a", wires);
-	std::cout << std::format("\nWire {:<5}:{:>6}\n", a->name, *a->output);
+	Signal calculated = a->Output(wires);
+	std::cout << std::format("\n{:<5}:{:>6}\n", a->name, calculated);
+	
 	Signal overrid = *a->output;
 	assert(overrid == 3176);
 	for (auto& [name, wire] : wires)
@@ -176,6 +176,7 @@ void aoc2015_07()
 	Wire* b = getCreateOutput("b", wires);
 	b->output = overrid;
 	Signal afterChange=a->Output(wires);
-	std::cout << std::format("\nWire {:<5}:{:>6}\n", a->name, *a->output);
+	std::cout << std::format("Wire {:<5}:{:>6}\n", b->name, *b->output);
+	std::cout << std::format("Wire {:<5}:{:>6}\n", a->name, *a->output);
 	assert(afterChange == 14710);
 }
