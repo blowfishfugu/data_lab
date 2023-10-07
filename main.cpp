@@ -6,103 +6,140 @@
 
 #include <string_view>
 #include <string>
-#include <stack>
-std::string reverseWords(const std::string_view& s)
-{
-	std::ostringstream os;
-	using Stack = std::stack<char>;
-	Stack word;
-	auto popStack = [](Stack& word, std::ostream& os) {
-		while (!word.empty())
-		{
-			os << word.top();
-			word.pop();
-		}
-	};
-	for (const char c : s) {
-		if (c == ' ') {
-			popStack(word,os);
-			os << ' ';
-		}
-		else {
-			word.push(c);
-		}
-	}
-	popStack(word,os);
-	return os.str();
-}
 
-template<ptrdiff_t cap=5>
-void reverse_cap(std::string::iterator wordBegin, std::string::iterator wordEnd)
-{
-	if (std::distance(wordBegin, wordEnd) >= cap)
-	{
-		std::reverse(wordBegin, wordEnd);
-	}
-}
-
-std::string spinWords(std::string str)
-{
-	constexpr ptrdiff_t cap = 5;
-	auto wordBegin = str.begin();
-	for (auto pos = str.begin(); pos != str.end(); ++pos)
-	{
-		if (*pos == ' ') {
-			reverse_cap<5>(wordBegin, pos);
-			wordBegin = pos + 1;
-		}
-	}
-	reverse_cap<5>(wordBegin, str.end());
-	return str;
-}
-
+#include <array>
 #include <map>
+#include <functional>
 
-std::vector<int> deleteNth(std::vector<int> arr, int n)
-{
-	if (n == 0) {
-		return {};
-	}
-	std::map<int, int> hist;
-	std::vector<int> output;
-	for (const int num : arr)
-	{
-		int& count = hist[num];
-		if (count < n) {
-			output.emplace_back(num);
+auto toCents = [](const std::string_view& init) {
+	std::ptrdiff_t toEnd = std::distance(init.cbegin(), init.cend());
+	if (toEnd == 0) { return __int64{}; };
+
+	__int64 in_major{};
+	auto [dot, err] = std::from_chars(init.data(), init.data() + toEnd, in_major);
+	if (dot && (*dot == '.' || *dot == ',')) {
+		__int64 in_cents{};
+		++dot;
+		auto [centsEnd, err] = std::from_chars(dot, init.data() + toEnd, in_cents);
+		if (err == std::errc{})
+		{
+			return in_major * 100 + in_cents;
 		}
-		++count;
 	}
-	return output;
-}
+	return in_major * 100;
+};
 
-#include <numeric>
-std::string get_middle(std::string input)
-{
-	std::string result;
-	size_t len = input.length();
-	if (len <= 2) { return input; }
-	
-	size_t mid = len / 2;
-	if ((len & 0x01) == 0x00)
-	{
-		result += input[mid-1];
+
+class Coin {
+public:
+	explicit Coin(__int64 val) : cents{ val } {}
+	const __int64 cents{};
+	auto operator<=>(const Coin& other) const {	return cents <=> other.cents; }
+	std::function<const std::string()> Name = [&] { return std::format("{:>6}", cents); };
+	std::function<const std::string()> Plural = [] { return ""; };
+};
+
+template <__int64 val>
+class Derivate : public Coin {
+public:
+	Derivate() : Coin{ val } {
+		Name = [] {
+			if constexpr (val < 500 || (val % 100) != 0) {
+				return std::format("{:>6} Cent Münze", val);
+			}
+			else if constexpr (val == 900) {
+				return std::format("{:>3} Euro Blüte", val / 100);
+			}
+			else {
+				return std::format("{:>3} Euro Schein", val / 100);
+			}
+		};
+		Plural = [] { 
+			if constexpr (val < 500 || val == 900) {
+				return "n";
+			}
+			else
+			{
+				return "e";
+			}
+		};
 	}
-	result += input[mid];
-	
-	return result;
-}
+};
 
+
+class Money {
+	__int64 cents{};
+public:
+	Money(const std::string_view init) : cents{ toCents(init) } {}
+	Money(__int64 c) : cents{ c } {}
+	Money(Money&& in) noexcept { std::swap(cents, in.cents); }
+
+	auto operator<=>(const Money& rhs) const = default;
+	Money operator-(const Money& rhs) const { return cents - rhs.cents; }
+
+	auto operator<=>(const Coin& other) const { return cents <=> other.cents; };
+	Money& operator-=(const Coin& other) { cents -= other.cents; return *this; }
+	Money& operator+=(const Coin& other) { cents += other.cents; return *this; }
+};
+
+const std::array<Coin, 13> knownCoins = {
+	Derivate<1>{},
+	Derivate<2>{},
+	Derivate<5>{},
+	Derivate<10>{},
+	Derivate<20>{},
+	Derivate<50>{},
+	Derivate<100>{},
+	Derivate<200>{},
+	Derivate<500>{},
+	Derivate<900>{},
+	Derivate<1000>{},
+	Derivate<2000>{},
+	Derivate<5000>{},
+};
+
+auto convertToCoins = [](Money&& toSplit) {
+	std::map<Coin, __int64> coins;
+	auto ret = knownCoins.rbegin();
+	while (ret != knownCoins.rend()) {
+		if (toSplit >= *ret) {
+			toSplit -= *ret;
+			coins[*ret]++;
+			continue;
+		}
+		++ret;
+	}
+	return coins;
+};
+
+auto calcResult(const std::string_view label, Money&& toSplit) {
+	std::map<Coin, __int64> wanted = convertToCoins(std::forward<Money>(toSplit));
+	std::cout << std::format("{}\n", label);
+	for (const auto& [coin, count] : wanted) {
+		std::cout << std::format("{}x {}{}\n", count, coin.Name(), count>1?coin.Plural():"");
+	}
+};
 
 int main(int argc, char** argv)
 {
-#ifdef UNIT_TEST
-	extern void IteratorCheck();
-	IteratorCheck();
-#endif
+	std::setlocale(LC_CTYPE, "de_DE");
+	if (argc < 3) {
+		std::cout << "expected <Euro.cents> <Wanted.cents>\n";
+		calcResult("Demo: ", "50" - "30.54");
+		return 0;
+	}
 
-	std::cout << "argv0 = \"" << argv[0] << "\"\n";
-	DataDir(argv[0], "2015");//Set
+	std::cout << "got = \"" << argv[1] << "\"\n";
+	std::cout << "want= \"" << argv[2] << "\"\n";
+
+	Money got(argv[1]);
+	Money want(argv[2]);
+	if (got < want) {
+		calcResult("Please insert: ", want-got );
+	}
+	else {
+		calcResult("Returning: ", got-want );
+	}
 
 	StopWatch clk;
 
@@ -113,8 +150,8 @@ int main(int argc, char** argv)
 	//aoc2015_05();clk.printDelta("Day05");std::cout << "\n\n";
 	//aoc2015_06();clk.printDelta("Day06");std::cout << "\n\n";
 	//aoc2015_07();clk.printDelta("Day07");std::cout << "\n\n";
-	std::cout << get_middle("test") << "\n"; // ==> "sihT si na !elpmaxe"
-	std::cout << get_middle("testing") << "\n"; // ==> "sihT si na !elpmaxe"
-	std::cout << get_middle("double  spaces") << "\n";// ==> "elbuod  secaps"")
+	//std::cout << get_middle("test") << "\n"; // ==> "sihT si na !elpmaxe"
+	//std::cout << get_middle("testing") << "\n"; // ==> "sihT si na !elpmaxe"
+	//std::cout << get_middle("double  spaces") << "\n";// ==> "elbuod  secaps"")
 	return 0;
 }
