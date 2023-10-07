@@ -6,10 +6,12 @@
 
 #include <string_view>
 #include <string>
-
+#include <charconv>
+#include <format>
 #include <array>
 #include <map>
 #include <functional>
+using namespace std::literals;
 
 auto toCents = [](const std::string_view& init) {
 	std::ptrdiff_t toEnd = std::distance(init.cbegin(), init.cend());
@@ -70,7 +72,7 @@ public:
 class Money {
 	__int64 cents{};
 public:
-	Money(const std::string_view init) : cents{ toCents(init) } {}
+	Money(const std::string_view& init) : cents{ toCents(init) } {}
 	Money(__int64 c) : cents{ c } {}
 	Money(Money&& in) noexcept { std::swap(cents, in.cents); }
 
@@ -123,14 +125,18 @@ auto calcResult(const std::string_view label, Money&& toSplit) {
 int main(int argc, char** argv)
 {
 	std::setlocale(LC_CTYPE, "de_DE");
+	std::locale::global(std::locale(""));
+	std::cout.imbue(std::locale());
+
+	StopWatch clk;
 	if (argc < 3) {
 		std::cout << "expected <Euro.cents> <Wanted.cents>\n";
-		calcResult("Demo: ", "50" - "30.54");
+		calcResult("Demo: ", Money{ "50"sv } - "30.54"sv);
 		return 0;
 	}
 
-	std::cout << "got = \"" << argv[1] << "\"\n";
-	std::cout << "want= \"" << argv[2] << "\"\n";
+	std::cout << "got = " << std::quoted(argv[1]) << "\n";
+	std::cout << "want= " << std::quoted(argv[2]) << "\n";
 
 	Money got(argv[1]);
 	Money want(argv[2]);
@@ -141,7 +147,6 @@ int main(int argc, char** argv)
 		calcResult("Returning: ", got-want );
 	}
 
-	StopWatch clk;
 
 	//aoc2015_01();clk.printDelta("Day01");std::cout << "\n\n";
 	//aoc2015_02();clk.printDelta("Day02");std::cout << "\n\n";
