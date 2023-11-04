@@ -76,56 +76,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="src\aoc2015_01.cpp" />
-    <ClCompile Include="src\aoc2015_02.cpp" />
-    <ClCompile Include="src\aoc2015_03.cpp" />
-    <ClCompile Include="src\aoc2015_04.cpp" />
-    <ClCompile Include="src\aoc2015_05.cpp" />
-    <ClCompile Include="src\aoc2015_06.cpp" />
-    <ClCompile Include="src\aoc2015_07.cpp" />
+    <ClCompile Include="src\join_routine.cpp" />
     <ClCompile Include="src\DataDir.cpp" />
-    <ClCompile Include="src\gdi_window.cpp" />
-    <ClCompile Include="src\IteratorCheck.cpp" />
-    <ClCompile Include="src\md5.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\AsyncQueue.h" />
     <ClInclude Include="src\DataDir.h" />
-    <ClInclude Include="src\Days2015.h" />
-    <ClInclude Include="src\gdi_window.h" />
     <ClInclude Include="src\LineIterator.h" />
-    <ClInclude Include="src\MD5.h" />
     <ClInclude Include="src\SplitIterator.h" />
     <ClInclude Include="src\StopWatch.h" />
+    <ClInclude Include="src\TransparentHash.h" />
     <ClInclude Include="src\TxtFile.h" />
-    <ClInclude Include="todo.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="bin\2015\2015_01.txt" />
-    <Text Include="bin\2015\2015_02.txt" />
-    <Text Include="bin\2015\2015_03.txt" />
-    <Text Include="bin\2015\2015_04.txt" />
-    <Text Include="bin\2015\2015_05.txt" />
-    <Text Include="bin\2015\2015_06.txt" />
-    <Text Include="bin\2015\2015_07.txt" />
-    <Text Include="bin\2015\2015_08.txt" />
-    <Text Include="bin\2015\2015_09.txt" />
-    <Text Include="bin\2015\2015_10.txt" />
-    <Text Include="bin\2015\2015_11.txt" />
-    <Text Include="bin\2015\2015_12.txt" />
-    <Text Include="bin\2015\2015_13.txt" />
-    <Text Include="bin\2015\2015_14.txt" />
-    <Text Include="bin\2015\2015_15.txt" />
-    <Text Include="bin\2015\2015_16.txt" />
-    <Text Include="bin\2015\2015_17.txt" />
-    <Text Include="bin\2015\2015_18.txt" />
-    <Text Include="bin\2015\2015_19.txt" />
-    <Text Include="bin\2015\2015_20.txt" />
-    <Text Include="bin\2015\2015_21.txt" />
-    <Text Include="bin\2015\2015_22.txt" />
-    <Text Include="bin\2015\2015_23.txt" />
-    <Text Include="bin\2015\2015_24.txt" />
-    <Text Include="bin\2015\2015_25.txt" />
+    <None Include="bin\paypal\ims.csv" />
+    <None Include="bin\paypal\paypal.csv" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

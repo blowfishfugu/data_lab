@@ -83,6 +83,7 @@ struct SplitIterator
 	{
 		return lhs.theText == rhs.theText;
 	}
+
 };
 
 

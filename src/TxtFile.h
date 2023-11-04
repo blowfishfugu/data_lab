@@ -15,6 +15,7 @@ struct TxtFile {
 			inFile.read(buf.data(), sz);
 			inFile.close();
 			
+			//trim trailing zeros, depends on blocksize of used filesystem (fat/ntfs/ext4/ufs??)
 			size_t lastChar=buf.find_last_not_of('\0');
 			if ((lastChar+1) < buf.size())
 			{
@@ -23,6 +24,6 @@ struct TxtFile {
 		}
 	}
 
-	LineIterator begin() { return LineIterator{ buf }; }
-	LineIterator end() { return LineIterator{}; }
+	LineIterator begin() const { return LineIterator{ buf }; }
+	LineIterator end() const { return LineIterator{}; }
 };

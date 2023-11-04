@@ -3,12 +3,14 @@
 #include <string_view>
 template<typename OUTTYPE=float>
 struct StopWatch {
-	using timepoint = std::chrono::time_point<std::chrono::steady_clock>;
+	using timepoint = std::chrono::time_point<std::chrono::high_resolution_clock>;
 	timepoint now;
 	timepoint later;
-	StopWatch() : now(std::chrono::high_resolution_clock::now()),later(now)
+	StopWatch() 
+		: 
+		now(std::chrono::high_resolution_clock::now()),
+		later(now)
 	{
-
 	}
 	OUTTYPE printDelta(std::string_view txt)
 	{
