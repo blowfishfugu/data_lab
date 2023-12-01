@@ -33,7 +33,7 @@
       <Filter>Tooling</Filter>
     </ClCompile>
     <ClCompile Include="src\aoc2023_01.cpp">
-      <Filter>2023</Filter>
+      <Filter>Days2023</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -61,5 +61,82 @@
     <ClInclude Include="src\SplitIterator.h">
       <Filter>Tooling</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="bin\2023\2023_01.txt">
+      <Filter>2023</Filter>
+    </Text>
+    <Text Include="bin\2023\2023_02.txt">
+      <Filter>2023</Filter>
+    </Text>
+    <Text Include="bin\2023\2023_03.txt">
+      <Filter>2023</Filter>
+    </Text>
+    <Text Include="bin\2023\2023_04.txt">
+      <Filter>2023</Filter>
+    </Text>
+    <Text Include="bin\2023\2023_05.txt">
+      <Filter>2023</Filter>
+    </Text>
+    <Text Include="bin\2023\2023_06.txt">
+      <Filter>2023</Filter>
+    </Text>
+    <Text Include="bin\2023\2023_07.txt">
+      <Filter>2023</Filter>
+    </Text>
+    <Text Include="bin\2023\2023_08.txt">
+      <Filter>2023</Filter>
+    </Text>
+    <Text Include="bin\2023\2023_09.txt">
+      <Filter>2023</Filter>
+    </Text>
+    <Text Include="bin\2023\2023_10.txt">
+      <Filter>2023</Filter>
+    </Text>
+    <Text Include="bin\2023\2023_11.txt">
+      <Filter>2023</Filter>
+    </Text>
+    <Text Include="bin\2023\2023_12.txt">
+      <Filter>2023</Filter>
+    </Text>
+    <Text Include="bin\2023\2023_13.txt">
+      <Filter>2023</Filter>
+    </Text>
+    <Text Include="bin\2023\2023_14.txt">
+      <Filter>2023</Filter>
+    </Text>
+    <Text Include="bin\2023\2023_15.txt">
+      <Filter>2023</Filter>
+    </Text>
+    <Text Include="bin\2023\2023_16.txt">
+      <Filter>2023</Filter>
+    </Text>
+    <Text Include="bin\2023\2023_17.txt">
+      <Filter>2023</Filter>
+    </Text>
+    <Text Include="bin\2023\2023_18.txt">
+      <Filter>2023</Filter>
+    </Text>
+    <Text Include="bin\2023\2023_19.txt">
+      <Filter>2023</Filter>
+    </Text>
+    <Text Include="bin\2023\2023_20.txt">
+      <Filter>2023</Filter>
+    </Text>
+    <Text Include="bin\2023\2023_21.txt">
+      <Filter>2023</Filter>
+    </Text>
+    <Text Include="bin\2023\2023_22.txt">
+      <Filter>2023</Filter>
+    </Text>
+    <Text Include="bin\2023\2023_23.txt">
+      <Filter>2023</Filter>
+    </Text>
+    <Text Include="bin\2023\2023_24.txt">
+      <Filter>2023</Filter>
+    </Text>
+    <Text Include="bin\2023\2023_25.txt">
+      <Filter>2023</Filter>
+    </Text>
   </ItemGroup>
 </Project>
