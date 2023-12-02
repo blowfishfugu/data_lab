@@ -77,6 +77,7 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\aoc2023_01.cpp" />
+    <ClCompile Include="src\aoc2023_02.cpp" />
     <ClCompile Include="src\DataDir.cpp" />
     <ClCompile Include="src\IteratorCheck.cpp" />
     <ClCompile Include="src\md5.cpp" />

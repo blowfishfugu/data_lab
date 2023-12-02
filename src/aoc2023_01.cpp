@@ -42,7 +42,11 @@ __int64 toCalibrate(const std::string_view& line)
 
 __int64 toCalibrate2(const std::string_view& line)
 {
-	static std::vector<std::string> strnumbers{ "one","two","three","four","five","six","seven","eight","nine" };
+	static std::vector<std::string> strnumbers{ 
+		"one","two","three",
+		"four","five","six",
+		"seven","eight","nine"
+	};
 	std::vector<__int64> found;
 	for (size_t i = 0; i < line.size(); ++i)
 	{
@@ -77,7 +81,7 @@ void aoc2023_01()
 	for (const auto& line : txt)
 	{
 		if (line.size() == 0) { break; }
-		sum1+=toCalibrate(line);
+		sum1 += toCalibrate(line);
 		sum2 += toCalibrate2(line);
 	}
 	std::cout << "calibration:  " << sum1 << "\n";
