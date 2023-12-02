@@ -6,13 +6,13 @@
 #include <cassert>
 
 struct gems {
-	int r{};
-	int g{};
-	int b{};
+	__int64 r{};
+	__int64 g{};
+	__int64 b{};
 };
 
 struct game {
-	int id{};
+	__int64 id{};
 	bool possible{ true };
 	std::vector<gems> rounds{};
 };
@@ -20,9 +20,10 @@ struct game {
 using Games = std::vector<game>;
 using Item = std::string_view;
 
-int toInt(const std::string_view& item)
+template<std::integral Int>
+Int toInt(const Item& item)
 {
-	int num{};
+	Int num{};
 	std::from_chars(item.data(), item.data() + item.size(), num);
 	//TODO: ErrorCheck? or throw?
 	return num;
@@ -31,7 +32,7 @@ int toInt(const std::string_view& item)
 template<char c>
 std::tuple<Item,Item> pairSplit( const std::string_view& line)
 {
-	std::string_view trimmed = line;
+	Item trimmed = line;
 	while (trimmed[0] == ' ') {	trimmed.remove_prefix(1); }
 	while (trimmed[trimmed.size()-1] == ' ') {	trimmed.remove_suffix(1); }
 	
@@ -56,7 +57,7 @@ gems countColors(const Item& line) {
 	while (colBegin != colEnd)
 	{
 		auto [count, colorName] = pairSplit<' '>(*colBegin);
-		int iCount = toInt(count);
+		const __int64 iCount = toInt<__int64>(count);
 		if (colorName == "red") { g.r = iCount; }
 		else if (colorName == "green") { g.g = iCount; }
 		else if (colorName == "blue") { g.b = iCount; }
@@ -70,7 +71,7 @@ void addGame(const std::string_view line, Games& games)
 	auto [gameInfo, rounds] = pairSplit<':'>(line);
 	auto [gamePrefix, gameId] = pairSplit<' '>(gameInfo);
 	game g;
-	g.id = toInt(gameId);
+	g.id = toInt<__int64>(gameId);
 	
 	SplitIterator<';'> rndBegin{ rounds }; SplitIterator<';'> rndEnd{};
 	while (rndBegin != rndEnd)
@@ -98,7 +99,7 @@ void aoc2023_02()
 	}
 	std::cout << "count: " << games.size() << "\n";
 
-	gems allowed{ .r = 12, .g = 13, .b = 14 };
+	const gems allowed{ .r = 12, .g = 13, .b = 14 };
 	for (game& g : games)
 	{
 		for (const gems& round : g.rounds)
@@ -106,16 +107,37 @@ void aoc2023_02()
 			if (round.r > allowed.r) { g.possible = false; }
 			if (round.g > allowed.g) { g.possible = false; }
 			if (round.b > allowed.b) { g.possible = false; }
+			//if(!g.possible){ break; } ??
 		}
 	}
 
-	auto firstImpossible=std::partition(games.begin(), games.end(), [](const game& test) {return test.possible; });
+	auto firstImpossible=std::partition(
+		games.begin(), games.end(),
+		[](const game& test) {return test.possible; }
+	);
+
 	__int64 sumOfIds{};
 	for (auto it=games.begin(); it!=firstImpossible; ++it)
 	{
 		sumOfIds += (*it).id;
 	}
 	std::cout << "chkPossibles: " << sumOfIds << "\n";
-	//assert(count == 42);
+	assert(sumOfIds == 2447);
+
+	__int64 sumOfPowers{};
+	for (game& g : games)
+	{
+		gems minGems = g.rounds[0];
+		for (size_t i=1;i<g.rounds.size();++i)
+		{
+			const gems& current = g.rounds[i];
+			minGems.r = std::max(minGems.r, current.r);
+			minGems.g = std::max(minGems.g, current.g);
+			minGems.b = std::max(minGems.b, current.b);
+		}
+		sumOfPowers += (minGems.r*minGems.g*minGems.b);
+	}
+	std::cout << "sumOfPowers: " << sumOfPowers << "\n";
+	assert(sumOfPowers == 56322);
 }
 
