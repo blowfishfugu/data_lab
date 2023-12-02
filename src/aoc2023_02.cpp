@@ -82,7 +82,6 @@ void addGame(const std::string_view& line, Games& games)
 		g.rounds.emplace_back(stones);
 		++rndBegin;
 	}
-
 	games.emplace_back(g);
 }
 
@@ -100,7 +99,6 @@ void aoc2023_02()
 	}
 	std::cout << "count: " << games.size() << "\n";
 
-	int sumOfIds{};
 	const gems allowed{ .r = 12, .g = 13, .b = 14 };
 	for (game& g : games){
 		for (const gems& round : g.rounds){
@@ -114,6 +112,7 @@ void aoc2023_02()
 		[](const game& test) {return test.possible; }
 	);
 
+	int sumOfIds{};
 	for ( auto it = games.cbegin(); it != firstImpossible; ++it ){
 		sumOfIds += (*it).id;
 	}
@@ -121,7 +120,7 @@ void aoc2023_02()
 	assert(sumOfIds == 2447);
 
 	int sumOfPowers{};
-	for (game& g : games){
+	for (const game& g : games){
 		if (g.rounds.size() == 0) { continue; }
 
 		gems minGems = g.rounds[0];

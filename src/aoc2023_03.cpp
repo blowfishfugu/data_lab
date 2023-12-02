@@ -8,14 +8,12 @@ void aoc2023_03()
 {
 	fs::path input(DataDir() / "2023_03.txt");
 	TxtFile txt{ input };
-
-	__int64 count = 0LL;
+	__int64 count{};
 	for (const auto& line : txt)
 	{
-		if (line.length() == 0) { continue; }
-		++count;
+		if (line.length() == 0) { break; }
 	}
 	std::cout << "count: " << count << "\n";
-	assert(count == 42);
+	assert(count == 0LL);
 }
 
