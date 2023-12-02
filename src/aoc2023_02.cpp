@@ -6,13 +6,13 @@
 #include <cassert>
 
 struct gems {
-	__int64 r{};
-	__int64 g{};
-	__int64 b{};
+	int r{};
+	int g{};
+	int b{};
 };
 
 struct game {
-	__int64 id{};
+	int id{};
 	bool possible{ true };
 	std::vector<gems> rounds{};
 };
@@ -25,18 +25,19 @@ Int toInt(const Item& item)
 {
 	Int num{};
 	std::from_chars(item.data(), item.data() + item.size(), num);
-	//TODO: ErrorCheck? or throw?
 	return num;
 }
 
-template<char c>
-std::tuple<Item,Item> pairSplit( const std::string_view& line)
+template<char c, bool withTrim = false>
+std::tuple<Item, Item> pairSplit(std::string_view line)
 {
-	Item trimmed = line;
-	while (trimmed[0] == ' ') {	trimmed.remove_prefix(1); }
-	while (trimmed[trimmed.size()-1] == ' ') {	trimmed.remove_suffix(1); }
-	
-	SplitIterator<c> it{ trimmed }; SplitIterator<c> itEnd{};
+	if constexpr (withTrim)
+	{
+		while (line[0] == ' ') { line.remove_prefix(1); }
+		while (line[line.size() - 1] == ' ') { line.remove_suffix(1); }
+	}
+
+	SplitIterator<c> it{ line }; SplitIterator<c> itEnd{};
 	if (it != itEnd) {
 		Item first{ *it };
 		++it;
@@ -44,8 +45,8 @@ std::tuple<Item,Item> pairSplit( const std::string_view& line)
 			Item second{ *it };
 			return { first,second };
 		}
-		else { 
-			return { first,"" }; 
+		else {
+			return { first,"" };
 		}
 	}
 	return {};
@@ -56,8 +57,8 @@ gems countColors(const Item& line) {
 	gems g;
 	while (colBegin != colEnd)
 	{
-		auto [count, colorName] = pairSplit<' '>(*colBegin);
-		const __int64 iCount = toInt<__int64>(count);
+		auto [count, colorName] = pairSplit<' ', true>(*colBegin);
+		const int iCount = toInt<int>(count);
 		if (colorName == "red") { g.r = iCount; }
 		else if (colorName == "green") { g.g = iCount; }
 		else if (colorName == "blue") { g.b = iCount; }
@@ -66,22 +67,22 @@ gems countColors(const Item& line) {
 	return g;
 }
 
-void addGame(const std::string_view line, Games& games)
+void addGame(const std::string_view& line, Games& games)
 {
 	auto [gameInfo, rounds] = pairSplit<':'>(line);
 	auto [gamePrefix, gameId] = pairSplit<' '>(gameInfo);
 	game g;
-	g.id = toInt<__int64>(gameId);
-	
+	g.id = toInt<int>(gameId);
+
 	SplitIterator<';'> rndBegin{ rounds }; SplitIterator<';'> rndEnd{};
 	while (rndBegin != rndEnd)
 	{
 		Item round = *rndBegin;
-		gems stones=countColors(round);
+		gems stones = countColors(round);
 		g.rounds.emplace_back(stones);
 		++rndBegin;
 	}
-	
+
 	games.emplace_back(g);
 }
 
@@ -91,7 +92,7 @@ void aoc2023_02()
 	TxtFile txt{ input };
 
 	Games games;
-	__int64 count = 0LL;
+	int count{};
 	for (const auto& line : txt)
 	{
 		if (line.length() == 0) { break; }
@@ -99,43 +100,38 @@ void aoc2023_02()
 	}
 	std::cout << "count: " << games.size() << "\n";
 
+	int sumOfIds{};
 	const gems allowed{ .r = 12, .g = 13, .b = 14 };
-	for (game& g : games)
-	{
-		for (const gems& round : g.rounds)
-		{
-			if (round.r > allowed.r) { g.possible = false; }
-			if (round.g > allowed.g) { g.possible = false; }
-			if (round.b > allowed.b) { g.possible = false; }
-			//if(!g.possible){ break; } ??
+	for (game& g : games){
+		for (const gems& round : g.rounds){
+			if ( round.r > allowed.r || round.g > allowed.g	|| round.b > allowed.b){
+				g.possible = false;
+			}
 		}
 	}
 
-	auto firstImpossible=std::partition(
-		games.begin(), games.end(),
+	const auto firstImpossible = std::partition( games.begin(), games.end(),
 		[](const game& test) {return test.possible; }
 	);
 
-	__int64 sumOfIds{};
-	for (auto it=games.begin(); it!=firstImpossible; ++it)
-	{
+	for ( auto it = games.cbegin(); it != firstImpossible; ++it ){
 		sumOfIds += (*it).id;
 	}
 	std::cout << "chkPossibles: " << sumOfIds << "\n";
 	assert(sumOfIds == 2447);
 
-	__int64 sumOfPowers{};
-	for (game& g : games)
-	{
+	int sumOfPowers{};
+	for (game& g : games){
+		if (g.rounds.size() == 0) { continue; }
+
 		gems minGems = g.rounds[0];
-		for (size_t i=1;i<g.rounds.size();++i)
-		{
+		for (size_t i = 1; i < g.rounds.size(); ++i){
 			const gems& current = g.rounds[i];
 			minGems.r = std::max(minGems.r, current.r);
 			minGems.g = std::max(minGems.g, current.g);
 			minGems.b = std::max(minGems.b, current.b);
 		}
-		sumOfPowers += (minGems.r*minGems.g*minGems.b);
+		sumOfPowers += (minGems.r * minGems.g * minGems.b);
 	}
 	std::cout << "sumOfPowers: " << sumOfPowers << "\n";
 	assert(sumOfPowers == 56322);
