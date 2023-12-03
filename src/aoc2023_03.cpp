@@ -19,16 +19,45 @@ void aoc2023_03()
 	}
 	std::cout << "rowcount: " << grid.size() << "\n";
 	
-	struct anyItem {
+	struct PartNumber {
 		__int64 col{};
-		std::string_view txt{};
-		std::vector<std::string_view> symbols{};
-		std::vector<anyItem*> geared{};
+		__int64 len{};
+		__int64 value{};
+		std::vector<char> symbols{};
 	};
-	std::vector<std::vector<anyItem>> parts;
-	std::vector<std::vector<anyItem>> symbols;
+	struct Symbol {
+		__int64 col{};
+		char txt;
+		std::vector<__int64> connected{};
+	};
+
+	std::vector<std::vector<PartNumber>> parts;
+	std::vector<std::vector<Symbol>> symbols;
 	parts.resize(grid.size());
 	symbols.resize(grid.size());
+
+	auto consumeNumber = [](__int64 c, std::string_view line, std::vector<PartNumber>& parts) {
+		size_t more = c + 1;
+		while (more < line.size())
+		{
+			if (line[more] == '.') { break; }
+			if (line[more] < '0' || line[more] > '9') { break; }
+			++more;
+		}
+		__int64 strLen = more - c;
+		std::string_view txt(line.data() + c, strLen);
+		__int64 partIdent{};
+		std::from_chars(txt.data(), txt.data() + txt.size(), partIdent);
+
+		PartNumber part{ .col = c, .len = strLen, .value = partIdent, .symbols={} };
+		parts.emplace_back(part);
+		c = more - 1;
+		return c;
+	};
+	auto consumeSymbol = [](__int64 c, char letter, std::vector<Symbol>& symbols) {
+		Symbol symbol{ .col = c, .txt = letter, .connected = {} };
+		symbols.emplace_back(symbol);
+	};
 
 	for (size_t row = 0; row < grid.size(); ++row)
 	{
@@ -40,61 +69,52 @@ void aoc2023_03()
 
 			if (tst >= '0' && tst <= '9')
 			{
-				size_t more = c + 1;
-				while (more < line.size())
-				{
-					if (line[more] == '.') { break; }
-					if (line[more] < '0' || line[more] > '9') { break; }
-					++more;
-				}
-				size_t strLen = more - c;
-				std::string_view txt(line.data()+c,strLen );
-				anyItem part{ .col = c, .txt{txt}, .symbols{}, .geared{} };
-				parts[row].emplace_back(part);
-				c = more - 1;
+				c = consumeNumber(c, line, parts[row]);
 			}
 			else
 			{
-				std::string_view txt(line.data() + c, 1);
-				anyItem symbol{ .col = c, .txt = {txt}, .symbols{}, .geared{} };
-				symbols[row].emplace_back(symbol);
+				consumeSymbol(c, tst, symbols[row]);
 			}
 		}
 	}
 
-	auto hasSymbolInRange = [](decltype(symbols)& symbols, anyItem& part, __int64 left, __int64 right, __int64 top, __int64 bottom) {
-		for (__int64 symbolLine = top; symbolLine <= bottom; ++symbolLine)
-		{
-			for (anyItem& symbol : symbols[symbolLine])
+	auto connectSymbolsInRange = [](decltype(symbols)& symbols, PartNumber& part,
+		__int64 left, __int64 right, __int64 top, __int64 bottom
+		) 
+	{
+			for (__int64 symbolLine = top; symbolLine <= bottom; ++symbolLine)
 			{
-				__int64 sc = symbol.col;
-				if (sc >= left && sc <= right)
+				for (Symbol& symbol : symbols[symbolLine])
 				{
-					part.symbols.emplace_back( symbol.txt );
-					if (symbol.txt == "*") {
-						symbol.geared.push_back(&part);
+					__int64 sc = symbol.col;
+					if (sc >= left && sc <= right)
+					{
+						part.symbols.emplace_back(symbol.txt);
+						if (symbol.txt == '*') {
+							symbol.connected.push_back(part.value);
+						}
 					}
 				}
 			}
-		}
-		return part.symbols.size()>0;
+			return part.symbols.size();
 	};
 
+	const __int64 maxRow = static_cast<__int64>(parts.size())-1LL;
+	const __int64 maxCol = static_cast<__int64>(grid[0].size())-1LL;
+
 	__int64 sum{};
-	__int64 rowCount = static_cast<__int64>(parts.size());
-	for (__int64 row = 0; row < rowCount; ++row)
+	for (__int64 row = 0; row <= maxRow; ++row)
 	{
-		for (anyItem& part : parts[row])
+		for (PartNumber& part : parts[row])
 		{
-			__int64 left = std::max(part.col - 1LL,0LL);
-			__int64 right = std::min(part.col + part.txt.size(), grid[row].size() - 1);
+			//BB?
+			__int64 left = std::max(part.col - 1LL, 0LL);
+			__int64 right = std::min(part.col + part.len, maxCol);
 			__int64 top = std::max(row - 1LL, 0LL);
-			__int64 bottom = std::min(row + 1LL, rowCount - 1LL);
-			if (hasSymbolInRange(symbols, part, left, right, top, bottom))
+			__int64 bottom = std::min(row + 1LL, maxRow);
+			if (connectSymbolsInRange(symbols, part, left, right, top, bottom) > 0LL)
 			{
-				__int64 partIdent{};
-				std::from_chars(part.txt.data(), part.txt.data() + part.txt.size(), partIdent);
-				sum += partIdent;
+				sum += part.value;
 			}
 		}
 	}
@@ -106,15 +126,11 @@ void aoc2023_03()
 	{
 		for (const auto& symbol : symbolLine)
 		{
-			if (symbol.geared.size() == 2)
+			if (symbol.connected.size() == 2)
 			{
-				anyItem& p1 = *symbol.geared[0];
-				anyItem& p2 = *symbol.geared[1];
-				__int64 i1{};
-				std::from_chars(p1.txt.data(), p1.txt.data() + p1.txt.size(), i1);
-				__int64 i2{};
-				std::from_chars(p2.txt.data(), p2.txt.data() + p2.txt.size(), i2);
-				__int64 ratio = i1 * i2;
+				const __int64& i1 = symbol.connected[0];
+				const __int64& i2 = symbol.connected[1];
+				const __int64 ratio = i1 * i2;
 				sumOfRatios += ratio;
 			}
 		}
