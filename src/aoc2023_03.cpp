@@ -22,7 +22,8 @@ void aoc2023_03()
 	struct anyItem {
 		__int64 col{};
 		std::string_view txt{};
-		std::string_view symbol{};
+		std::vector<std::string_view> symbols{};
+		std::vector<anyItem*> geared{};
 	};
 	std::vector<std::vector<anyItem>> parts;
 	std::vector<std::vector<anyItem>> symbols;
@@ -48,20 +49,20 @@ void aoc2023_03()
 				}
 				size_t strLen = more - c;
 				std::string_view txt(line.data()+c,strLen );
-				anyItem part{ .col = c, .txt{txt}, .symbol{} };
+				anyItem part{ .col = c, .txt{txt}, .symbols{}, .geared{} };
 				parts[row].emplace_back(part);
 				c = more - 1;
 			}
 			else
 			{
 				std::string_view txt(line.data() + c, 1);
-				anyItem symbol{ .col = c, .txt = {txt}, .symbol = {txt} };
+				anyItem symbol{ .col = c, .txt = {txt}, .symbols{}, .geared{} };
 				symbols[row].emplace_back(symbol);
 			}
 		}
 	}
 
-	auto hasSymbolInRange = [](decltype(symbols) symbols, anyItem& part, __int64 left, __int64 right, __int64 top, __int64 bottom) {
+	auto hasSymbolInRange = [](decltype(symbols)& symbols, anyItem& part, __int64 left, __int64 right, __int64 top, __int64 bottom) {
 		for (__int64 symbolLine = top; symbolLine <= bottom; ++symbolLine)
 		{
 			for (anyItem& symbol : symbols[symbolLine])
@@ -69,12 +70,14 @@ void aoc2023_03()
 				__int64 sc = symbol.col;
 				if (sc >= left && sc <= right)
 				{
-					part.symbol = symbol.symbol;
-					return true;
+					part.symbols.emplace_back( symbol.txt );
+					if (symbol.txt == "*") {
+						symbol.geared.push_back(&part);
+					}
 				}
 			}
 		}
-		return false;
+		return part.symbols.size()>0;
 	};
 
 	__int64 sum{};
@@ -96,5 +99,27 @@ void aoc2023_03()
 		}
 	}
 	std::cout << "sum of partnumbers: " << sum << "\n";
+	assert(sum == 528819 || sum == 4361);
+
+	__int64 sumOfRatios{};
+	for (const auto& symbolLine : symbols)
+	{
+		for (const auto& symbol : symbolLine)
+		{
+			if (symbol.geared.size() == 2)
+			{
+				anyItem& p1 = *symbol.geared[0];
+				anyItem& p2 = *symbol.geared[1];
+				__int64 i1{};
+				std::from_chars(p1.txt.data(), p1.txt.data() + p1.txt.size(), i1);
+				__int64 i2{};
+				std::from_chars(p2.txt.data(), p2.txt.data() + p2.txt.size(), i2);
+				__int64 ratio = i1 * i2;
+				sumOfRatios += ratio;
+			}
+		}
+	}
+	std::cout << "sum of ratios: " << sumOfRatios << "\n";
+	assert(sumOfRatios == 80403602 || sumOfRatios == 467835);
 }
 
