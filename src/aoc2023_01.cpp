@@ -42,7 +42,7 @@ __int64 toCalibrate(const std::string_view& line)
 
 __int64 toCalibrate2(const std::string_view& line)
 {
-	static std::vector<std::string> strnumbers{ 
+	static std::array<std::string,9> strnumbers{ 
 		"one","two","three",
 		"four","five","six",
 		"seven","eight","nine"
