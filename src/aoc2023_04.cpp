@@ -57,13 +57,10 @@ void aoc2023_04()
 	{
 		const Card& current = cards[i];
 		sum2 += current.cardCount;
-		for (__int64 cc = 0; cc < current.cardCount; ++cc)
+		for (__int64 x = 1; x <= current.bonus; ++x) //bonus==0 -> continue
 		{
-			for (__int64 x = 1; x <= current.bonus; ++x) //bonus==0 -> continue
-			{
-				Card& next = cards[i + x];
-				next.cardCount++;
-			}
+			Card& next = cards[i + x];
+			next.cardCount += current.cardCount;
 		}
 	}
 
