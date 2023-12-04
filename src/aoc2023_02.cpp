@@ -1,7 +1,7 @@
 #include "DataDir.h"
 #include "LineIterator.h"
 #include "TxtFile.h"
-#include "SplitIterator.h"
+#include "InputConversions.h"
 #include <iostream>
 #include <cassert>
 
@@ -20,37 +20,6 @@ struct game {
 using Games = std::vector<game>;
 using Item = std::string_view;
 
-template<std::integral Int>
-Int toInt(const Item& item)
-{
-	Int num{};
-	std::from_chars(item.data(), item.data() + item.size(), num);
-	return num;
-}
-
-template<char c, bool withTrim = false>
-std::tuple<Item, Item> pairSplit(std::string_view line)
-{
-	if constexpr (withTrim)
-	{
-		while (line[0] == ' ') { line.remove_prefix(1); }
-		while (line[line.size() - 1] == ' ') { line.remove_suffix(1); }
-	}
-
-	SplitIterator<c> it{ line }; SplitIterator<c> itEnd{};
-	if (it != itEnd) {
-		Item first{ *it };
-		++it;
-		if (it != itEnd) {
-			Item second{ *it };
-			return { first,second };
-		}
-		else {
-			return { first,"" };
-		}
-	}
-	return {};
-}
 
 gems countColors(const Item& line) {
 	SplitIterator<','> colBegin{ line }; SplitIterator<','> colEnd{};

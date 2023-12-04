@@ -41,6 +41,9 @@
     <ClCompile Include="src\aoc2023_03.cpp">
       <Filter>Days2023</Filter>
     </ClCompile>
+    <ClCompile Include="src\aoc2023_04.cpp">
+      <Filter>Days2023</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\StopWatch.h">
@@ -65,6 +68,9 @@
       <Filter>Tooling</Filter>
     </ClInclude>
     <ClInclude Include="src\SplitIterator.h">
+      <Filter>Tooling</Filter>
+    </ClInclude>
+    <ClInclude Include="src\InputConversions.h">
       <Filter>Tooling</Filter>
     </ClInclude>
   </ItemGroup>

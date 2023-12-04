@@ -1,6 +1,7 @@
 #include "DataDir.h"
 #include "LineIterator.h"
 #include "SplitIterator.h"
+#include "InputConversions.h"
 #include "TxtFile.h"
 #include <iostream>
 #include <cassert>
@@ -46,9 +47,8 @@ void aoc2023_03()
 		}
 		__int64 strLen = more - c;
 		std::string_view txt(line.data() + c, strLen);
-		__int64 partIdent{};
-		std::from_chars(txt.data(), txt.data() + txt.size(), partIdent);
-
+		__int64 partIdent = toInt<__int64>(txt);
+		
 		PartNumber part{ .col = c, .len = strLen, .value = partIdent, .symbols={} };
 		parts.emplace_back(part);
 		c = more - 1;
