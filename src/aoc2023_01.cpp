@@ -75,15 +75,17 @@ void aoc2023_01()
 	TxtFile txt{ input };
 
 	initNumbers();
-
-	__int64 sum1 = 0LL;
-	__int64 sum2 = 0LL;
+	__int64 count{};
+	__int64 sum1{};
+	__int64 sum2{};
 	for (const auto& line : txt)
 	{
 		if (line.size() == 0) { break; }
+		++count;
 		sum1 += toCalibrate(line);
 		sum2 += toCalibrate2(line);
 	}
+	std::cout << "count: " << count << "\n";
 	std::cout << "calibration:  " << sum1 << "\n";
 	std::cout << "calibration2: " << sum2 << "\n";
 	assert(sum1 == 55386);

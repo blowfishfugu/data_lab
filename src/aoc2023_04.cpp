@@ -16,12 +16,13 @@ void aoc2023_04()
 		__int64 bonus{};
 	};
 
+	__int64 count{};
 	__int64 sum{};
 	std::vector<Card> cards;
 	for (const auto& line : txt)
 	{
 		if (line.length() == 0) { break; }
-	
+		++count;
 		auto [card, pairing] = pairSplit<':', true>(line);
 		auto [winning, mine] = pairSplit<'|', true>(pairing);
 
@@ -47,7 +48,7 @@ void aoc2023_04()
 		newCard.bonus = common.size();
 		cards.emplace_back(newCard);
 	}
-
+	std::cout << "count: " << count << "\n";
 	std::cout << sum << "\n";
 	assert(sum == 28538 || sum == 13);
 	

@@ -18,7 +18,7 @@ void {{func_name}}()
 	__int64 count = 0LL;
 	for (const auto& line : txt)
 	{
-		if (line.length() == 0) { continue; }
+		if (line.length() == 0) { break; }
 		++count;
 	}
 	std::cout << "count: " << count << "\n";

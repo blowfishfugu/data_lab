@@ -18,7 +18,7 @@ void aoc2023_03()
 		if (line.length() == 0) { break; }
 		grid.emplace_back(line);
 	}
-	std::cout << "rowcount: " << grid.size() << "\n";
+	std::cout << "count: " << grid.size() << "\n";
 	
 	struct PartNumber {
 		__int64 col{};
