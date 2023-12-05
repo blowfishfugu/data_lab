@@ -72,20 +72,16 @@ void part2(const std::vector<__int64>& seeds, const std::vector<RangeMap>& maps)
 
 			//partial inner
 			Range inner{input.from,input.to};
-			Range left{};
 			if (input.from < srcLeft)
 			{
-				left.from = input.from;
-				left.to = srcLeft - 1;
+				Range left{ .from=input.from, .to=srcLeft-1 };
 				inner.from = srcLeft;
 				redo.push_back(left);
 			}
-			Range right{};
 			if (input.to > srcRight)
 			{
 				inner.to = srcRight;
-				right.from = srcRight + 1;
-				right.to = input.to;
+				Range right{ .from=srcRight+1, .to=input.to};
 				redo.push_back(right);
 			}
 			if (inner.len() > 0)
