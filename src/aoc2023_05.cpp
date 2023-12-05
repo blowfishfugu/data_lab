@@ -139,6 +139,7 @@ void aoc2023_05()
 	std::vector<RangeMap> maps;
 	int readState = 0;
 	int mapIndex = -1;
+	__int64 count{};
 	for (const auto& line : txt)
 	{
 		if (line == "-----") { break; }
@@ -146,7 +147,8 @@ void aoc2023_05()
 		{
 			if (line.starts_with("seeds:")) {
 				seeds = intSplit<' ', __int64, true>(line.substr(6));
-				readState++;
+				readState = 1;
+				++count;
 			}
 		}
 		else if (readState == 1)
@@ -154,23 +156,30 @@ void aoc2023_05()
 			if (line.find("map:") != std::string::npos)
 			{
 				maps.emplace_back(RangeMap{});
-				mapIndex++;
+				++count;
+				++mapIndex;
 				readState = 2;
 			}
 		}
 		else if (readState == 2)
 		{
-			if (line.length() == 0) { readState = 1; }
+			if (line.length() == 0)
+			{
+				readState = 1; 
+			}
 			else {
 				RangeMap& currentMap = maps[mapIndex];
 				std::vector<__int64> tmp = intSplit<' ', __int64, true>(line);
 				if (tmp.size() == 3)
 				{
 					currentMap.emplace_back(tmp[0], tmp[1], tmp[2]);
+					++count;
 				}
 			}
 		}
 	}
+	std::cout << "count: " << count << "\n";
+
 	
 	part1(seeds,maps);
 	part2(seeds,maps);
