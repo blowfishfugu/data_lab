@@ -39,7 +39,8 @@ void part1(const std::vector<__int64>& seeds, const std::vector<RangeMap>& maps)
 	}
 
 	__int64 lowestLocation = *std::min_element(inputs.begin(), inputs.end());
-	std::cout << lowestLocation << "\t" << 0 << "\n";
+	std::cout << lowestLocation << "\n";
+	assert(lowestLocation == 3374647 || lowestLocation == 35);
 }
 
 void part2(const std::vector<__int64>& seeds, const std::vector<RangeMap>& maps)
@@ -50,10 +51,8 @@ void part2(const std::vector<__int64>& seeds, const std::vector<RangeMap>& maps)
 		__int64 to{ std::numeric_limits<__int64>::min()/2 };
 		__int64 len() const { return (to - from) + 1; };
 	};
-	using LeftInnerRight = std::tuple<Range, Range, Range, Range>;
-	auto findOutputs = [](const RangeMap& m, const Range& input) {
-		
-		
+	
+	auto findOutput = [](const RangeMap& m, const Range& input, std::deque<Range>& redo) {
 		for (const auto& [dstStart, srcStart, len] : m)
 		{
 			__int64 srcLeft = srcStart;
@@ -68,7 +67,7 @@ void part2(const std::vector<__int64>& seeds, const std::vector<RangeMap>& maps)
 				__int64 offsetLeft = input.from - srcLeft;
 				__int64 dst = dstStart + offsetLeft;
 				__int64 dstEnd = dst + input.len() -1 ; //! off by one?
-				return LeftInnerRight{ {}, {}, {}, { dst,dstEnd } };
+				return Range{ dst,dstEnd };
 			}
 
 			//partial inner
@@ -79,6 +78,7 @@ void part2(const std::vector<__int64>& seeds, const std::vector<RangeMap>& maps)
 				left.from = input.from;
 				left.to = srcLeft - 1;
 				inner.from = srcLeft;
+				redo.push_back(left);
 			}
 			Range right{};
 			if (input.to > srcRight)
@@ -86,11 +86,16 @@ void part2(const std::vector<__int64>& seeds, const std::vector<RangeMap>& maps)
 				inner.to = srcRight;
 				right.from = srcRight + 1;
 				right.to = input.to;
+				redo.push_back(right);
 			}
-			return LeftInnerRight{ left, inner, right, {} };
+			if (inner.len() > 0)
+			{
+				redo.push_back(inner);
+			}
+			return Range{};
 		}
 		//nohit
-		return LeftInnerRight{ {}, {}, {}, input };
+		return input;
 	};
 
 	std::vector<Range> inputs;
@@ -98,42 +103,30 @@ void part2(const std::vector<__int64>& seeds, const std::vector<RangeMap>& maps)
 		inputs.emplace_back(seeds[i - 1], seeds[i-1]+seeds[i]-1);
 	}
 
-	std::vector<Range> outputs;
 	for (int i = 0; i < maps.size(); ++i)
 	{
+		std::vector<Range> outputs;
 		for (const Range& input : inputs)
 		{
 			std::deque<Range> todo{ input };
 			while (todo.size() > 0)
 			{
-				Range active = todo.front(); todo.pop_front();
+				Range active = todo.front();
+				todo.pop_front();
 
-				auto [left, inner, right, result] = findOutputs(maps[i], active);
-				if (left.len() > 0)
-				{
-					todo.push_back(left);
-				}
-				if (right.len() > 0)
-				{
-					todo.push_back(right);
-				}
-				if (inner.len() > 0)
-				{
-					todo.push_back(inner);
-				}
-				if (result.len() > 0)
-				{
+				Range result = findOutput(maps[i], active, todo);
+				if (result.len() > 0){
 					outputs.emplace_back(result);
 				}
 			}
 		}
 		std::swap(inputs, outputs);
-		outputs.clear();
 	}
 
 	Range lowestLocation = *std::min_element(inputs.begin(), inputs.end(),
 		[](const Range& l, const Range& r) { return l.from < r.from; });
-	std::cout << lowestLocation.from << "\t" << 0 << "\n";
+	std::cout << lowestLocation.from << "\n";
+	assert(lowestLocation.from == 6082852 || lowestLocation.from == 46);
 }
 
 
