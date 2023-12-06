@@ -57,13 +57,14 @@ void aoc2023_06()
 										 [ distanceCap ]( __int64 dist ) { return dist > distanceCap; } 
 		);
 		ways.emplace_back( waysToWin );
-		std::cout << "  " << waysToWin << "\n";
+		std::cout << std::format("TimeGiven: {:>8} | Record: {:>15} | WaysToWin: {:>8}\n", timeGiven, distanceCap, waysToWin);
 	}
 
 	__int64 margin = 1;
-	for (__int64 w : ways) {
-		margin *= w;
-		std::cout << "margin " << margin << "\n";
+	for (size_t i = 0; i < ways.size() - 1;++i ) {
+		margin *= ways[i];
 	}
+	std::cout << "prerunmargin " << margin << "\n";
+	std::cout << "margin       " << ways[ways.size()-1] << "\n";
 }
 
