@@ -31,8 +31,6 @@ void aoc2023_06()
 	assert(count == 2);
 	assert( Times.size() == Distances.size() );
 
-	__int64 maxTime= *std::max_element( Times.begin(), Times.end() );
-	
 	std::map<__int64, std::vector<__int64> > distsPerGiven;
 	for( __int64 timeGiven : Times )
 	{
