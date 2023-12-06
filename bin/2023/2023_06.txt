@@ -1,0 +1,16 @@
+//Part1+Part2
+Time:        51     92     68     90    51926890
+Distance:   222   2031   1126   1225    222203111261225
+
+
+//Part1
+Time:        51     92     68     90
+Distance:   222   2031   1126   1225
+
+//Part1 Test
+Time:      71530
+Distance:  940200
+
+//Test
+Time:      7  15   30
+Distance:  9  40  200
