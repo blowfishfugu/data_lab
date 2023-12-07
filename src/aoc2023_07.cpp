@@ -27,11 +27,11 @@ static std::map<char, int> CardValues{
 
 struct Card
 {
-	Card() : value{ &CardValues['-']} {}
-	explicit Card( char init ) : Label{ init }, value{ &CardValues[init] }
+	Card() : value{ &CardValues['-'] } {}
+	explicit Card(char init) : Label{ init }, value{ &CardValues[init] }
 	{
 	}
-	
+
 	char Label{};
 	int* value;
 };
@@ -48,11 +48,11 @@ struct Hand
 	void evalType()
 	{
 		std::array<int, 15> hist{};
-		hist[ *std::get<0>( cards ).value ]++;
-		hist[ *std::get<1>( cards ).value ]++;
-		hist[ *std::get<2>( cards ).value ]++;
-		hist[ *std::get<3>( cards ).value ]++;
-		hist[ *std::get<4>( cards ).value ]++;
+		hist[*std::get<0>(cards).value]++;
+		hist[*std::get<1>(cards).value]++;
+		hist[*std::get<2>(cards).value]++;
+		hist[*std::get<3>(cards).value]++;
+		hist[*std::get<4>(cards).value]++;
 
 		int jcount = 0;
 
@@ -70,32 +70,32 @@ struct Hand
 			}
 		}
 
-		std::sort( hist.begin(), hist.end(), []( int l, int r ) { return l > r; } );
-		int h1 = hist[ 0 ];
+		std::sort(hist.begin(), hist.end(), [](int l, int r) { return l > r; });
+		int h1 = hist[0];
 		h1 += jcount;
 
-		int h2 = hist[ 1 ];
-		if( h1 == 5 )
+		int h2 = hist[1];
+		if (h1 == 5)
 		{
 			type = 7;
 		}
-		else if( h1 == 4 )
+		else if (h1 == 4)
 		{
 			type = 6;
 		}
-		else if( h1 == 3 && h2 == 2 )
+		else if (h1 == 3 && h2 == 2)
 		{
 			type = 5;
 		}
-		else if( h1 == 3 )
+		else if (h1 == 3)
 		{
 			type = 4;
 		}
-		else if( h1 == 2 && h2 == 2 )
+		else if (h1 == 2 && h2 == 2)
 		{
 			type = 3;
 		}
-		else if( h1 == 2 )
+		else if (h1 == 2)
 		{
 			type = 2;
 		}
@@ -109,33 +109,32 @@ struct Hand
 	void print()
 	{
 		std::string str{
-			std::format( "{}{}{}{}{}\t{}\t{}\n",
-			std::get<0>( cards ).Label,
-			std::get<1>( cards ).Label,
-			std::get<2>( cards ).Label,
-			std::get<3>( cards ).Label,
-			std::get<4>( cards ).Label,
+			std::format("{}{}{}{}{}\t{}\t{}\n",
+			std::get<0>(cards).Label,
+			std::get<1>(cards).Label,
+			std::get<2>(cards).Label,
+			std::get<3>(cards).Label,
+			std::get<4>(cards).Label,
 			type,
 			bid
-			)};
+			) };
 		std::cout << str;
 	}
 };
 
-auto operator<=>( const Card& l, const Card& r )
+auto operator<=>(const Card& l, const Card& r)
 {
 	return *l.value <=> *r.value;
 }
 
-auto operator<=>( const Hand& l, const Hand& r )
+auto operator<=>(const Hand& l, const Hand& r)
 {
 	std::weak_ordering byType = (l.type <=> r.type);
-	if( byType != 0 )
+	if (byType != 0)
 	{
 		return byType;
 	}
-	auto cardOrder= (l.cards <=> r.cards);
-	return cardOrder;
+	return (l.cards <=> r.cards);
 }
 
 void aoc2023_07()
@@ -143,43 +142,46 @@ void aoc2023_07()
 	fs::path input(DataDir() / "2023_07.txt");
 	TxtFile txt{ input };
 
-	
+
 	std::vector<Hand> hands;
 
 	__int64 count = 0LL;
 	for (const auto& line : txt)
 	{
 		if (line.length() == 0) { break; }
-		auto [cardstring,bid]= pairSplit<' ', true>( line );
+		auto [cardstring, bid] = pairSplit<' ', true>(line);
 		Hand h;
-		h.bid = toInt<__int64>( bid );
+		h.bid = toInt<__int64>(bid);
 
 		int i = 0;
-		for( char c : cardstring )
+		for (char c : cardstring)
 		{
-			Card card( c );
-			switch( i )
+			Card card(c);
+			switch (i)
 			{
-			case( 0 ): std::get<0>( h.cards ) = card; break;
-				case( 1 ): std::get<1>( h.cards ) = card; break;
-				case( 2 ): std::get<2>( h.cards ) = card; break;
-				case( 3 ): std::get<3>( h.cards ) = card; break;
-				case( 4 ): std::get<4>( h.cards ) = card; break;
-				default:
-					break;
+			case(0): std::get<0>(h.cards) = card; break;
+			case(1): std::get<1>(h.cards) = card; break;
+			case(2): std::get<2>(h.cards) = card; break;
+			case(3): std::get<3>(h.cards) = card; break;
+			case(4): std::get<4>(h.cards) = card; break;
+			default:
+				break;
 			}
 			++i;
 		}
-		h.evalType<false>();
-		hands.emplace_back( h );
+		hands.emplace_back(h);
 		++count;
 	}
 	std::cout << "count: " << count << "\n";
 
-	std::sort( hands.begin(), hands.end() );
+	for (Hand& h : hands)
+	{
+		h.evalType<false>();
+	}
+	std::sort(hands.begin(), hands.end());
 	__int64 rank = 1LL;
 	__int64 bidsPerRank{};
-	for( Hand& h : hands )
+	for (Hand& h : hands)
 	{
 		bidsPerRank += h.bid * rank;
 		++rank;
@@ -192,10 +194,10 @@ void aoc2023_07()
 	{
 		h.evalType<true>();
 	}
-	std::sort( hands.begin(), hands.end() );
-	
+	std::sort(hands.begin(), hands.end());
+
 	rank = 1LL;
-	bidsPerRank=0;
+	bidsPerRank = 0;
 	for (Hand& h : hands)
 	{
 		bidsPerRank += h.bid * rank;
