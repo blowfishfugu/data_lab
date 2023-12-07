@@ -8,34 +8,32 @@
 #include <map>
 
 
+static std::map<char, int> CardValues{
+	{'-',0},
+	{'2',2},
+	{'3',3},
+	{'4',4},
+	{'5',5},
+	{'6',6},
+	{'7',7},
+	{'8',8},
+	{'9',9},
+	{'T',10},
+	{'J',11},
+	{'Q',12},
+	{'K',13},
+	{'A',14},
+};
 
 struct Card
 {
-	Card(){}
-	explicit Card( char init, bool specialJ ) : Label{ init }
+	Card() : value{ &CardValues['-']} {}
+	explicit Card( char init ) : Label{ init }, value{ &CardValues[init] }
 	{
-		static std::map<char, int> CardValues{
-			{'2',2},
-			{'3',3},
-			{'4',4},
-			{'5',5},
-			{'6',6},
-			{'7',7},
-			{'8',8},
-			{'9',9},
-			{'T',10},
-			{'J',11},
-			{'Q',12},
-			{'K',13},
-			{'A',14},
-		};
-
-		if (specialJ) { CardValues['J'] = 1; }
-
-		value = CardValues[ init ];
 	}
+	
 	char Label{};
-	int value{};
+	int* value;
 };
 
 
@@ -45,27 +43,32 @@ struct Hand
 	using Set = std::tuple<Card, Card, Card, Card, Card>;
 	Set cards{};
 	int type{};
+
+	template<bool withJ>
 	void evalType()
 	{
 		std::array<int, 15> hist{};
-		hist[ std::get<0>( cards ).value ]++;
-		hist[ std::get<1>( cards ).value ]++;
-		hist[ std::get<2>( cards ).value ]++;
-		hist[ std::get<3>( cards ).value ]++;
-		hist[ std::get<4>( cards ).value ]++;
+		hist[ *std::get<0>( cards ).value ]++;
+		hist[ *std::get<1>( cards ).value ]++;
+		hist[ *std::get<2>( cards ).value ]++;
+		hist[ *std::get<3>( cards ).value ]++;
+		hist[ *std::get<4>( cards ).value ]++;
 
-		
-		int jcount = hist[1];
-		if (hist[1] == 5)
-		{
-			type = 7;
-			return;
-		}
-		else
-		{
-			hist[1] = 0;
-		}
+		int jcount = 0;
 
+		if constexpr (withJ)
+		{
+			jcount = hist[1];
+			if (hist[1] == 5)
+			{
+				type = 7;
+				return;
+			}
+			else
+			{
+				hist[1] = 0;
+			}
+		}
 
 		std::sort( hist.begin(), hist.end(), []( int l, int r ) { return l > r; } );
 		int h1 = hist[ 0 ];
@@ -121,7 +124,7 @@ struct Hand
 
 auto operator<=>( const Card& l, const Card& r )
 {
-	return l.value <=> r.value;
+	return *l.value <=> *r.value;
 }
 
 auto operator<=>( const Hand& l, const Hand& r )
@@ -154,10 +157,10 @@ void aoc2023_07()
 		int i = 0;
 		for( char c : cardstring )
 		{
-			Card card( c, true );
+			Card card( c );
 			switch( i )
 			{
-				case( 0 ): std::get<0>( h.cards ) = card; break;
+			case( 0 ): std::get<0>( h.cards ) = card; break;
 				case( 1 ): std::get<1>( h.cards ) = card; break;
 				case( 2 ): std::get<2>( h.cards ) = card; break;
 				case( 3 ): std::get<3>( h.cards ) = card; break;
@@ -167,24 +170,38 @@ void aoc2023_07()
 			}
 			++i;
 		}
-		h.evalType();
+		h.evalType<false>();
 		hands.emplace_back( h );
 		++count;
 	}
+	std::cout << "count: " << count << "\n";
 
 	std::sort( hands.begin(), hands.end() );
 	__int64 rank = 1LL;
 	__int64 bidsPerRank{};
 	for( Hand& h : hands )
 	{
-		std::cout << rank << " :";
-		h.print();
 		bidsPerRank += h.bid * rank;
 		++rank;
 	}
 
 	std::cout << "bids : " << bidsPerRank << "\n";
-	std::cout << "count: " << count << "\n";
+
+	CardValues['J'] = 1;
+	for (Hand& h : hands)
+	{
+		h.evalType<true>();
+	}
+	std::sort( hands.begin(), hands.end() );
+	
+	rank = 1LL;
+	bidsPerRank=0;
+	for (Hand& h : hands)
+	{
+		bidsPerRank += h.bid * rank;
+		++rank;
+	}
+	std::cout << "jbids: " << bidsPerRank << "\n";
 	//assert(count == 1000);
 }
 
