@@ -90,7 +90,7 @@ void aoc2023_03()
 					if (sc >= left && sc <= right)
 					{
 						part.symbols.emplace_back(symbol.txt);
-						if (symbol.txt == '*') {
+						if (symbol.txt == '*') { //part2, connect Numbers to *
 							symbol.connected.push_back(part.value);
 						}
 					}

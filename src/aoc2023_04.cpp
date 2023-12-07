@@ -5,6 +5,7 @@
 #include <iostream>
 #include <cassert>
 
+//ScratchCards
 void aoc2023_04()
 {
 	fs::path input(DataDir() / "2023_04.txt");

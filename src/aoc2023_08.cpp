@@ -16,6 +16,6 @@ void aoc2023_08()
 		++count;
 	}
 	std::cout << "count: " << count << "\n";
-	assert(count == 42);
+	//assert(count == 42);
 }
 

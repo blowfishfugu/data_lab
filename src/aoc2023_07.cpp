@@ -7,138 +7,142 @@
 #include <array>
 #include <map>
 
+namespace D07 {
 
-static std::map<char, int> CardValues{
-	{'-',0},
-	{'2',2},
-	{'3',3},
-	{'4',4},
-	{'5',5},
-	{'6',6},
-	{'7',7},
-	{'8',8},
-	{'9',9},
-	{'T',10},
-	{'J',11},
-	{'Q',12},
-	{'K',13},
-	{'A',14},
-};
+	static std::map<char, int> CardValues{
+		{'-',0},
+		{'2',2},
+		{'3',3},
+		{'4',4},
+		{'5',5},
+		{'6',6},
+		{'7',7},
+		{'8',8},
+		{'9',9},
+		{'T',10},
+		{'J',11},
+		{'Q',12},
+		{'K',13},
+		{'A',14},
+	};
 
-struct Card
-{
-	Card() : value{ &CardValues['-'] } {}
-	explicit Card(char init) : Label{ init }, value{ &CardValues[init] }
+	struct Card
 	{
-	}
-
-	char Label{};
-	int* value;
-};
-
-
-
-struct Hand
-{
-	using Set = std::tuple<Card, Card, Card, Card, Card>;
-	Set cards{};
-	int type{};
-
-	template<bool withJ>
-	void evalType()
-	{
-		std::array<int, 15> hist{};
-		hist[*std::get<0>(cards).value]++;
-		hist[*std::get<1>(cards).value]++;
-		hist[*std::get<2>(cards).value]++;
-		hist[*std::get<3>(cards).value]++;
-		hist[*std::get<4>(cards).value]++;
-
-		int jcount = 0;
-
-		if constexpr (withJ)
+		Card() : value{ &CardValues['-'] } {}
+		explicit Card(char init) : Label{ init }, value{ &CardValues[init] }
 		{
-			jcount = hist[1];
-			if (hist[1] == 5)
+		}
+
+		char Label{};
+		int* value;
+	};
+
+
+
+	struct Hand
+	{
+		using Set = std::tuple<Card, Card, Card, Card, Card>;
+		Set cards{};
+		int type{};
+
+		template<bool withJ>
+		void evalType()
+		{
+			std::array<int, 15> hist{};
+			hist[*std::get<0>(cards).value]++;
+			hist[*std::get<1>(cards).value]++;
+			hist[*std::get<2>(cards).value]++;
+			hist[*std::get<3>(cards).value]++;
+			hist[*std::get<4>(cards).value]++;
+
+			int jcount = 0;
+
+			if constexpr (withJ)
+			{
+				jcount = hist[1];
+				if (hist[1] == 5)
+				{
+					type = 7;
+					return;
+				}
+				else
+				{
+					hist[1] = 0;
+				}
+			}
+
+			std::sort(hist.begin(), hist.end(), [](int l, int r) { return l > r; });
+			int h1 = hist[0];
+			h1 += jcount;
+
+			int h2 = hist[1];
+			if (h1 == 5)
 			{
 				type = 7;
-				return;
+			}
+			else if (h1 == 4)
+			{
+				type = 6;
+			}
+			else if (h1 == 3 && h2 == 2)
+			{
+				type = 5;
+			}
+			else if (h1 == 3)
+			{
+				type = 4;
+			}
+			else if (h1 == 2 && h2 == 2)
+			{
+				type = 3;
+			}
+			else if (h1 == 2)
+			{
+				type = 2;
 			}
 			else
 			{
-				hist[1] = 0;
+				type = 1;
 			}
 		}
+		__int64 bid{};
 
-		std::sort(hist.begin(), hist.end(), [](int l, int r) { return l > r; });
-		int h1 = hist[0];
-		h1 += jcount;
+		void print()
+		{
+			std::string str{
+				std::format("{}{}{}{}{}\t{}\t{}\n",
+				std::get<0>(cards).Label,
+				std::get<1>(cards).Label,
+				std::get<2>(cards).Label,
+				std::get<3>(cards).Label,
+				std::get<4>(cards).Label,
+				type,
+				bid
+				) };
+			std::cout << str;
+		}
+	};
 
-		int h2 = hist[1];
-		if (h1 == 5)
-		{
-			type = 7;
-		}
-		else if (h1 == 4)
-		{
-			type = 6;
-		}
-		else if (h1 == 3 && h2 == 2)
-		{
-			type = 5;
-		}
-		else if (h1 == 3)
-		{
-			type = 4;
-		}
-		else if (h1 == 2 && h2 == 2)
-		{
-			type = 3;
-		}
-		else if (h1 == 2)
-		{
-			type = 2;
-		}
-		else
-		{
-			type = 1;
-		}
-	}
-	__int64 bid{};
-
-	void print()
+	auto operator<=>(const Card& l, const Card& r)
 	{
-		std::string str{
-			std::format("{}{}{}{}{}\t{}\t{}\n",
-			std::get<0>(cards).Label,
-			std::get<1>(cards).Label,
-			std::get<2>(cards).Label,
-			std::get<3>(cards).Label,
-			std::get<4>(cards).Label,
-			type,
-			bid
-			) };
-		std::cout << str;
+		return *l.value <=> *r.value;
 	}
-};
 
-auto operator<=>(const Card& l, const Card& r)
-{
-	return *l.value <=> *r.value;
-}
-
-auto operator<=>(const Hand& l, const Hand& r)
-{
-	std::weak_ordering byType = (l.type <=> r.type);
-	if (byType != 0)
+	auto operator<=>(const Hand& l, const Hand& r)
 	{
-		return byType;
+		std::weak_ordering byType = (l.type <=> r.type);
+		if (byType != 0)
+		{
+			return byType;
+		}
+		return (l.cards <=> r.cards);
 	}
-	return (l.cards <=> r.cards);
+
 }
 
 void aoc2023_07()
 {
+	using namespace D07;
 	fs::path input(DataDir() / "2023_07.txt");
 	TxtFile txt{ input };
 
@@ -188,6 +192,7 @@ void aoc2023_07()
 	}
 
 	std::cout << "bids : " << bidsPerRank << "\n";
+	assert(bidsPerRank == 6440 || bidsPerRank == 253313241);
 
 	CardValues['J'] = 1;
 	for (Hand& h : hands)
@@ -204,6 +209,8 @@ void aoc2023_07()
 		++rank;
 	}
 	std::cout << "jbids: " << bidsPerRank << "\n";
-	//assert(count == 1000);
+	assert(bidsPerRank == 5905 || bidsPerRank == 253362743);
+	//idea for part3?: Jokers can be replaced by any available card (including new value)
+	//to fulfill the highest possible ranking, so JTKTK will be KTKTK instead of TTKTK
 }
 
