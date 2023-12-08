@@ -14,13 +14,19 @@ Int toInt(const std::string_view& item)
 	return num;
 }
 
+template<char c>
+void trim(std::string_view& line)
+{
+	while (line.starts_with(c) ) { line.remove_prefix(1); }
+	while (line.ends_with(c) ) { line.remove_suffix(1); }
+}
+
 template<char c, bool withTrim = false>
 std::tuple<std::string_view, std::string_view> pairSplit(std::string_view line)
 {
 	if constexpr (withTrim)
 	{
-		while (line[0] == ' ') { line.remove_prefix(1); }
-		while (line[line.size() - 1] == ' ') { line.remove_suffix(1); }
+		trim<' '>(line);
 	}
 
 	SplitIterator<c> it{ line }; SplitIterator<c> itEnd{};
