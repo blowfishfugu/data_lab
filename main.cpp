@@ -6,6 +6,8 @@
 
 int main(int argc, char** argv)
 {
+	SetPriorityClass(GetCurrentProcess(), HIGH_PRIORITY_CLASS);
+
 	std::cout << "argv0 = \"" << argv[0] << "\"\n";
 	DataDir(argv[0], "2023");//Set
 

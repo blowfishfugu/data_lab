@@ -84,5 +84,8 @@ void aoc2023_09()
 	}
 	std::cout << sum << "\n";
 	std::cout << sum2 << "\n";
+
+	assert(sum == 2101499000 || sum == 114);
+	assert(sum2 == 1089 || sum2 == 2);
 }
 

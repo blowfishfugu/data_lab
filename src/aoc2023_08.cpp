@@ -159,7 +159,7 @@ void aoc2023_08()
 	for (size_t i = 1; i < deltas.size(); i++)
 	{
 		minimumLoop = std::lcm(minimumLoop, deltas[i]);
-		std::cout << i << "Zs at: " << minimumLoop << "\n";
+		std::cout << (i+1) << "Zs at: " << minimumLoop << "\n";
 	}
 
 	for( auto& [_, node] : nodepool )

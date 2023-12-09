@@ -30,15 +30,15 @@ namespace D01
 		__int64 first{};
 		for (size_t i = 0; i < line.size(); ++i)
 		{
-			const __int64& val = numbers[static_cast<size_t>(line[i])];
-			if (val != 0LL) { first = val; break; }
+			first = numbers[static_cast<size_t>(line[i])];
+			if (first != 0LL) { break; }
 		}
 
 		__int64 last{};
 		for (size_t i = line.size() - 1; i >= 0; --i)
 		{
-			const __int64& val = numbers[static_cast<size_t>(line[i])];
-			if (val != 0LL) { last = val; break; }
+			last = numbers[static_cast<size_t>(line[i])];
+			if (last != 0LL) { break; }
 		}
 
 		return first * 10 + last;
@@ -51,26 +51,37 @@ namespace D01
 			"four","five","six",
 			"seven","eight","nine"
 		};
-		std::vector<__int64> found;
-		for (size_t i = 0; i < line.size(); ++i)
+
+		auto toNumber = [](std::string_view segment)
 		{
-			const __int64& val = numbers[static_cast<size_t>(line[i])];
-			if (val != 0LL) { found.emplace_back(val); }
-			else
+			const __int64& val = numbers[static_cast<size_t>(segment[0])];
+			if (val != 0LL) { return val; }
+
+			for (size_t val = 1; val <= strnumbers.size(); ++val)
 			{
-				std::string_view segment = line.substr(i);
-				for (size_t val = 1; val <= strnumbers.size(); ++val)
+				if (segment.starts_with(strnumbers[val - 1]))
 				{
-					if (segment.starts_with(strnumbers[val - 1]))
-					{
-						found.emplace_back(static_cast<__int64>(val));
-						break;
-					}
+					return (static_cast<__int64>(val));
 				}
 			}
+			return 0LL;
+		};
+
+		__int64 first{};
+		for (size_t i=0; i < line.size(); ++i)
+		{
+			first = toNumber(line.substr(i));
+			if (first != 0LL) { break; }
 		}
-		if (found.size() == 0) { return 0LL; }
-		return found[0] * 10 + found[found.size() - 1];
+
+		__int64 last{};
+		for (size_t i = line.size() - 1; i >= 0; --i)
+		{
+			last = toNumber(line.substr(i));
+			if (last != 0LL) { break; }
+		}
+		
+		return first * 10 + last;
 	}
 }
 
