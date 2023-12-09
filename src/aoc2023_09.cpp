@@ -7,6 +7,8 @@
 
 void aoc2023_09()
 {
+	constexpr bool verbose = false;
+
 	fs::path input(DataDir() / "2023_09.txt");
 	TxtFile txt{ input };
 
@@ -24,7 +26,6 @@ void aoc2023_09()
 	auto shrink = [](const seq& in) -> seq{
 		seq result{};
 		if (in.size() == 0) { return result; }
-		result.reserve(in.size());
 		result.resize(in.size()-1);
 		for (size_t i = 1; i < in.size(); ++i)
 		{
@@ -33,14 +34,10 @@ void aoc2023_09()
 		return result;
 	};
 
-	auto expand = [](const seq& prev, seq& target, __int64 firstOfPrev)
+	auto expand = [](seq& target, __int64 firstOfPrev, __int64 lastOfPrev)
 		->std::tuple<__int64, __int64>
 	{
-		size_t pos = prev.size() - 1;
-		__int64 lastOfPrev = prev[pos];
-		__int64 newRight = lastOfPrev + target[pos];
-		target.push_back(newRight);
-
+		__int64 newRight = lastOfPrev + target[target.size()-1];
 		__int64 newLeft = target[0] - firstOfPrev;
 		return {newLeft, newRight};
 	};
@@ -59,25 +56,31 @@ void aoc2023_09()
 			calced[level+1]=shrink(calced[level]);
 		}
 
-		for (const seq& tst : calced)
+		if constexpr (verbose)
 		{
-			for (__int64 x : tst) { std::cout << std::format("{:^7} ",x); }
-			std::cout << "\n";
+			for (const seq& tst : calced)
+			{
+				for (__int64 x : tst) { std::cout << std::format("{:^7} ", x); }
+				std::cout << "\n";
+			}
 		}
 
 		calced[calced.size() - 1].push_back(0LL);
-		__int64 tmpLeft= calced[calced.size() - 1].front();
+		__int64 topLeft= calced[calced.size() - 1].front();
+		__int64 topRight= calced[calced.size() - 1].back();
 		for (size_t level = top.size()-1; level>=1; --level)
 		{
-			auto [newLeft,newRight]=expand(calced[level],calced[level-1], tmpLeft);
-			std::cout << newLeft << " \\../ " << newRight << "\n";
-			tmpLeft = newLeft;
+			auto [newLeft,newRight]=expand(calced[level-1], topLeft, topRight);
+			topLeft = newLeft;
+			topRight = newRight;
 		}
-		
 
-		__int64 expansion= calced.front().back();
-		sum += expansion;
-		sum2 += tmpLeft;
+		if constexpr (verbose)
+		{
+			std::cout << std::format("{:>4} \\../ {}\n", topLeft, topRight);
+		}
+		sum += topRight;
+		sum2 += topLeft;
 	}
 	std::cout << sum << "\n";
 	std::cout << sum2 << "\n";
