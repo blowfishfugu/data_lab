@@ -6,6 +6,7 @@
 #include <cassert>
 #include <map>
 #include <numeric>
+#include <array>
 
 namespace D08
 {
@@ -18,13 +19,12 @@ void aoc2023_08()
 	fs::path input(DataDir() / "2023_08.txt");
 	TxtFile txt{ input };
 
-	std::string nexts{};
+	std::vector<size_t> nexts{};
 
 	struct Node
 	{
 		std::string lbl{};
-		std::vector<Node*> parents{};
-		std::vector<Node*> lr{};
+		std::array<Node*,2> lr{nullptr,nullptr};
 	};
 	std::map<std::string, Node*> nodepool;
 	auto getCreate=[&nodepool]( std::string_view lbl )
@@ -44,7 +44,12 @@ void aoc2023_08()
 		if (line.length() == 0 && inputstate==2 ) { break; }
 		if( inputstate == 0 )
 		{
-			nexts = line; inputstate = 1;
+			for (char LR : line)
+			{
+				if(LR=='L') nexts.emplace_back(0LL);
+				else if( LR=='R') nexts.emplace_back(1LL);
+			}
+			inputstate = 1;
 			++count;
 		}
 		else if( inputstate == 1 )
@@ -67,11 +72,9 @@ void aoc2023_08()
 			trim<' '>( r );
 
 			Node* childL = getCreate( l );
-			childL->parents.push_back( parent );
 			Node* childR = getCreate( r );
-			childR->parents.push_back( parent );
-			parent->lr.emplace_back( childL );
-			parent->lr.emplace_back( childR );
+			parent->lr[0]= childL;
+			parent->lr[1]= childR;
 			++count;
 		}
 	}
@@ -86,15 +89,7 @@ void aoc2023_08()
 		while( current->lbl != "ZZZ" )
 		{
 			step++;
-			char next = nexts[ pos ];
-			if( next == 'L' )
-			{
-				current = current->lr[ 0 ];
-			}
-			else if( next == 'R' )
-			{
-				current = current->lr[ 1 ];
-			}
+			current = current->lr[ nexts[pos] ];
 			pos++;
 			if( pos >= nexts.size() ) { pos = 0; }
 		}
@@ -133,15 +128,7 @@ void aoc2023_08()
 				while (true)
 				{
 					step++;
-					char next = nexts[pos];
-					if (next == 'L')
-					{
-						current = current->lr[0];
-					}
-					else if (next == 'R')
-					{
-						current = current->lr[1];
-					}
+					current = current->lr[nexts[pos]];
 					pos++;
 					if (pos >= nexts.size()) { pos = 0; }
 					if (allHaveZ({current}))
