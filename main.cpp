@@ -21,7 +21,8 @@ int main(int argc, char** argv)
 	//aoc2023_06(); clk.printDelta("Day06"); std::cout << "\n\n";
 	//aoc2023_07(); clk.printDelta("Day07"); std::cout << "\n\n";
 	//aoc2023_08(); clk.printDelta("Day08"); std::cout << "\n\n";
-	aoc2023_09(); clk.printDelta("Day09"); std::cout << "\n\n";
+	//aoc2023_09(); clk.printDelta("Day09"); std::cout << "\n\n";
+	aoc2023_10(); clk.printDelta("Day09"); std::cout << "\n\n";
 
 	return 0;
 }

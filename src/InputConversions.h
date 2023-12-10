@@ -17,8 +17,8 @@ Int toInt(const std::string_view& item)
 template<char c>
 void trim(std::string_view& line)
 {
-	while (line.starts_with(c) ) { line.remove_prefix(1); }
-	while (line.ends_with(c) ) { line.remove_suffix(1); }
+	while (	line.starts_with(c) ) { line.remove_prefix(1); }
+	while ( line.ends_with(c) ){ line.remove_suffix(1); }
 }
 
 template<char c, bool withTrim = false>

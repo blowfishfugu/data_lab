@@ -9,3 +9,4 @@ void aoc2023_06();
 void aoc2023_07();
 void aoc2023_08();
 void aoc2023_09();
+void aoc2023_10();
