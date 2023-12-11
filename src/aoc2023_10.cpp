@@ -333,7 +333,36 @@ void aoc2023_10()
 		}
 		bool Step() {
 			bool didStep = false;
-			
+			int cx{};
+			int cy{};
+			if (currentdir == 0) //L
+			{
+				cx = 0;
+				cy = +1;
+			}
+			else if (currentdir == 1)//R
+			{
+				cx = 0;
+				cy = -1;
+			}
+			else if (currentdir == 2)//T
+			{
+				cx = -1;
+				cy = 0;
+			}
+			else if (currentdir == 3)//B
+			{
+				cx = 1;
+				cy = 0;
+			}
+
+			int tstX = pos->x + cx;
+			int tstY = pos->y + cy;
+			if (tstX >= 0 && tstX < grid.rBound && tstY >= 0 && tstY < grid.bBound)
+			{
+				Pipe* outer = grid.items[tstY][tstX];
+				flood(outer);
+			}
 			
 			for (int dir = 0; dir < pos->lrtb.size(); ++dir)
 			{
@@ -347,35 +376,7 @@ void aoc2023_10()
 				lastpos = pos;
 				didStep = true;
 			
-				int cx{};
-				int cy{};
-				if (currentdir == 0)
-				{
-					cx = 0;
-					cy = +1;
-				}
-				else if (currentdir == 1)
-				{
-					cx = 0;
-					cy = -1;
-				}
-				else if (currentdir == 2) {
-					cx = -1;
-					cy = 0;
-				}
-				else if (currentdir == 3)
-				{
-					cx = 1;
-					cy = 0;
-				}
-
-				int tstX = pos->x + cx;
-				int tstY = pos->y + cy;
-				if (tstX >= 0 && tstX < grid.rBound && tstY >= 0 && tstY < grid.bBound)
-				{
-					Pipe* outer = grid.items[tstY][tstX];
-					flood(outer);
-				}
+				
 				
 
 				if (currentdir == 2 && dir == 1) //F
