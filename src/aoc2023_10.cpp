@@ -123,7 +123,7 @@ namespace D10 {
 			for (int posY=0; const auto& line : txt)
 			{
 				if (line.length() == 0) { break; }
-				if (rBound == 0) { rBound = line.length(); }
+				if (rBound == 0) { rBound = static_cast<int>(line.length()); }
 				++bBound;
 				Row row;
 				Pipe* lefter = nullptr;
@@ -375,11 +375,8 @@ void aoc2023_10()
 				}
 				lastpos = pos;
 				didStep = true;
-			
-				
-				
 
-				if (currentdir == 2 && dir == 1) //F
+				if (currentdir == 2 && dir == 1) //F -> next== (B|R) ?
 				{
 					int tstX = pos->x + 0;
 					int tstY = pos->y - 1;

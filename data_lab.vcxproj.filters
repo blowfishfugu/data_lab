@@ -65,6 +65,12 @@
     <ClCompile Include="src\aoc2023_11.cpp">
       <Filter>Days2023</Filter>
     </ClCompile>
+    <ClCompile Include="src\aoc2023_13.cpp">
+      <Filter>Days2023</Filter>
+    </ClCompile>
+    <ClCompile Include="src\aoc2023_12.cpp">
+      <Filter>Days2023</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\StopWatch.h">

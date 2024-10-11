@@ -88,6 +88,8 @@
     <ClCompile Include="src\aoc2023_09.cpp" />
     <ClCompile Include="src\aoc2023_10.cpp" />
     <ClCompile Include="src\aoc2023_11.cpp" />
+    <ClCompile Include="src\aoc2023_12.cpp" />
+    <ClCompile Include="src\aoc2023_13.cpp" />
     <ClCompile Include="src\DataDir.cpp" />
     <ClCompile Include="src\IteratorCheck.cpp" />
     <ClCompile Include="src\md5.cpp" />
