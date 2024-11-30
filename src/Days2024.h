@@ -1,0 +1,27 @@
+#pragma once
+
+void aoc2024_01();
+void aoc2024_02();
+void aoc2024_03();
+void aoc2024_04();
+void aoc2024_05();
+void aoc2024_06();
+void aoc2024_07();
+void aoc2024_08();
+void aoc2024_09();
+void aoc2024_10();
+void aoc2024_11();
+void aoc2024_12();
+void aoc2024_13();
+void aoc2024_14();
+void aoc2024_15();
+void aoc2024_16();
+void aoc2024_17();
+void aoc2024_18();
+void aoc2024_19();
+void aoc2024_20();
+void aoc2024_21();
+void aoc2024_22();
+void aoc2024_23();
+void aoc2024_24();
+void aoc2024_25();

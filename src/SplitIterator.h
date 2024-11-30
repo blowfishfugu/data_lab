@@ -85,5 +85,9 @@ struct SplitIterator
 	}
 };
 
+using TabIterator = SplitIterator<'\t'>;
+using SpaceIterator = SplitIterator<' '>;
+using CommaIterator = SplitIterator<','>;
+using SemicolonIterator = SplitIterator<';'>;
 
 

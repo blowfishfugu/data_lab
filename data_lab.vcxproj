@@ -20,13 +20,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
     <EnableUnitySupport>true</EnableUnitySupport>
@@ -77,19 +77,31 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="src\aoc2023_01.cpp" />
-    <ClCompile Include="src\aoc2023_02.cpp" />
-    <ClCompile Include="src\aoc2023_03.cpp" />
-    <ClCompile Include="src\aoc2023_04.cpp" />
-    <ClCompile Include="src\aoc2023_05.cpp" />
-    <ClCompile Include="src\aoc2023_06.cpp" />
-    <ClCompile Include="src\aoc2023_07.cpp" />
-    <ClCompile Include="src\aoc2023_08.cpp" />
-    <ClCompile Include="src\aoc2023_09.cpp" />
-    <ClCompile Include="src\aoc2023_10.cpp" />
-    <ClCompile Include="src\aoc2023_11.cpp" />
-    <ClCompile Include="src\aoc2023_12.cpp" />
-    <ClCompile Include="src\aoc2023_13.cpp" />
+    <ClCompile Include="src\aoc2024_01.cpp" />
+    <ClCompile Include="src\aoc2024_02.cpp" />
+    <ClCompile Include="src\aoc2024_03.cpp" />
+    <ClCompile Include="src\aoc2024_04.cpp" />
+    <ClCompile Include="src\aoc2024_05.cpp" />
+    <ClCompile Include="src\aoc2024_06.cpp" />
+    <ClCompile Include="src\aoc2024_07.cpp" />
+    <ClCompile Include="src\aoc2024_08.cpp" />
+    <ClCompile Include="src\aoc2024_09.cpp" />
+    <ClCompile Include="src\aoc2024_10.cpp" />
+    <ClCompile Include="src\aoc2024_11.cpp" />
+    <ClCompile Include="src\aoc2024_12.cpp" />
+    <ClCompile Include="src\aoc2024_13.cpp" />
+    <ClCompile Include="src\aoc2024_14.cpp" />
+    <ClCompile Include="src\aoc2024_15.cpp" />
+    <ClCompile Include="src\aoc2024_16.cpp" />
+    <ClCompile Include="src\aoc2024_17.cpp" />
+    <ClCompile Include="src\aoc2024_18.cpp" />
+    <ClCompile Include="src\aoc2024_19.cpp" />
+    <ClCompile Include="src\aoc2024_20.cpp" />
+    <ClCompile Include="src\aoc2024_21.cpp" />
+    <ClCompile Include="src\aoc2024_22.cpp" />
+    <ClCompile Include="src\aoc2024_23.cpp" />
+    <ClCompile Include="src\aoc2024_24.cpp" />
+    <ClCompile Include="src\aoc2024_25.cpp" />
     <ClCompile Include="src\DataDir.cpp" />
     <ClCompile Include="src\IteratorCheck.cpp" />
     <ClCompile Include="src\md5.cpp" />
@@ -97,40 +109,13 @@
   <ItemGroup>
     <ClInclude Include="src\AsyncQueue.h" />
     <ClInclude Include="src\DataDir.h" />
-    <ClInclude Include="src\Days2023.h" />
+    <ClInclude Include="src\Days2024.h" />
     <ClInclude Include="src\InputConversions.h" />
     <ClInclude Include="src\LineIterator.h" />
     <ClInclude Include="src\MD5.h" />
     <ClInclude Include="src\SplitIterator.h" />
     <ClInclude Include="src\StopWatch.h" />
     <ClInclude Include="src\TxtFile.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="bin\2023\2023_01.txt" />
-    <Text Include="bin\2023\2023_02.txt" />
-    <Text Include="bin\2023\2023_03.txt" />
-    <Text Include="bin\2023\2023_04.txt" />
-    <Text Include="bin\2023\2023_05.txt" />
-    <Text Include="bin\2023\2023_06.txt" />
-    <Text Include="bin\2023\2023_07.txt" />
-    <Text Include="bin\2023\2023_08.txt" />
-    <Text Include="bin\2023\2023_09.txt" />
-    <Text Include="bin\2023\2023_10.txt" />
-    <Text Include="bin\2023\2023_11.txt" />
-    <Text Include="bin\2023\2023_12.txt" />
-    <Text Include="bin\2023\2023_13.txt" />
-    <Text Include="bin\2023\2023_14.txt" />
-    <Text Include="bin\2023\2023_15.txt" />
-    <Text Include="bin\2023\2023_16.txt" />
-    <Text Include="bin\2023\2023_17.txt" />
-    <Text Include="bin\2023\2023_18.txt" />
-    <Text Include="bin\2023\2023_19.txt" />
-    <Text Include="bin\2023\2023_20.txt" />
-    <Text Include="bin\2023\2023_21.txt" />
-    <Text Include="bin\2023\2023_22.txt" />
-    <Text Include="bin\2023\2023_23.txt" />
-    <Text Include="bin\2023\2023_24.txt" />
-    <Text Include="bin\2023\2023_25.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -3,6 +3,8 @@
 #include <string>
 #include <fstream>
 #include <filesystem>
+#include "LineIterator.h"
+#include "SplitIterator.h"
 namespace fs = std::filesystem;
 
 struct TxtFile {
