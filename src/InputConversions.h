@@ -49,9 +49,9 @@ std::vector<Int> intSplit(std::string_view line)
 {
 	if constexpr (withTrim)
 	{
-		while (line[0] == ' ') { line.remove_prefix(1); }
-		while (line[line.size() - 1] == ' ') { line.remove_suffix(1); }
+		trim<' '>(line);
 	}
+
 	std::vector<Int> result;
 	SplitIterator<c> it{ line }; SplitIterator<c> end{};
 	while (it != end)
