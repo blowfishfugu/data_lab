@@ -117,6 +117,33 @@
     <ClInclude Include="src\StopWatch.h" />
     <ClInclude Include="src\TxtFile.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="bin\2024\2024_01.txt" />
+    <Text Include="bin\2024\2024_02.txt" />
+    <Text Include="bin\2024\2024_03.txt" />
+    <Text Include="bin\2024\2024_04.txt" />
+    <Text Include="bin\2024\2024_05.txt" />
+    <Text Include="bin\2024\2024_06.txt" />
+    <Text Include="bin\2024\2024_07.txt" />
+    <Text Include="bin\2024\2024_08.txt" />
+    <Text Include="bin\2024\2024_09.txt" />
+    <Text Include="bin\2024\2024_10.txt" />
+    <Text Include="bin\2024\2024_11.txt" />
+    <Text Include="bin\2024\2024_12.txt" />
+    <Text Include="bin\2024\2024_13.txt" />
+    <Text Include="bin\2024\2024_14.txt" />
+    <Text Include="bin\2024\2024_15.txt" />
+    <Text Include="bin\2024\2024_16.txt" />
+    <Text Include="bin\2024\2024_17.txt" />
+    <Text Include="bin\2024\2024_18.txt" />
+    <Text Include="bin\2024\2024_19.txt" />
+    <Text Include="bin\2024\2024_20.txt" />
+    <Text Include="bin\2024\2024_21.txt" />
+    <Text Include="bin\2024\2024_22.txt" />
+    <Text Include="bin\2024\2024_23.txt" />
+    <Text Include="bin\2024\2024_24.txt" />
+    <Text Include="bin\2024\2024_25.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -15,6 +15,9 @@
     <Filter Include="Days2024">
       <UniqueIdentifier>{ab420876-59b2-4231-b080-8110dc4f4779}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Data">
+      <UniqueIdentifier>{5117cd40-00a7-4e0e-8053-2525fcb0747c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -133,5 +136,82 @@
     <ClInclude Include="src\Days2024.h">
       <Filter>Days2024</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="bin\2024\2024_01.txt">
+      <Filter>Data</Filter>
+    </Text>
+    <Text Include="bin\2024\2024_02.txt">
+      <Filter>Data</Filter>
+    </Text>
+    <Text Include="bin\2024\2024_03.txt">
+      <Filter>Data</Filter>
+    </Text>
+    <Text Include="bin\2024\2024_04.txt">
+      <Filter>Data</Filter>
+    </Text>
+    <Text Include="bin\2024\2024_05.txt">
+      <Filter>Data</Filter>
+    </Text>
+    <Text Include="bin\2024\2024_06.txt">
+      <Filter>Data</Filter>
+    </Text>
+    <Text Include="bin\2024\2024_07.txt">
+      <Filter>Data</Filter>
+    </Text>
+    <Text Include="bin\2024\2024_08.txt">
+      <Filter>Data</Filter>
+    </Text>
+    <Text Include="bin\2024\2024_09.txt">
+      <Filter>Data</Filter>
+    </Text>
+    <Text Include="bin\2024\2024_10.txt">
+      <Filter>Data</Filter>
+    </Text>
+    <Text Include="bin\2024\2024_11.txt">
+      <Filter>Data</Filter>
+    </Text>
+    <Text Include="bin\2024\2024_12.txt">
+      <Filter>Data</Filter>
+    </Text>
+    <Text Include="bin\2024\2024_13.txt">
+      <Filter>Data</Filter>
+    </Text>
+    <Text Include="bin\2024\2024_14.txt">
+      <Filter>Data</Filter>
+    </Text>
+    <Text Include="bin\2024\2024_15.txt">
+      <Filter>Data</Filter>
+    </Text>
+    <Text Include="bin\2024\2024_16.txt">
+      <Filter>Data</Filter>
+    </Text>
+    <Text Include="bin\2024\2024_17.txt">
+      <Filter>Data</Filter>
+    </Text>
+    <Text Include="bin\2024\2024_18.txt">
+      <Filter>Data</Filter>
+    </Text>
+    <Text Include="bin\2024\2024_19.txt">
+      <Filter>Data</Filter>
+    </Text>
+    <Text Include="bin\2024\2024_20.txt">
+      <Filter>Data</Filter>
+    </Text>
+    <Text Include="bin\2024\2024_21.txt">
+      <Filter>Data</Filter>
+    </Text>
+    <Text Include="bin\2024\2024_22.txt">
+      <Filter>Data</Filter>
+    </Text>
+    <Text Include="bin\2024\2024_23.txt">
+      <Filter>Data</Filter>
+    </Text>
+    <Text Include="bin\2024\2024_24.txt">
+      <Filter>Data</Filter>
+    </Text>
+    <Text Include="bin\2024\2024_25.txt">
+      <Filter>Data</Filter>
+    </Text>
   </ItemGroup>
 </Project>
