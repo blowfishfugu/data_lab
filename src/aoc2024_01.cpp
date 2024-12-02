@@ -30,15 +30,10 @@ void aoc2024_01()
 	std::sort(left.begin(), left.end());
 	std::sort(right.begin(), right.end());
 
-	if (left.size() != right.size()) [[likely]] {
-		std::cout << std::format("reading error: {}!={}\n", left.size(),right.size());
-		return;
-	}
-
 	I sum{};
-	Hist rMap;
+	Hist rMap; //part2, count of occurence
 	for (size_t index = 0ULL; index < left.size();++index) {
-		sum+= std::abs( left[index] - right[index]);
+		sum += std::abs( left[index] - right[index]);
 		++rMap[right[index]];
 	}
 	
