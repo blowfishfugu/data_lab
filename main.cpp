@@ -14,7 +14,8 @@ int main(int argc, char** argv)
 	StopWatch clk;
     
 	//aoc2024_01(); clk.printDelta("Day01");std::cout<<"\n\n";
-	aoc2024_02(); clk.printDelta("Day02");std::cout<<"\n\n";
+	//aoc2024_02(); clk.printDelta("Day02");std::cout<<"\n\n";
+	aoc2015_19(); clk.printDelta("Day19");std::cout<<"\n\n";
 	//aoc2024_03(); clk.printDelta("Day03");std::cout<<"\n\n";
 	//aoc2024_04(); clk.printDelta("Day04");std::cout<<"\n\n";
 	//aoc2024_05(); clk.printDelta("Day05");std::cout<<"\n\n";

@@ -2,6 +2,7 @@
 
 void aoc2024_01();
 void aoc2024_02();
+void aoc2015_19();
 void aoc2024_03();
 void aoc2024_04();
 void aoc2024_05();
