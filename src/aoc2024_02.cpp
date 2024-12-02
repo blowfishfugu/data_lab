@@ -81,7 +81,7 @@ void aoc2024_02()
 	std::cout << std::format("safe: {}\n", std::distance(reports.begin(),itUnsafe));
 
 	auto checkDampened = [checkReport]( Report& source ) {
-		for (I dampen = 0LL; dampen < std::get<0>(source).size(); ++dampen)
+		for (size_t dampen = 0; dampen < std::get<0>(source).size(); ++dampen)
 		{
 			Report damp1{ std::get<0>(source), -1LL };
 			VI& data1 = std::get<0>(damp1);
