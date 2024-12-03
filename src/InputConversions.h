@@ -14,6 +14,14 @@ Int toInt(const std::string_view& item)
 	return num;
 }
 
+template<std::integral Int>
+Int toInt(std::string_view&& item) noexcept
+{
+	Int num{};
+	std::from_chars(item.data(), item.data() + item.size(), num);
+	return num;
+}
+
 template<char c>
 void trim(std::string_view& line)
 {
