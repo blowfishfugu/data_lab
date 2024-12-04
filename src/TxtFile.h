@@ -1,10 +1,10 @@
 #pragma once
 #include "LineIterator.h"
+#include "SplitIterator.h"
 #include <string>
 #include <fstream>
 #include <filesystem>
-#include "LineIterator.h"
-#include "SplitIterator.h"
+
 namespace fs = std::filesystem;
 
 struct TxtFile {
@@ -25,6 +25,6 @@ struct TxtFile {
 		}
 	}
 
-	LineIterator begin() { return LineIterator{ buf }; }
-	LineIterator end() { return LineIterator{}; }
+	LineIterator begin() const { return LineIterator{ buf }; }
+	LineIterator end() const { return LineIterator{}; }
 };
