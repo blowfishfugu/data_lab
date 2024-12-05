@@ -5,7 +5,7 @@
 #include <cassert>
 #include <print>
 #include <array>
-
+using namespace std::string_view_literals;
 
 void aoc2024_04()
 {
@@ -14,7 +14,7 @@ void aoc2024_04()
 	using SV = std::string_view;
 	using I = std::int64_t;
 	using Pos = std::tuple<I, I>;
-	using Direction = std::tuple<I, I>;
+	using Dir = std::tuple<I, I>;
 	using Bounds = std::tuple<I, I>;
 	
 	std::vector<SV> grid{};
@@ -29,15 +29,15 @@ void aoc2024_04()
 	}
 	std::println(std::cout, "colcount: {} , rowcount: {}", w, h );
 	
-	constexpr std::array<Direction, 8> ScanDirections{
-		Direction{ 1, 0},
-		Direction{-1, 0},
-		Direction{ 0,-1},
-		Direction{ 0, 1},
-		Direction{-1,-1},
-		Direction{ 1,-1},
-		Direction{-1, 1},
-		Direction{ 1, 1}
+	constexpr std::array<Dir, 8> ScanDirs{
+		Dir{ 1, 0},
+		Dir{-1, 0},
+		Dir{ 0,-1},
+		Dir{ 0, 1},
+		Dir{-1,-1},
+		Dir{ 1,-1},
+		Dir{-1, 1},
+		Dir{ 1, 1}
 	};
 
 	static auto inGrid = [&w, &h](const Pos& p)->bool {
@@ -52,7 +52,7 @@ void aoc2024_04()
 		return grid[y][x];
 		};
 
-	auto scan = [](const std::vector<SV>& grid, const Bounds& gridSize, const Direction& step)->I {
+	auto scan = [](const std::vector<SV>& grid, const Bounds& gridSize, const Dir& step)->I {
 		I count{};
 		const auto& [w, h] = gridSize;
 		const auto& [dx, dy] = step;
@@ -80,21 +80,21 @@ void aoc2024_04()
 	};
 
 	I xCount{};
-	for (const Direction& step : ScanDirections) {
+	for (const Dir& step : ScanDirs) {
 		xCount += scan(grid, gridSize, step);
 	}
 	std::println(std::cout, "XMAS-Count: {}", xCount );
 
 	auto scanMas = [](const std::vector<SV>& grid, const Bounds& gridSize)->I {
 		I count{};
-		using Pairs = std::array<Direction,2>; // X
+		using Pairs = std::array<Dir,2>; // X
 		Pairs tl{
-			Direction{ 1, 1 },
-			Direction{ -1,-1 }
+			Dir{ 1, 1 },
+			Dir{ -1,-1 }
 		};
 		Pairs bl{
-			Direction{ -1, 1 },
-			Direction{ 1,-1 }
+			Dir{ -1, 1 },
+			Dir{ 1,-1 }
 		};
 
 		auto isValidPair = [&grid](const Pairs& pair, const Pos& aPos)->bool {
