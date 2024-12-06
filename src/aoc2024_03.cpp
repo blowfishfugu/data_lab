@@ -15,6 +15,11 @@ constexpr void buildBitSet(Args... args){
 	(Digits.set(args), ...);
 	std::println(std::cout, "constexpr std::bitset<{}> Digits{{\"{}\"}}", Digits.size(), Digits.to_string());
 };
+//buildBitSet<256>( '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' );
+//bool isDigit(char c){
+// constexpr std::bitset<256> Digits{"0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001111111111000000000000000000000000000000000000000000000000"};
+// return Digits.test(c);
+// }
 
 void aoc2024_03()
 {

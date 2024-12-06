@@ -8,16 +8,26 @@
 #include <atomic>
 #include <execution>
 
-void aoc2024_06()
-{
-	fs::path input(DataDir() / "2024_06.txt");
-	TxtFile txt{ input };
+namespace {
 	using I = std::int64_t;
 	using S = std::string_view;
 	using XY = std::tuple<I, I>;
 	
 	using Bounds = std::tuple<I, I, I, I>;
-	Bounds bounds{};
+	inline auto outOfBounds = [](const XY& next, const Bounds& bounds)->bool {
+		const auto& [x, y] = next;
+		const auto& [l, t, r, b] = bounds;
+		if (x < l || x >= r) { return true; }
+		if (y < t || y >= b) { return true; }
+		return false;
+		};
+}
+
+void aoc2024_06()
+{
+	fs::path input(DataDir() / "2024_06.txt");
+	TxtFile txt{ input };
+	static Bounds bounds{};
 	std::vector<S> grid;
 	for (const auto& line : txt)
 	{
@@ -27,13 +37,7 @@ void aoc2024_06()
 	}
 	std::get<3>(bounds) = grid.size();
 	
-	static auto outOfBounds = [&bounds](const XY& next)->bool {
-		const auto& [x, y] = next;
-		const auto& [l, t, r, b] = bounds;
-		if (x < l || x >= r) { return true; }
-		if (y < t || y >= b) { return true; }
-		return false;
-	};
+	
 
 
 	enum class StepResult :int {
@@ -58,7 +62,7 @@ void aoc2024_06()
 			const auto& [x, y]=pos;
 			const auto& [dx, dy] = protocol[dirIndex];
 			XY next{ x + dx,y + dy };
-			if (outOfBounds(next))
+			if (outOfBounds(next, bounds))
 			{
 				return StepResult::LeftGrid;
 			}
@@ -106,7 +110,6 @@ void aoc2024_06()
 	Sentry guard;
 	guard.init(grid, bounds);
 	XY startPos = guard.pos;
-
 	StepResult stepResult = guard.run(grid);
 	
 	I visitcount = guard.visited.size();
