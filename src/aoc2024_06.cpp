@@ -92,18 +92,23 @@ void aoc2024_06()
 				}
 			}
 		}
+
+		StepResult run(const std::vector<S>& grid) {
+			StepResult stepResult = step(grid);
+			while (stepResult != StepResult::LeftGrid && stepResult != StepResult::InALoop)
+			{
+				stepResult = step(grid);
+			}
+			return stepResult;
+		}
 	};
 
 	Sentry guard;
 	guard.init(grid, bounds);
 	XY startPos = guard.pos;
 
-	StepResult stepResult = guard.step(grid);
-	while (stepResult!=StepResult::LeftGrid && stepResult!=StepResult::InALoop) 
-	{
-		stepResult = guard.step(grid);
-	}
-
+	StepResult stepResult = guard.run(grid);
+	
 	I visitcount = guard.visited.size();
 	std::println(std::cout, "visited {}", visitcount);
 
@@ -116,7 +121,6 @@ void aoc2024_06()
 		}
 	}
 
-	std::atomic<I> leftCount{};
 	std::atomic<I> loopCount{};
 	std::for_each(std::execution::par,
 		path.cbegin(),path.cend(),[&](const XY& pos){
@@ -124,16 +128,11 @@ void aoc2024_06()
 		Sentry guard;
 		guard.pos = startPos;//possible enhancement: traverse path backwards, place and direction one step before collision
 		guard.obstacle = pos;
-		StepResult stepResult = guard.step(grid);
-		while (stepResult != StepResult::LeftGrid && stepResult != StepResult::InALoop)
-		{
-			stepResult = guard.step(grid);
-		}
-		if (stepResult == StepResult::LeftGrid) { leftCount++; }
+		StepResult stepResult = guard.run(grid);
+		
 		if (stepResult == StepResult::InALoop) { loopCount++; }
 	});
 
-	std::println(std::cout, "leftCount {}", leftCount.load());
 	std::println(std::cout, "loopCount {}", loopCount.load());
 }
 
