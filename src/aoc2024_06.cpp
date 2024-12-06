@@ -27,7 +27,7 @@ void aoc2024_06()
 	}
 	std::get<3>(bounds) = grid.size();
 	
-	static auto outOfBounds = [&bounds](XY next)->bool {
+	static auto outOfBounds = [&bounds](const XY& next)->bool {
 		const auto& [x, y] = next;
 		const auto& [l, t, r, b] = bounds;
 		if (x < l || x >= r) { return true; }
@@ -54,7 +54,7 @@ void aoc2024_06()
 		XY obstacle{-1,-1};
 
 		std::map<std::tuple<I, I>, I> visited{};
-		StepResult step(std::vector<S>& grid) {
+		StepResult step(const std::vector<S>& grid) {
 			const auto& [x, y]=pos;
 			const auto& [dx, dy] = protocol[dirIndex];
 			XY next{ x + dx,y + dy };
@@ -71,12 +71,12 @@ void aoc2024_06()
 			}
 			
 			pos = next;
-			I& visitCount=visited[{x,y}]; // + pos has 4 entries, on 5 in a loop
+			I& visitCount=visited[pos]; // + pos has 4 entries, on 5 in a loop
 			visitCount++;
 			if (visitCount > 4) { return StepResult::InALoop; }
 			return StepResult::DidStep;
 		}
-		void init(std::vector<S>& grid, const Bounds& bounds) {
+		void init(const std::vector<S>& grid, const Bounds& bounds) {
 			visited.clear();
 			const auto& [l, t, r, b] = bounds;
 			for (I y = t; y < b; ++y)
@@ -87,6 +87,7 @@ void aoc2024_06()
 						dirIndex = 0;
 						pos = { x,y };
 						visited[pos]++;
+						return;
 					}
 				}
 			}
