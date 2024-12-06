@@ -121,7 +121,7 @@ void aoc2024_06()
 		path.cbegin(),path.cend(),[&](const XY& pos){
 	//for (const XY& pos : path){
 		Sentry guard;
-		guard.pos = startPos;
+		guard.pos = startPos;//possible enhancement: traverse path backwards, place and direction one step before collision
 		guard.obstacle = pos;
 		StepResult stepResult = guard.step(grid);
 		while (stepResult != StepResult::LeftGrid && stepResult != StepResult::InALoop)
