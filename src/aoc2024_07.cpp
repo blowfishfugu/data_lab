@@ -14,7 +14,14 @@ namespace {
 	using Equation = std::tuple<I, std::vector<I>,I>;
 	
 	static inline auto concat = [](I l, I r)->I {
-		return toInt<I>(std::format("{}{}", l, r));
+		I shift = 1000;
+		if (r < 10) { shift = 10; }
+		else if (r < 100) { shift = 100; }
+		else if (r < 1000) { shift = 1000; }
+		else if (r < 10000) [[unlikely]] { shift = 10000; }
+		else if (r < 100000) [[unlikely]] { shift = 100000; }
+		return l * shift + r;
+		//return toInt<I>(std::format("{}{}", l, r));
 	};
 
 	template<bool withConcat>
@@ -30,10 +37,6 @@ namespace {
 		{
 			auto [left, nextIndex] = toProcess.front();
 			toProcess.pop_front();
-			if (left > target)
-			{
-				continue;
-			}
 
 			I right = vals[nextIndex];
 			++nextIndex;
@@ -62,10 +65,16 @@ namespace {
 				continue;
 			}
 
-			toProcess.push_back({ mulled,nextIndex });
-			toProcess.push_back({ summed,nextIndex });
+			if (mulled <= target) {
+				toProcess.push_back({ mulled,nextIndex });
+			}
+			if (summed <= target) {
+				toProcess.push_back({ summed,nextIndex });
+			}
 			if constexpr (withConcat) {
-				toProcess.push_back({ concated,nextIndex });
+				if (concated <= target) {
+					toProcess.push_back({ concated,nextIndex });
+				}
 			}
 		}
 	}
