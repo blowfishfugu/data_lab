@@ -26,15 +26,15 @@ namespace {
 
 	template<bool withConcat>
 	void solve (Equation& e) {
-		const I& target = std::get<0>(e);
-		const std::vector<I>& vals = std::get<1>(e);
 		I& validCount = std::get<2>(e);
 		if (validCount > 0) { return; }
 
+		const I& target = std::get<0>(e);
+		const std::vector<I>& vals = std::get<1>(e);
+
 		std::deque<std::tuple<I, size_t>> toProcess;
 		toProcess.push_back({ vals[0], 1LL });
-		while (toProcess.size() > 0)
-		{
+		while (toProcess.size() > 0){
 			auto [left, nextIndex] = toProcess.front();
 			toProcess.pop_front();
 
@@ -44,35 +44,33 @@ namespace {
 			I mulled = left * right;
 			I summed = left + right;
 			I concated{};
-			if constexpr (withConcat) {
+			if constexpr (withConcat){
 				concated = concat(left, right);
 			}
 
-			if (nextIndex >= vals.size())
-			{
-				if (mulled == target) {
-					++validCount;
+			if (nextIndex >= vals.size()){
+				if (mulled == target){
+					validCount=1;
 				}
-				if (summed == target) {
-					++validCount;
+				if (summed == target){
+					validCount=1;
 				}
-				if constexpr (withConcat)
-				{
-					if (concated == target) {
-						++validCount;
+				if constexpr (withConcat){
+					if (concated == target){
+						validCount=1;
 					}
 				}
 				continue;
 			}
 
-			if (mulled <= target) {
+			if (mulled <= target){
 				toProcess.push_back({ mulled,nextIndex });
 			}
-			if (summed <= target) {
+			if (summed <= target){
 				toProcess.push_back({ summed,nextIndex });
 			}
-			if constexpr (withConcat) {
-				if (concated <= target) {
+			if constexpr (withConcat){
+				if (concated <= target){
 					toProcess.push_back({ concated,nextIndex });
 				}
 			}
@@ -83,17 +81,16 @@ namespace {
 
 void aoc2024_07()
 {
+	using std::execution::par;
 	fs::path input(DataDir() / "2024_07.txt");
 	TxtFile txt{ input };
 	std::vector<Equation> calibrations;
-	for (const auto& line : txt)
-	{
+	for (const auto& line : txt){
 		if (line.length() == 0) { break; }
 		SpaceIterator it{ line }; SpaceIterator end{};
 		Equation e{};
 		int i = 0;
-		while (it != end)
-		{
+		while (it != end){
 			I val = toInt<I>(*it);
 			if (i == 0) { std::get<0>(e) = val; }
 			else { std::get<1>(e).emplace_back(val); }
@@ -103,41 +100,20 @@ void aoc2024_07()
 		calibrations.emplace_back(e);
 	}
 	std::println(std::cout, "eqCount: {}", calibrations.size());
-
-
 	
-	std::for_each(std::execution::par,
-		calibrations.begin(), calibrations.end(), [](Equation& e)
-		//for (Equation& e : calibrations)
-		{
-			solve<false>(e);
-		});
+	std::for_each(par, calibrations.begin(), calibrations.end(), 
+		[](Equation& e){ solve<false>(e); //part1, mul and plus
+	});
 
-	I sum{};
-	for (const auto& [target, input, valid] : calibrations)
-	{
-		if (valid > 0)
-		{
-			sum += target;
-		}
-	}
+	auto countValid = [](I last, const Equation& e) {return last + std::get<0>(e) * std::get<2>(e); };
+	I sum = std::accumulate(calibrations.cbegin(), calibrations.cend(), 0LL, countValid);
 	std::println(std::cout, "Sum of valid test values: {}", sum);
 
-	std::for_each(std::execution::par,
-		calibrations.begin(), calibrations.end(), [](Equation& e)
-		//for (Equation& e : calibrations)
-		{
-			solve<true>(e);
-		});
+	std::for_each(par, calibrations.begin(), calibrations.end(),
+		[](Equation& e){ solve<true>(e); //remaining, part2, mul,plus and concat
+	});
 
-	sum = 0LL;
-	for (const auto& [target, input, valid] : calibrations)
-	{
-		if (valid > 0)
-		{
-			sum += target;
-		}
-	}
-	std::println(std::cout, "Sum of extended test values: {}", sum);
+	I sum2 = std::accumulate(calibrations.cbegin(), calibrations.cend(), 0LL, countValid);
+	std::println(std::cout, "Sum of extended test values: {}", sum2);
 }
 
