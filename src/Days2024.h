@@ -1,5 +1,4 @@
 #pragma once
-#define _ITERATOR_DEBUG_LEVEL 0
 void aoc2024_01();
 void aoc2024_02();
 void aoc2015_19();

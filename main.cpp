@@ -19,8 +19,8 @@ int main(int argc, char** argv)
 	//aoc2024_03(); clk.printDelta("Day03");std::cout<<"\n\n";
 	//aoc2024_04(); clk.printDelta("Day04");std::cout<<"\n\n";
 	//aoc2024_05(); clk.printDelta("Day05");std::cout<<"\n\n";
-	aoc2024_06(); clk.printDelta("Day06");std::cout<<"\n\n";
-	//aoc2024_07(); clk.printDelta("Day07");std::cout<<"\n\n";
+	//aoc2024_06(); clk.printDelta("Day06");std::cout<<"\n\n";
+	aoc2024_07(); clk.printDelta("Day07");std::cout<<"\n\n";
 	//aoc2024_08(); clk.printDelta("Day08");std::cout<<"\n\n";
 	//aoc2024_09(); clk.printDelta("Day09");std::cout<<"\n\n";
 	//aoc2024_10(); clk.printDelta("Day10");std::cout<<"\n\n";
