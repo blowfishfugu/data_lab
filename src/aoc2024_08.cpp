@@ -13,18 +13,8 @@ namespace {
 	struct V {
 		I x{};
 		I y{};
-
-		V operator-(V o) const noexcept{
-			return {x-o.x,y-o.y};
-		}
-
-		V operator+(V o) const noexcept{
-			return { x + o.x,y + o.y };
-		}
-
-		V operator*(I scale) const noexcept{
-			return { x * scale,y * scale };
-		}
+		V operator-(V o) const noexcept { return { x - o.x,y - o.y }; }
+		V operator+(V o) const noexcept { return { x + o.x,y + o.y }; }
 	};
 
 	using Bounds = std::tuple<I, I, I, I>;
@@ -36,14 +26,28 @@ namespace {
 	}
 
 	using Antennas = std::vector<V>;
+
+	template<char mark>
+	void setMark(std::string& buf, const V at, const Bounds& bounds) {
+		const auto& [l, t, r, b] = bounds;
+		const I bufStride = r + 1; // lines in buf have "\n"
+		I pos = at.x + at.y * bufStride;
+		if constexpr (mark == '*') {
+			if (buf[pos] != '#') { //part2 shall not overwrite part1s results
+				buf[pos] = mark;
+			}
+		}
+		else
+		{
+			buf[pos] = mark;
+		}
+	};
 }
 
 void aoc2024_08()
 {
 	fs::path input(DataDir() / "2024_08.txt");
 	TxtFile txt{ input };
-
-
 	std::map<char, Antennas> AntennaMap;
 
 	I w{};
@@ -54,7 +58,7 @@ void aoc2024_08()
 		w = line.length();
 		for (I x = 0; x < w; ++x) {
 			char c = line[x];
-			if (c != '.' && c!='#') {
+			if (c != '.') {
 				AntennaMap[c].emplace_back(V{x,h});
 			}
 		}
@@ -62,61 +66,52 @@ void aoc2024_08()
 	}
 	Bounds bounds{ 0,0,w,h };
 	std::println(std::cout, "Bounds {}", bounds);
-	std::println(std::cout, "{}\n", txt.buf);
+	//std::println(std::cout, "{}\n", txt.buf);
 
-	auto setMark = [](std::string& buf, const V at, const Bounds& bounds) {
-		if (!inBounds(at, bounds)) { return; }
-		const auto& [l, t, r, b] = bounds;
-		const I bufStride = r + 1; // lines in buf have "\n"
-		I pos = at.x + at.y * bufStride;
-		if (buf[pos] == '#' && buf[pos]!='*') {
-			buf[pos] = '*';
+	auto expand = [&txt, &bounds](V start, const V& dir) {
+		V mark1 = start + dir;
+		if (inBounds(mark1, bounds)){ //part1, direct antinodes
+			setMark<'#'>(txt.buf, mark1, bounds);
+			mark1 = mark1 + dir;
 		}
-		else {
-			buf[pos] = '#';
+
+		//part2, increment on until boundary
+		while(inBounds(mark1, bounds)) {
+			setMark<'*'>(txt.buf, mark1, bounds);
+			mark1 = mark1 + dir;
 		}
 	};
 
-	//directly place in txt-Buffer, stride is + the \n (or \r\n???), 
-	// so bounds-check
-	//setMark(txt.buf, { 0,0 }, bounds);
-	//setMark(txt.buf, { w-1,0 }, bounds);
-	//setMark(txt.buf, { 0,h-1 }, bounds);
-	//setMark(txt.buf, { w-1,h-1 }, bounds);
-	//std::println(std::cout, "{}\n", txt.buf);
-
 	for (const auto& [name, antennas] : AntennaMap) {
-		for (size_t i = 0; i < antennas.size(); ++i){
+		for (size_t i = 0; i < antennas.size(); ++i) {
 			const V& current = antennas[i];
 			for (size_t j = i+1; j < antennas.size(); ++j) {
 				const V& other = antennas[j];
 				V toOther = other - current;
-				V toCurrent = current-other;
+				V toCurrent = current - other;
+				expand(other, toOther);
+				expand(current, toCurrent);
 				
-				V mark1 = other + toOther;
-				while (inBounds(mark1, bounds)) {
-					setMark(txt.buf, mark1, bounds);
-					mark1 = mark1 + toOther;
-				}
-
-				V mark2 = current+toCurrent;
-				while (inBounds(mark2, bounds)) {
-					setMark(txt.buf, mark2, bounds);
-					mark2 = mark2 + toCurrent;
-				}
-
-				//"In fact, the three T - frequency antennas
-				// are all exactly in line with two antennas, 
-				// so they are all also antinodes!"
-				setMark(txt.buf, current, bounds);
-				setMark(txt.buf, other, bounds);
+				//"In fact, the three T - frequency antennas are all exactly 
+				// in line with two antennas, so they are all also antinodes!"
+				setMark<'*'>(txt.buf, current, bounds);
+				setMark<'*'>(txt.buf, other, bounds);
 			}
 		}
-		std::println(std::cout, "{}\n", txt.buf);
 	}
+	std::println(std::cout, "{}\n", txt.buf);
 
-	I anodeCount = std::count_if(txt.buf.cbegin(), txt.buf.cend(),
-		[](const char c) {return c == '#' || c == '*'; });
+	I anodeCount{};
+	I morenodeCount{};
+	for (const char c : txt.buf) {
+		if (c == '#') {
+			++anodeCount; ++morenodeCount;
+		}
+		else if (c == '*') {
+			++morenodeCount;
+		}
+	}
 	std::println(std::cout, "Antinodes: {}\n", anodeCount);
+	std::println(std::cout, "Expanded Antinodes: {}\n", morenodeCount);
 }
 
