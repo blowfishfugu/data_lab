@@ -87,6 +87,18 @@ namespace {
 			}
 			return false;
 		}
+		
+		template<typename FitCondition>
+		void run_repartition(FitCondition isNoEmpty) {
+			Block* lastBlock = this->last;
+			Block* nextEmpty = this->root;
+			while (lastBlock != root && lastBlock != nullptr) {
+				repartition_block(lastBlock, nextEmpty, isNoEmpty);
+				//disk.print();
+				lastBlock = lastBlock->prev;
+			}
+		}
+		
 		void print() const {
 			Block* current = root;
 			while (current != nullptr) {
@@ -175,25 +187,14 @@ void aoc2024_09()
 	//disk.print();
 
 	std::jthread th1([&disk]() {
-		Block* lastBlock = disk.last;
-		Block* nextEmpty = disk.root;
-		while (lastBlock != disk.root && lastBlock != nullptr) {
-			disk.repartition_block(lastBlock, nextEmpty, isNoEmptyBlock);
+		disk.run_repartition(isNoEmptyBlock);
 			//disk.print();
-			lastBlock = lastBlock->prev;
-		}
 		}
 	);
 
 	std::jthread th2([&disk2]() {
-		Block* lastBlock = disk2.last;
-		Block* nextEmpty = disk2.root;
-		while (lastBlock != disk2.root && lastBlock != nullptr)
-		{
-			disk2.repartition_block(lastBlock, nextEmpty, isNoEmptyFittingBlock);
+		disk2.run_repartition(isNoEmptyFittingBlock);
 			//disk.print();
-			lastBlock = lastBlock->prev;
-		}
 		}
 	);
 
