@@ -55,9 +55,12 @@ namespace {
 				const Cell* visited = toVisit.front();
 				toVisit.pop_front();
 
-				if( visited->h==9) countOfPaths++;
-				if (visited->h == 9 && !cells.contains(visited)) {
-					countOfNines++;
+				if (visited->h == 9)
+				{
+					if (!cells.contains(visited)) {
+						countOfNines++;
+					}
+					countOfPaths++;
 				}
 				cells.insert(visited);
 
