@@ -37,33 +37,29 @@ namespace {
 	struct Trail {
 		I id{};
 		Cell* start{};
-		std::set<const Cell*> cells{};
 		I countOfNines{};
+		I countOfPaths{};
 		bool canEnter(const Cell* from, const Cell* to) {
 			if ( (to->h - from->h) == 1) { return true; }
 			return false;
 		}
 
-		void followTrail(const Grid& grid, const SZ& bounds, const Cell* start, bool distinctNines) {
-			cells.clear();
+		void followTrail(const Grid& grid, const SZ& bounds, const Cell* start) {
+			std::set<const Cell*> cells{};
 			countOfNines = 0;
-
+			countOfPaths = 0;
 			std::deque<const Cell*> toVisit;
-			toVisit.push_back(start);
+			toVisit.emplace_back(start);
 
 			while (toVisit.size() > 0) {
 				const Cell* visited = toVisit.front();
 				toVisit.pop_front();
 
-				if (distinctNines)
-				{
-					if (cells.contains(visited)) { continue; }
+				if( visited->h==9) countOfPaths++;
+				if (visited->h == 9 && !cells.contains(visited)) {
+					countOfNines++;
 				}
 				cells.insert(visited);
-				if (visited->h == 9) {
-					countOfNines++;
-					continue;
-				}
 
 				for (const Dir& dir : Directions) {
 					I x = visited->x + dir.dx;
@@ -120,19 +116,17 @@ void aoc2024_10()
 	}
 	
 	I sumOfNines{};
-	for (Trail& trail : trails) {
-		trail.followTrail(grid, { sx,sy }, trail.start, true);
-		//std::println(std::cout, "Trail {:>10}: {:>10}", trail.id, trail.countOfNines);
-		sumOfNines += trail.countOfNines;
-	}
-	std::println(std::cout, "SumNines {:>8}: {:>10}", "", sumOfNines);
-
 	I sumOfPaths{};
 	for (Trail& trail : trails) {
-		trail.followTrail(grid, { sx,sy }, trail.start, false);
+		trail.followTrail(grid, { sx,sy }, trail.start);
 		//std::println(std::cout, "Trail {:>10}: {:>10}", trail.id, trail.countOfNines);
-		sumOfPaths += trail.countOfNines;
+		sumOfNines += trail.countOfNines;
+		sumOfPaths += trail.countOfPaths;
+
 	}
+	std::println(std::cout, "SumNines {:>8}: {:>10}", "", sumOfNines);
 	std::println(std::cout, "SumPaths {:>8}: {:>10}", "", sumOfPaths);
+
+	
 }
 
