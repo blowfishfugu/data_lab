@@ -109,21 +109,28 @@ void aoc2024_11()
 		}
 	}
 	
-	I overallSteps = 75;
-	for (I step = 1; step <= overallSteps; ++step)
-	{
-		std::for_each(std::execution::par,
-			stones.begin(), stones.end(), [](Stone& s) {
-			mutate(s);
-			//std::println(std::cout, "{}", s);
+	static const I steps1 = 25;
+	std::for_each(std::execution::par,
+		stones.begin(), stones.end(), [](Stone& s) {
+			for (I step = 1; step <= steps1; ++step) {
+				mutate(s);
+			}
 		});
-		//std::println(std::cout, "{:>10} : {:>10}", step, std::accumulate(stones.cbegin(), stones.cend(), 0LL, [](I l, const Stone& s) {return l + s.values.size(); }));
-	
-		if (step == 25) {
-			printSum(stones, step);
-		}
-	}
+	//std::println(std::cout, "{:>10} : {:>10} unique numbers", steps1, std::accumulate(stones.cbegin(), stones.cend(), 0LL, [](I l, const Stone& s) {return l + s.values.size(); }));
 
-	printSum(stones, overallSteps);
+	printSum(stones, steps1);
+
+	static const I steps2 = 75;
+	std::for_each(std::execution::par,
+		stones.begin(), stones.end(), [](Stone& s) {
+			for (I step = 26; step <= steps2; ++step) {
+				mutate(s);
+			}
+		});
+	//std::println(std::cout, "{:>10} : {:>10} unique numbers", steps2, std::accumulate(stones.cbegin(), stones.cend(), 0LL, [](I l, const Stone& s) {return l + s.values.size(); }));
+
+	printSum(stones, steps2);
+
 }
+
 
