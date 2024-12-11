@@ -11,14 +11,14 @@
 #include <print>
 #include <execution>
 #include <map>
+#include <unordered_map>
 
 namespace {
 	using I = std::int64_t;
-	using V = std::map<I,I>;//strange name? in part1 this was a vector
+	//using V = std::map<I,I>;//strange name? in part1 this was a vector
+	using V = std::unordered_map<I,I>;//strange name? in part1 this was a vector
 	struct Stone {
-		I index{};
 		V values{};
-		I step{};
 	};
 
 	auto increaseZero = [](I i, I cnt, V& newvalues)->bool {
@@ -57,7 +57,7 @@ namespace {
 				}
 			}
 		}
-		++s.step;
+		//++s.step;
 		std::swap(s.values, newvalues);
 	};
 
@@ -80,7 +80,7 @@ struct std::formatter<Stone> {
 		return context.begin();
 	}
 	auto format(const Stone& sVal, std::format_context& context) const {
-		auto first= std::format_to(context.out(), "{} <{}>:", sVal.step, sVal.index);
+		auto first = std::format_to(context.out(), "{} <{}>:", "", "");
 		for (const auto& [val,count] : sVal.values) {
 			first= std::format_to(first, " {} [{}]", val,count);
 		}
@@ -102,15 +102,15 @@ void aoc2024_11()
 		size_t index{};
 		while (it != end) {
 			Stone s{};
-			s.index = index++;
+			//s.index = index++;
 			s.values[toInt<I>(*it)]++;
 			stones.emplace_back(s);
 			++it;
 		}
 	}
 	
-
-	for (I step = 1; step <= 75; ++step)
+	I overallSteps = 75;
+	for (I step = 1; step <= overallSteps; ++step)
 	{
 		std::for_each(std::execution::par,
 			stones.begin(), stones.end(), [](Stone& s) {
@@ -122,9 +122,8 @@ void aoc2024_11()
 		if (step == 25) {
 			printSum(stones, step);
 		}
-		if (step == 75) {
-			printSum(stones, step);
-		}
 	}
+
+	printSum(stones, overallSteps);
 }
 
