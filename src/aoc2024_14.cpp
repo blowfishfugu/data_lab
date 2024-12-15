@@ -48,11 +48,11 @@ namespace {
 		r.pos += r.vel;
 	}
 	void updatePhysics(Robot& r) {
-		if( r.pos.x<0){ r.pos.x += Robot::width; }
-		if (r.pos.x >= Robot::width) { r.pos.x -= Robot::width; }
-		
-		if (r.pos.y < 0) { r.pos.y += Robot::height; }
-		if (r.pos.y >= Robot::height) { r.pos.y -= Robot::height; }
+		//while, are there bots moving faster than width/height?
+		while( r.pos.x<0){ r.pos.x += Robot::width; }
+		while(r.pos.x >= Robot::width) { r.pos.x -= Robot::width; }
+		while(r.pos.y < 0) { r.pos.y += Robot::height; }
+		while(r.pos.y >= Robot::height) { r.pos.y -= Robot::height; }
 	}
 }
 
@@ -70,9 +70,9 @@ void aoc2024_14()
 	
 	std::string view;
 	view.resize((Robot::width+1)* Robot::height, ' ');
-	constexpr I stride = Robot::width + 1;
-	const I fx = std::midpoint(0LL, Robot::width);
-	const I fy = std::midpoint(0LL, Robot::height);
+	constexpr const I stride = Robot::width + 1;
+	constexpr const I fx = std::midpoint(0LL, Robot::width);
+	constexpr const I fy = std::midpoint(0LL, Robot::height);
 	std::array<I, 4> countPerQuadrant{};
 	for (I sec = 1; sec < 10000; ++sec) {
 		for (Robot& r : robots) {
