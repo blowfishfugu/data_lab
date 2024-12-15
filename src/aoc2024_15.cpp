@@ -7,6 +7,9 @@
 #include <vector>
 #include <map>
 #include <print>
+#include <sstream>
+#include <chrono>
+using namespace std::chrono_literals;
 
 namespace Boxle{
 	constexpr bool part2 = true;
@@ -25,13 +28,22 @@ namespace Boxle{
 	using Row = std::string;
 	using Grid = std::vector<Row>;
 	
+	void clearScreen() {
+		// CSI[2J clears screen, CSI[H moves the cursor to top-left corner
+		std::cout << "\x1B[2J\x1B[H";
+	}
+
 	void print(const Grid& g, const V& move, const V& curPos) {
-		std::println(std::cout, "Move x{:>2},y{:>2}:", move.x, move.y);
-		std::println(std::cout, "Pos@ x{:>2},y{:>2}:", curPos.x, curPos.y);
+		std::ostringstream os;
+		std::println(os, "Move x{:>2},y{:>2}:", move.x, move.y);
+		std::println(os, "Pos@ x{:>2},y{:>2}:", curPos.x, curPos.y);
 		for (const Row& r : g) {
-			std::println(std::cout, "{}", r);
+			std::println(os, "{}", r);
 		}
-		std::print(std::cout, "\n\n");
+		std::print(os, "\n\n");
+		clearScreen();
+		std::cout << os.str();
+		std::this_thread::sleep_for(1ms);
 	}
 	void captureBoxes(const Grid& g, const V& move, V& curPos, std::map<V,char>& boxes) {
 		char current = g[curPos.y][curPos.x];
@@ -188,12 +200,12 @@ void aoc2024_15()
 		}
 	}
 	
-//	print(grid, {0,0}, curPos);
+	print(grid, {0,0}, curPos);
 	for (const V& move : cmds) {
 		Boxle::update(grid, move, curPos);
 //		print(grid, move, curPos);
 	}
-//	print(grid, { 0,0 }, curPos);
+	print(grid, { 0,0 }, curPos);
 
 	std::vector<V> boxes= Boxle::getBoxPositions(grid, w,h);
 	I gpsSum = std::accumulate(boxes.cbegin(), boxes.cend(), 0LL,
