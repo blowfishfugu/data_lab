@@ -8,7 +8,7 @@
 #include <map>
 #include <print>
 
-namespace {
+namespace Boxle{
 	constexpr bool part2 = true;
 	using I = std::int64_t;
 	struct V {
@@ -65,40 +65,43 @@ namespace {
 			return false;
 		}
 
-		if( move.y==0LL)
-		{
-			if (next == '[' || next==']') {
-				if (!update(g, move, nextPos)) {
-					return false;
-				}
-			}
-		}
-		else {
-			if (next == '[' || next == ']') {
-				std::map<V,char> boxes;
-				captureBoxes(g, move, nextPos, boxes);
-				for (const auto& [b,val] : boxes) {
-					V target = b + move;
-					char tst = g[target.y][target.x];
-					if (tst != '[' && tst != ']' && tst != '.' && tst!='O') {
+		if constexpr (part2) {
+			if (move.y == 0LL)
+			{
+				if (next == '[' || next == ']') {
+					if (!update(g, move, nextPos)) {
 						return false;
 					}
 				}
-				//..clearBoxes
-				for (const auto& [b, val] : boxes) {
-					g[b.y][b.x] = '.';
-				}
-				//..moveBoxes
-				for (const auto& [b, val] : boxes) {
-					V target = b + move;
-					g[target.y][target.x] = val;
-				}
+			}
+			else {
+				if (next == '[' || next == ']') {
+					std::map<V, char> boxes;
+					captureBoxes(g, move, nextPos, boxes);
+					//..can move all boxes
+					for (const auto& [b, val] : boxes) {
+						V target = b + move;
+						char tst = g[target.y][target.x];
+						if (tst != '[' && tst != ']' && tst != '.' && tst != 'O') {
+							return false;
+						}
+					}
+					//..clearBoxes
+					for (const auto& [b, val] : boxes) {
+						g[b.y][b.x] = '.';
+					}
+					//..moveBoxes
+					for (const auto& [b, val] : boxes) {
+						V target = b + move;
+						g[target.y][target.x] = val;
+					}
 
-				if (current == '@') {
-					curPos = nextPos;
+					if (current == '@') {
+						curPos = nextPos;
+					}
+					std::swap(next, current);
+					return true;
 				}
-				std::swap(next, current);
-				return true;
 			}
 		}
 
@@ -134,6 +137,12 @@ void aoc2024_15()
 {
 	fs::path input(DataDir() / "2024_15.txt");
 	TxtFile txt{ input };
+
+	using I = Boxle::I;
+	using V = Boxle::V;
+	using Row = Boxle::Row;
+	using Grid = Boxle::Grid;
+	using Boxle::part2;
 
 	std::map<char, V> Directions{
 		{'<', V{-1, 0}},
@@ -179,14 +188,14 @@ void aoc2024_15()
 		}
 	}
 	
-	print(grid, {0,0}, curPos);
+//	print(grid, {0,0}, curPos);
 	for (const V& move : cmds) {
-		update(grid, move, curPos);
+		Boxle::update(grid, move, curPos);
 //		print(grid, move, curPos);
 	}
-	print(grid, { 0,0 }, curPos);
+//	print(grid, { 0,0 }, curPos);
 
-	std::vector<V> boxes= getBoxPositions(grid, w,h);
+	std::vector<V> boxes= Boxle::getBoxPositions(grid, w,h);
 	I gpsSum = std::accumulate(boxes.cbegin(), boxes.cend(), 0LL,
 		[](I cnt, const V& box) {
 			I val = 100LL * box.y + box.x;

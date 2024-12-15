@@ -7,18 +7,28 @@
 #include <regex>
 #include <print>
 
-namespace {
+namespace D13{
 	using I = std::int64_t;
+	struct V {
+		I x{};
+		I y{};
+		V operator-(V o) const noexcept { return { x - o.x,y - o.y }; }
+		V operator+(V o) const noexcept { return { x + o.x,y + o.y }; }
+		V operator*(I s) const noexcept {
+			I x_ = x * s; I y_ = y * s; return V{ x_,y_ };
+		}
+		V& operator+=(V o) noexcept { x += o.x; y += o.y; return *this; };
+		auto operator<=>(const V& r) const = default;
+	};
+
 	struct Button {
-		I dx{};
-		I dy{};
+		V vel{};
 		I cost{};
-		I pressed{};
 	};
 	struct Machine {
 		Button a{};
 		Button b{};
-		Button t{};
+		V t{};
 		bool solved{ false };
 	};
 	auto toButton = [](const std::string_view& line, I cost)->Button {
@@ -28,19 +38,19 @@ namespace {
 			if (sm.size() == 3) {
 				I x = toInt<I>(sm[1].str());
 				I y = toInt<I>(sm[2].str());
-				return Button{ x,y,cost };
+				return Button{ V{x,y},cost };
 			}
 		}
 		return {};
 		};
-	auto toPrize = [](const std::string_view& line)->Button {
+	auto toPrize = [](const std::string_view& line)->V {
 		static std::regex m(R"ex(.*: X=([0-9]+), Y=([0-9]+))ex");
 		std::string cpy(line.cbegin(), line.cend());
 		if (std::smatch sm; std::regex_match(cpy, sm, m)) {
 			if (sm.size() == 3) {
 				I x = toInt<I>(sm[1].str());
 				I y = toInt<I>(sm[2].str());
-				return Button{ x,y,1 };
+				return {x,y};
 			}
 		}
 		return {};
@@ -86,14 +96,16 @@ namespace {
 	}
 
 	I solve1(Machine& m) {
+		const V& target = m.t;
+		V apos{};
 		for (I pushA = 0; pushA <= 100; ++pushA)
 		{
+			apos = m.a.vel*pushA;
 			for (I pushB = 0; pushB <= 100; ++pushB) {
-				I sum_dx = m.a.dx * pushA + m.b.dx * pushB;
-				I sum_dy = m.a.dy * pushA + m.b.dy * pushB;
-				if (sum_dx > m.t.dx) { continue; }
-				if (sum_dy > m.t.dy) { continue; }
-				if (sum_dx == m.t.dx && sum_dy == m.t.dy)
+				V combopos= apos + m.b.vel*pushB;
+				if (combopos.x >target.x) { continue; }
+				if (combopos.y >target.y) { continue; }
+				if (combopos.x ==target.x && combopos.y ==target.y)
 				{
 					m.solved = true;
 					return (pushA * m.a.cost + pushB * m.b.cost);
@@ -102,13 +114,29 @@ namespace {
 		}
 		return{};
 	}
+
+	I solve2(Machine& m) {
+		//first calibrate by steeepness,
+		// walk each near target (order of "bridges" does not matter),
+		// then check each if additional direction hits target
+		for (I pushA = 0; pushA <= 100; ++pushA)
+		{
+			for (I pushB = 0; pushB <= 100; ++pushB) {
+				
+			}
+		}
+		return{};
+	}
 }
 
 void aoc2024_13()
 {
+	using I = D13::I;
+	using Machine = D13::Machine;
+
 	fs::path input(DataDir() / "2024_13.txt");
 	TxtFile txt{ input };
-	std::vector<Machine> machines=parseMachines(txt);
+	std::vector<Machine> machines=D13::parseMachines(txt);
 	
 	I sumOfCheapest1{};
 	for (Machine& m : machines) {
