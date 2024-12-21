@@ -28,8 +28,8 @@ int main(int argc, char** argv)
 	//aoc2024_12(); clk.printDelta("Day12");std::cout<<"\n\n";
 	//#aoc2024_13(); clk.printDelta("Day13");std::cout<<"\n\n";
 	//aoc2024_14(); clk.printDelta("Day14");std::cout<<"\n\n";
-	aoc2024_15(); clk.printDelta("Day15");std::cout<<"\n\n";
-	//aoc2024_16(); clk.printDelta("Day16");std::cout<<"\n\n";
+	//aoc2024_15(); clk.printDelta("Day15");std::cout<<"\n\n";
+	aoc2024_16(); clk.printDelta("Day16");std::cout<<"\n\n";
 	//aoc2024_17(); clk.printDelta("Day17");std::cout<<"\n\n";
 	//aoc2024_18(); clk.printDelta("Day18");std::cout<<"\n\n";
 	//aoc2024_19(); clk.printDelta("Day19");std::cout<<"\n\n";
