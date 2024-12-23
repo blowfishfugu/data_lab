@@ -29,6 +29,7 @@ namespace D23 {
 		using Row = std::vector<Node>;
 		std::vector<Row> nodesByName{};
 		NodePool(){
+			//pre-allocate map of nodes, [a][a] to [z][z}
 			nodesByName.resize(id_range);
 			for (I8 i=0; Row& row : nodesByName)
 			{
@@ -49,12 +50,6 @@ namespace D23 {
 			return nodesByName[row][col];
 		}
 
-		//test: faster precalculated keys? without -a
-		///*Node& get(const keyID id){
-		//	int row = id[0];
-		//	int col = id[1];
-		//	return nodesByName[row][col];
-		//*/}
 		void print() const {
 			std::stringstream buf;
 			for (I8 c1 = 0; c1 <id_range; ++c1) {
@@ -69,7 +64,10 @@ namespace D23 {
 		
 	};
 
-	int appendDirectFriends(const Node& t, const NodePool& data, std::set<std::array<ID, 3>>& friends)
+	/// Capture Nodes, who are buddies
+	int appendDirectFriends(const Node& t, const NodePool& data, 
+		std::set<std::array<ID, 3>>& friends //global friend-triangles, to capture all of t
+	)
 	{
 		int buddyCount{};
 		for (int i = 0; i < t.connections.size(); ++i) {
@@ -77,7 +75,7 @@ namespace D23 {
 			const Node& buddy1 = data.get(idCur);
 			for (int j = i + 1; j < t.connections.size(); ++j) {
 				const ID& idOther = t.connections[j];
-				if (buddy1.hasFriend(idOther)) {
+				if (buddy1.hasFriend(idOther)) { //friend of mine, and friend of other, add triangle
 					std::array<ID, 3> triple{ t.id,idCur,idOther };
 					std::sort(triple.begin(), triple.end());
 					if (!friends.contains(triple))
@@ -99,9 +97,8 @@ void aoc2024_23()
 	TxtFile txt{ input };
 
 	NodePool pool{};
-
-	for (const auto& line : txt)
-	{
+	//parse aa-zz and establish connections
+	for (const auto& line : txt){
 		if (line.length() == 0) { break; }
 		if (line.length() > 5) { continue; }
 		ID id1 = { line[0]-'a',line[1]-'a'};
@@ -114,12 +111,16 @@ void aoc2024_23()
 		n1.connections.push_back(id2);
 		n2.connections.push_back(id1);
 	}
+
 #ifndef NDEBUG
-	pool.print();
+	pool.print(); //looks nice
 #endif
+
 	std::vector < std::tuple<ID, int> > buddyCounts{};
 	std::mutex mutBuddyCounts;
 
+
+	//visit each Node, capture friends who are friends
 	//for (char row = 'a'; row <= 'z';++row) {
 	std::for_each( std::execution::par, //->par, 9ms to 5ms
 		pool.nodesByName.begin(), pool.nodesByName.end(),
@@ -142,11 +143,13 @@ void aoc2024_23()
 			}
 		});
 
+	//IDs having same and highest amount of buddies
 	std::sort(buddyCounts.begin(), buddyCounts.end(), 
 		[](std::tuple<ID,int>& l, std::tuple<ID, int>& r) {
 			return std::get<1>(l) > std::get<1>(r);
 		});
 
+	//count most occuring IDs, buddies of a same network will have same count
 	std::map<ID, int> hist{};
 	int last = -1;
 	for (const auto& [name, cnt] : buddyCounts) {
@@ -170,6 +173,7 @@ void aoc2024_23()
 #endif
 	}
 
+	//we search for network having maxcount, find max
 	int maxcnt{};
 	for (const auto& [id, cnt] : hist) {
 #ifndef NDEBUG
@@ -178,6 +182,7 @@ void aoc2024_23()
 		maxcnt = std::max(cnt, maxcnt);
 	}
 
+	//filter out nodes having maxcount, hist already inserted sorted
 	for (bool first = true; const auto & [id, cnt] : hist) {
 		if (cnt == maxcnt) {
 			std::print("{}{:c}{:c}", (first?"":","), id[0]+'a', id[1]+'a');
