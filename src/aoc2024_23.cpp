@@ -9,10 +9,12 @@
 #include <set>
 #include <print>
 #include <execution>
+
 namespace D23 {
-	using ID = std::array<char, 2>;
+	using I8 = std::int8_t;
+	using ID = std::array<I8, 2>;
 	struct Node {
-		ID id{ '.','.'};
+		ID id{ (I8)'.',(I8)'.'};
 		std::vector<ID> connections{};
 		bool hasFriend(ID idOther) const{
 			return std::find(
@@ -22,13 +24,13 @@ namespace D23 {
 		}
 	};
 
-	constexpr const size_t id_range = 'z' - 'a' + 1;
+	constexpr const I8 id_range = 'z' - 'a' + 1;
 	struct NodePool final {
 		using Row = std::vector<Node>;
 		std::vector<Row> nodesByName{};
 		NodePool(){
 			nodesByName.resize(id_range);
-			for (int i=0; Row& row : nodesByName)
+			for (I8 i=0; Row& row : nodesByName)
 			{
 				row.resize(id_range);
 				row[0].id[0] = i + 'a';
@@ -36,14 +38,14 @@ namespace D23 {
 			}
 		}
 		Node& get(const ID id){
-			int row = id[0]-'a';
-			int col = id[1]-'a';
+			int row = id[0];
+			int col = id[1];
 			return nodesByName[row][col];
 		}
 
 		const Node& get(const ID id) const {
-			int row = id[0] - 'a';
-			int col = id[1] - 'a';
+			int row = id[0];
+			int col = id[1];
 			return nodesByName[row][col];
 		}
 
@@ -55,8 +57,8 @@ namespace D23 {
 		//*/}
 		void print() const {
 			std::stringstream buf;
-			for (char c1 = 'a'; c1 <= 'z'; ++c1) {
-				for (char c2 = 'a'; c2 <= 'z'; ++c2) {
+			for (I8 c1 = 0; c1 <id_range; ++c1) {
+				for (I8 c2 = 0; c2 <id_range; ++c2) {
 					const Node& n = get({ c1,c2 });
 					std::print(buf, "[{:c}{:c} {:<3}]", n.id[0], n.id[1], n.connections.size());
 				}
@@ -102,8 +104,8 @@ void aoc2024_23()
 	{
 		if (line.length() == 0) { break; }
 		if (line.length() > 5) { continue; }
-		ID id1 = { line[0],line[1] };
-		ID id2 = { line[3],line[4] };
+		ID id1 = { line[0]-'a',line[1]-'a'};
+		ID id2 = { line[3]-'a',line[4]-'a'};
 		
 		Node& n1 = pool.get(id1);
 		Node& n2 = pool.get(id2);
@@ -178,7 +180,7 @@ void aoc2024_23()
 
 	for (bool first = true; const auto & [id, cnt] : hist) {
 		if (cnt == maxcnt) {
-			std::print("{}{}{}", (first?"":","), id[0], id[1]);
+			std::print("{}{:c}{:c}", (first?"":","), id[0]+'a', id[1]+'a');
 			first = false;
 		}
 	}
