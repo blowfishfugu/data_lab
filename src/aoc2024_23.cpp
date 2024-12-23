@@ -8,7 +8,7 @@
 #include <map>
 #include <set>
 #include <print>
-
+#include <execution>
 namespace D23 {
 	using ID = std::array<char, 2>;
 	struct Node {
@@ -28,9 +28,11 @@ namespace D23 {
 		std::vector<Row> nodesByName{};
 		NodePool(){
 			nodesByName.resize(id_range);
-			for (Row& row : nodesByName)
+			for (int i=0; Row& row : nodesByName)
 			{
 				row.resize(id_range);
+				row[0].id[0] = i + 'a';
+				++i;
 			}
 		}
 		Node& get(const ID id){
@@ -114,23 +116,29 @@ void aoc2024_23()
 	pool.print();
 #endif
 	std::vector < std::tuple<ID, int> > buddyCounts{};
-	for (char row = 'a'; row <= 'z';++row) {
-		const NodePool::Row& T = pool.nodesByName[row-'a'];
-		std::set<std::array<ID, 3>> directFriends{};
-		for (const Node& t : T) {
-			int buddyCount = appendDirectFriends(t, pool, directFriends);
-			buddyCounts.emplace_back(t.id, buddyCount);
-		}
-		if (row == 't') {
-			std::println(std::cout, "triangles {}", directFriends.size());
-#ifndef NDEBUG
-			for (const auto& triple : directFriends)
-			{
-				std::println(std::cout, "{}", triple);
+	std::mutex mutBuddyCounts;
+
+	//for (char row = 'a'; row <= 'z';++row) {
+	std::for_each( std::execution::par, //->par, 9ms to 5ms
+		pool.nodesByName.begin(), pool.nodesByName.end(),
+		[&pool, &buddyCounts,&mutBuddyCounts](NodePool::Row& T) {
+			//		NodePool::Row& T = pool.nodesByName[row-'a'];
+			std::set<std::array<ID, 3>> directFriends{};
+			for (const Node& t : T) {
+				int buddyCount = appendDirectFriends(t, pool, directFriends);
+				std::lock_guard lg{ mutBuddyCounts };
+				buddyCounts.emplace_back(t.id, buddyCount);
 			}
+			if (T[0].id[0] == 't') {
+				std::println(std::cout, "triangles {}", directFriends.size());
+#ifndef NDEBUG
+				for (const auto& triple : directFriends)
+				{
+					std::println(std::cout, "{}", triple);
+				}
 #endif
-		}
-	}
+			}
+		});
 
 	std::sort(buddyCounts.begin(), buddyCounts.end(), 
 		[](std::tuple<ID,int>& l, std::tuple<ID, int>& r) {
