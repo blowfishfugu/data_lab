@@ -6,27 +6,34 @@
 #include <algorithm>
 #include <map>
 
-void aoc2024_01()
-{
+namespace D01 {
 	using I = std::int64_t;
 	using VI = std::vector<I>;
 	using Hist=std::map<I, I>;
 
+	std::tuple<VI, VI> parseInput(const TxtFile& txt) {
+		VI left{};
+		VI right{};
+		for (const auto& line : txt)
+		{
+			if (line.length() == 0) [[unlikely]] { break; }
+			SpaceIterator it{ line };
+			left.emplace_back(toInt<I>(*it));
+			++it; ++it; ++it;
+			right.emplace_back(toInt<I>(*it));
+		}
+		return { left,right };
+	}
+}
+
+void aoc2024_01()
+{
+	using namespace D01;
 	fs::path input(DataDir() / "2024_01.txt");
 	TxtFile txt{ input };
 	
-	VI left{};
-	VI right{};
-	
-	for (const auto& line : txt)
-	{
-		if (line.length() == 0) [[unlikely]] { break; }
-		SpaceIterator it{ line };
-		left.emplace_back( toInt<I>(*it) );
-		++it; ++it; ++it;
-		right.emplace_back( toInt<I>(*it) );
-	}
-	
+	auto [left, right] = parseInput(txt);
+		
 	std::sort(left.begin(), left.end());
 	std::sort(right.begin(), right.end());
 

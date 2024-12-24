@@ -83,18 +83,18 @@ namespace D16 {
 		DirId dirid{};
 		I rotations{};
 		I cost() { 
-			V lastDir{Directions[E].dir};
-			rotations = 0;;
-			for (int i = 1; i < path.size();++i) {
-				V prev = path[i - 1];
-				V curr = path[i];
-				V dir = curr - prev;
-				if (dir != lastDir) {
-					rotations++;
-					lastDir = dir;
-				}
-				
-			}
+			///*V lastDir{Directions[E].dir};
+			//rotations = 0;;
+			//for (int i = 1; i < path.size();++i) {
+			//	V prev = path[i - 1];
+			//	V curr = path[i];
+			//	V dir = curr - prev;
+			//	if (dir != lastDir) {
+			//		rotations++;
+			//		lastDir = dir;
+			//	}
+			//	
+			//*/}
 
 			return path.size() + rotations * 1000LL;
 		}
@@ -202,6 +202,17 @@ namespace D16 {
 			//	g[v.y][v.x].c = '.';
 			//}
 
+			if (d.curPos == ePos) {
+				reachedEnd.push_back(d);
+				active.pop_front();
+				highscore = std::min(d.cost(), highscore);
+				continue;
+			}
+			///*if (d.cost() > highscore) {
+			//	active.pop_front();
+			//	continue;
+			//*/}
+
 			Field& current = g[d.curPos.y][d.curPos.x];
 			DirId initialDir = d.dirid;
 			DirId fEntry{};
@@ -262,16 +273,6 @@ namespace D16 {
 				{
 					active.pop_front();
 				}
-				if (d.curPos == ePos) {
-					reachedEnd.push_back(d);
-					active.pop_front();
-					highscore = std::min(d.cost(), highscore);
-					continue;
-				}
-				//if (d.cost() > highscore) {
-				//	active.pop_front();
-				//	continue;
-				//}
 			}
 
 			

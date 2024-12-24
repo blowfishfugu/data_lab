@@ -24,7 +24,6 @@ namespace D24
 			output = newState;
 		}
 	};
-
 	using I = std::int64_t;
 	struct ShiftRegister {
 		I value{};
