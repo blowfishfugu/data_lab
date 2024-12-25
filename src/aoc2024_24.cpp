@@ -10,18 +10,37 @@
 #include <map>
 #include <print>
 #include <regex>
-#include <deque>
+#include <set>
 
 namespace D24
 {
 	using Wirestate = std::optional<std::bitset<1>>;
 	struct Gate final{
 		std::string name{};
+		std::string alias{};
 		Wirestate output{};
 		std::array<Gate*,2> inputs{nullptr,nullptr};
+		bool invalid{ false };
 		std::function<Wirestate(Gate*, Gate*)> op{};
 		void reset(Wirestate newState = {}) {
 			output = newState;
+		}
+
+		bool addParent(std::set<Gate*>& visited, Gate* root) {
+			if (visited.contains(root)) { return true; }
+			if (visited.contains(this)) { return false; }
+			visited.insert(this);
+			bool hasConflict = false;
+			if (inputs[0]) { hasConflict|=inputs[0]->addParent(visited,root); }
+			if (inputs[1]) { hasConflict|=inputs[1]->addParent(visited,root); }
+			return hasConflict;
+		}
+
+		bool getParents(std::set<Gate*>& visited) {
+			bool hasConflict = false;
+			if (inputs[0]) { hasConflict|=inputs[0]->addParent(visited,this); }
+			if (inputs[1]) { hasConflict|=inputs[1]->addParent(visited,this); }
+			return hasConflict;
 		}
 	};
 
@@ -44,6 +63,7 @@ namespace D24
 			}
 			Gate* g = new Gate();
 			g->name = name;
+			g->alias = name;
 			auto inserted = gates.emplace(name, g);
 			return inserted.first->second;
 		}
@@ -88,7 +108,7 @@ namespace D24
 		for (const auto& line : txt)
 		{
 			if (line.length() == 0) { readState++; continue; }
-			if (readState == 2) { break; }
+			if (readState >= 2) { break; }
 			if (readState == 0) {
 				auto [name, val] = parseInitValue(line);
 				Gate* g = pool.getCreate(name);
@@ -136,28 +156,46 @@ namespace D24
 		std::println(std::cout);
 	}
 
+	void resetGates(std::vector<Gate*>& gates) {
+		for (Gate* g : gates) {
+			if (g->inputs[0] && g->inputs[1]) { //ignore input-values?
+				g->output = {};
+				g->invalid = false;
+			}
+		}
+	}
+
+	std::vector<Gate*> getGatesOf(std::vector<Gate*>& gates, char filter) {
+		std::vector<Gate*> zxx{};
+		for (Gate* g : gates) { if (g->name[0] == filter) { zxx.push_back(g); } }
+		std::sort(zxx.begin(), zxx.end(), [](Gate* l, Gate* r) { return l->name > r->name; });
+		return zxx;
+	}
+
+	//returns z,x,y and bool if solvable
 	std::tuple<I, I, I,bool> solveTree(std::vector<Gate*>& gates) {
-		auto calcFrom = std::partition(gates.begin(), gates.end(), [](Gate* g)->bool { return g->output.has_value(); });
+		auto calcFrom = std::partition(gates.begin(), gates.end(), [](Gate* g)->bool { return g->output.has_value() || g->invalid; });
 		while (calcFrom != gates.end())
 		{
 			for (calcFrom; calcFrom != gates.end(); ++calcFrom) {
 				Gate* g = *calcFrom;
 
-				//if (g->dependsOnItself()) break;
+				std::set<Gate*> visited{};
+				if (bool hasConflict = g->getParents(visited); hasConflict) {
+					g->invalid = true;
+					continue;
+				};
 
 				if (g->output.has_value()) { continue; }
 				if (g->inputs[0]->output && g->inputs[1]->output) {
 					g->output = g->op(g->inputs[0], g->inputs[1]);
 				}
 			}
-			calcFrom = std::partition(gates.begin(), gates.end(), [](Gate* g)->bool { return g->output.has_value(); });
+			calcFrom = std::partition(gates.begin(), gates.end(), [](Gate* g)->bool { return g->output.has_value() || g->invalid; });
 		}
 
 		auto extractValue = [](std::vector<Gate*>& gates, char filter)->std::tuple<I,bool> {
-			std::vector<Gate*> zxx{};
-			for (Gate* g : gates) { if (g->name[0] == filter) { zxx.push_back(g); } }
-			std::sort(zxx.begin(), zxx.end(), [](Gate* l, Gate* r) { return l->name > r->name; });
-
+			std::vector<Gate*> zxx=getGatesOf(gates, filter);
 			ShiftRegister shift;
 			for (Gate* g : zxx) {
 				if (!g->output){
@@ -175,8 +213,58 @@ namespace D24
 		return { result, inX, inY, (resOk && xOk && yOk) };
 	}
 
-	void swapWires(Gate* l, Gate* r) {
+	void swapOutput(Gate* l, Gate* r) {
 		std::swap(l->inputs, r->inputs);
+		std::swap(l->op, r->op);
+	}
+
+	I testGates(std::vector<Gate*>& gates, int x, int y) {
+			resetGates(gates);
+			if ((x == 0 || x == 1) && (y == 0 || y == 1))
+			{
+				for (Gate* g : gates) {
+					if (g->name[0] == 'x') { g->output = x; }
+					if (g->name[0] == 'y') { g->output = y; }
+				}
+			}
+
+			auto [result, inX, inY, ok] = solveTree(gates);
+			if (ok)
+			{
+				I expected = inY + inX;
+				I diff = expected ^ result;
+				std::println(std::cout, "solvable: {}| expected: {}| Z: {} X: {} Y: {}", ok, (result == expected), result, inX, inY);
+				std::println(std::cout, "X:  {:045b}\nY:  {:045b}\n---\nZ: {:046b}\nE: {:046b}\n---\nD: {:046b}", inY, inX, result, expected, diff);
+				std::println(std::cout);
+				return diff;
+			}
+			return std::numeric_limits<I>::max();
+	}
+
+	bool runTest(std::vector<Gate*>& gates, I& d1, I& d2, I& d3, I& d4, I& d5) {
+		d1 = testGates(gates, 0, 0);
+		d2 = testGates(gates, 0, 1);
+		d3 = testGates(gates, 1, 0);
+		d4 = testGates(gates, 1, 1);
+
+		//shuffle
+		std::vector<Gate*> xN = getGatesOf(gates, 'x');
+		std::vector<Gate*> yN = getGatesOf(gates, 'y');
+		for (int s = 1, i = 0; i < xN.size(); ++i) {
+			xN[i]->reset(s);
+			s = (s == 1) ? 0 : 1;
+			yN[i]->reset(s);
+		}
+		d5 = testGates(gates, 2, 2);
+
+		std::println(std::cout, "\n{:046b}\n{:046b}\n{:046b}\n{:046b}\n{:046b}", d1, d2, d3, d4, d5);
+
+		if (!d1 && !d2 && !d3 && !d4 && !d5)
+		{
+			std::println(std::cout, "found fit");
+			return true;
+		}
+		return false;
 	}
 }
 
@@ -192,12 +280,65 @@ void aoc2024_24()
 	gates.reserve(pool.gates.size());
 	for (auto [_, gate] : pool.gates) { gates.push_back(gate); }
 
-	printGates(gates);
-	
+	//part1, solve without fiddling
 	auto [result,inX,inY,ok]=solveTree(gates);
 	
 	printGates(gates);
 
-	std::println(std::cout, "{}|{}| Z: {} Y: {} X: {}", ok,(result==inY+inX), result, inY, inX);
+	I expected = inY + inX;
+	std::println(std::cout, "solvable: {}| expected: {}| Z: {} X: {} Y: {}", ok,(result==expected), result, inX, inY);
+	std::println(std::cout, "X: {:046b}\nY: {:046b}\nZ: {:046b}\nE: {:046b}\nD: {:046b}", inY, inX, result, expected, result^expected);
+	std::println(std::cout);
+	
+	{
+		Gate* z12 = pool.getCreate("z12");
+		Gate* qdg = pool.getCreate("qdg");
+		swapOutput(z12, qdg);
+	}
+	//{
+	//	Gate* z12 = pool.getCreate("hpn");
+	//	Gate* qdg = pool.getCreate("smb");
+	//	swapOutput(z12, qdg);
+	//}
+	//{
+	//	Gate* z12 = pool.getCreate("z37");
+	//	Gate* qdg = pool.getCreate("z38");
+	//	swapOutput(z12, qdg);
+	//}
+	std::vector<Gate*> zN = getGatesOf(gates, 'z');
+
+	I d1{}, d2{}, d3{}, d4{}, d5{};
+	runTest(gates,d1,d2,d3,d4,d5);
+	
+	std::set<Gate*> vPrev{};
+	for (auto it = zN.rbegin(); it != zN.rend();++it) {
+		std::set<Gate*> parents{};
+		Gate* z = *it;
+		z->getParents(parents);
+		std::print(std::cout, "{} New: ", z->name);
+		
+		std::set<Gate*> newGates{};
+		for (Gate* p : parents) {
+			if (!vPrev.contains(p)) { newGates.insert(p); }
+		}
+		for (Gate* p : newGates) {
+			std::print(std::cout, "{},", p->name);
+		}
+		std::println(std::cout);
+		vPrev = parents;
+	}
+	int sus = -1;
+	for (int i = 0; i < zN.size(); ++i) {
+		if ((d5 & 0x01) == 0x01) {
+			sus = i;
+			break;
+		}
+		d5 >>= 1;
+	}
+
+	
+	
+	
+	
 }
 
