@@ -203,7 +203,9 @@ void aoc2024_15()
 	print(grid, {0,0}, curPos);
 	for (const V& move : cmds) {
 		Boxle::update(grid, move, curPos);
-//		print(grid, move, curPos);
+#ifndef NDEBUG
+		print(grid, move, curPos);
+#endif
 	}
 	print(grid, { 0,0 }, curPos);
 

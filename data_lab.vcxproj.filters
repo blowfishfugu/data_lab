@@ -110,6 +110,9 @@
     <ClCompile Include="src\aoc2015_19.cpp">
       <Filter>Days2024</Filter>
     </ClCompile>
+    <ClCompile Include="FetchCpuInfos.cpp">
+      <Filter>Tooling</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\StopWatch.h">

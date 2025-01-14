@@ -17,7 +17,6 @@ namespace D24
 	using Wirestate = std::optional<std::bitset<1>>;
 	struct Gate final{
 		std::string name{};
-		std::string alias{};
 		Wirestate output{};
 		std::array<Gate*,2> inputs{nullptr,nullptr};
 		bool invalid{ false };
@@ -63,7 +62,6 @@ namespace D24
 			}
 			Gate* g = new Gate();
 			g->name = name;
-			g->alias = name;
 			auto inserted = gates.emplace(name, g);
 			return inserted.first->second;
 		}
@@ -290,26 +288,20 @@ void aoc2024_24()
 	std::println(std::cout, "X: {:046b}\nY: {:046b}\nZ: {:046b}\nE: {:046b}\nD: {:046b}", inY, inX, result, expected, result^expected);
 	std::println(std::cout);
 	
-	{
-		Gate* z12 = pool.getCreate("z12");
-		Gate* qdg = pool.getCreate("qdg");
-		swapOutput(z12, qdg);
-	}
+	//handpicked sus 12
 	//{
-	//	Gate* z12 = pool.getCreate("hpn");
-	//	Gate* qdg = pool.getCreate("smb");
+	//	Gate* z12 = pool.getCreate("z12");
+	//	Gate* qdg = pool.getCreate("qdg");
 	//	swapOutput(z12, qdg);
 	//}
-	//{
-	//	Gate* z12 = pool.getCreate("z37");
-	//	Gate* qdg = pool.getCreate("z38");
-	//	swapOutput(z12, qdg);
-	//}
-	std::vector<Gate*> zN = getGatesOf(gates, 'z');
+	
 
 	I d1{}, d2{}, d3{}, d4{}, d5{};
 	runTest(gates,d1,d2,d3,d4,d5);
 	
+	//switchable gates>=sus
+
+	std::vector<Gate*> zN = getGatesOf(gates, 'z');
 	std::set<Gate*> vPrev{};
 	for (auto it = zN.rbegin(); it != zN.rend();++it) {
 		std::set<Gate*> parents{};
@@ -327,6 +319,7 @@ void aoc2024_24()
 		std::println(std::cout);
 		vPrev = parents;
 	}
+
 	int sus = -1;
 	for (int i = 0; i < zN.size(); ++i) {
 		if ((d5 & 0x01) == 0x01) {

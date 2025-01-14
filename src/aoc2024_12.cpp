@@ -178,7 +178,7 @@ void aoc2024_12()
 		w = line.length();
 		Row row; row.resize(w);
 		char start{};
-		for (size_t x = 0; x < w; ++x) {
+		for (I x = 0; x < w; ++x) {
 			Plant& p = row[x];
 			p.x = x;
 			p.y = h;

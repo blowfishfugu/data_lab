@@ -126,7 +126,8 @@ void aoc2024_06()
 
 	std::atomic<I> loopCount{};
 	std::for_each(std::execution::par,
-		path.cbegin(),path.cend(),[&](const XY& pos){
+		path.cbegin(),path.cend(),
+		[&](const XY& pos) {
 	//for (const XY& pos : path){
 		Sentry guard;
 		guard.pos = startPos;//possible enhancement: traverse path backwards, place and direction one step before collision
